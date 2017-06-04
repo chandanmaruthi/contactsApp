@@ -1,0 +1,141 @@
+{% extends "curiousWorkbench/base.html" %}
+{% load staticfiles %}
+{% block Header %}My Config Model Page{% endblock %}
+
+{% block Footer %}My Footer{% endblock %}
+
+{% block Content %}
+<div class="col-lg-12">
+	<div class="ibox float-e-margins">
+		<div class="ibox-title">
+			<h5>Edit Module</h5>
+			<div class="ibox-tools">
+
+			</div>
+		</div>
+		<div class="ibox-content">
+			<form class="form-horizontal" action="{% url 'curiousWorkbench:saveContentLibrary' selContent.ID %}" method="post">
+				{% csrf_token %}
+				{% if selContent %}
+
+				<div class="form-group">
+					<label class="col-lg-2 control-label">ID</label>
+					<div class="col-lg-10">
+						<input type="Text" class="form-control" name="ID" value="{{selContent.ID}}" ></div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-lg-2 control-label">Rating</label>
+						<div class="col-lg-10">
+							<input type="Text" class="form-control" name="Rating" value="{{selContent.Rating}}" ></div>
+						</div>
+
+
+						<div class="form-group">
+							<label class="col-lg-2 control-label">Module ID</label>
+							<div class="col-lg-10">
+								<input type="Text" class="form-control" name="Module_ID" value="{{selContent.Module_ID}}" ></div>
+							</div>
+
+							<div class="form-group">
+								<label class="col-lg-2 control-label">Message Type</label>
+								<div class="col-lg-10">
+									<input type="Text" class="form-control" name="Message_Type" value="{{selContent.Message_Type}}" ></div>
+								</div>
+
+								<div class="form-group">
+									<label class="col-lg-2 control-label">Content Order</label>
+									<div class="col-lg-10">
+										<input type="Text" class="form-control" name="Content_Order" value="{{selContent.Content_Order}}" ></div>
+									</div>
+
+									<div class="form-group">
+										<label class="col-lg-2 control-label">Text</label>
+										<div class="col-lg-10">
+											<textarea  class="form-control"rows="4" cols="60" name="Text"  maxlength="280">
+												{{selContent.Text}}
+											</textarea></div>
+										</div>
+										<div class="form-group">
+											<label class="col-lg-2 control-label">Title</label>
+											<div class="col-lg-10">
+												<input type="Text"  class="form-control" name="Title" value="{{selContent.Title}}" ></div>
+											</div>
+
+											<div class="form-group">
+												<label class="col-lg-2 control-label">Sub Title</label>
+												<div class="col-lg-10">
+													<input type="Text" class="form-control" name="Subtitle" value="{{ selContent.Subtitle }}"></div>
+												</div>
+
+												<div class="form-group">
+													<label class="col-lg-2 control-label">Image URL</label>
+													<div class="col-lg-10">
+														<input type="Text"  class="form-control" name="ImageURL" value="{{ selContent.ImageURL }}"></div>
+													</div>
+
+													<div class="form-group">
+														<label class="col-lg-2 control-label">Link URL</label>
+														<div class="col-lg-10">
+															<input type="Text"  class="form-control" name="LinkURL" value="{{ selContent.LinkURL }}"></div>
+														</div>
+
+														<div class="form-group">
+															<label class="col-lg-2 control-label">Embed ID</label>
+															<div class="col-lg-10">
+																<input type="Text"  class="form-control" name="Embed_ID" value="{{ selContent.Embed_ID }}"></div>
+															</div>
+
+															<div class="form-group">
+																<label class="col-lg-2 control-label">Type</label>
+																<div class="col-lg-10">
+																	<input type="Text" class="form-control" name="Type" value="{{ selContent.Type }}"></div>
+																</div>
+																<div class="form-group">
+																	<label class="col-lg-2 control-label">Skill</label>
+																	<div class="col-lg-10">
+																		<input type="Text" class="form-control" name="Skill" value="{{ selContent.Skill }}"></div>
+																	</div>
+
+																	<div class="form-group">
+																		<label class="col-lg-2 control-label">Questions</label>
+																		<div class="col-lg-10">
+																			<input type="Text"  class="form-control" name="Questions" value="{{ selContent.Questions }}"></div>
+																		</div>
+
+																		<div class="form-group">
+																			<label class="col-lg-2 control-label">Answer Options</label>
+																			<div class="col-lg-10">
+																				<input type="Text" class="form-control" name="AnswerOptions" value="{{ selContent.AnswerOptions }}"></div>
+																			</div>
+
+																			<div class="form-group">
+																				<label class="col-lg-2 control-label">Right Answer</label>
+																				<div class="col-lg-10">
+																					<input type="Text"  class="form-control" name="RightAnswer" value="{{ selContent.RightAnswer }}"></div>
+																				</div>
+
+																				<div class="form-group">
+																					<label class="col-lg-2 control-label">Right Answer Response</label>
+																					<div class="col-lg-10">
+																						<input type="Text" class="form-control" name="Right_Ans_Response" value="{{ selContent.Right_Ans_Response }}"></div>
+																					</div>
+
+																					<div class="form-group">
+																						<label class="col-lg-2 control-label">Wrong Answer Response</label>
+																						<div class="col-lg-10">
+																							<input type="Text" class="form-control" name="Wrong_Ans_Response" value="{{ selContent.Wrong_Ans_Response }}"></div>
+																						</div>
+
+
+																						{% endif %}
+																						<div class="form-group">
+																							<div class="col-sm-4 col-sm-offset-2">
+																								<input  class="btn btn-white" type="submit" name="saveContent" value="Save Content" />
+																								<input  class="btn btn-white" type="submit" name="deleteContent" value="Delete Content" />
+																							</div></div>
+
+																						</form>
+																					</div>
+																				</div></div>
+																				{% endblock %}

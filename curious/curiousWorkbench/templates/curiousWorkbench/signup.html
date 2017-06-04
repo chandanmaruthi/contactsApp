@@ -1,0 +1,170 @@
+{% load staticfiles %}
+<script type="text/javascript">
+    function showhide(id) {
+        var e = document.getElementById(id);
+        e.style.display = (e.style.display == 'block') ? 'none' : 'block';
+    }
+</script>
+
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Walnut - Smarter Workforce Everyday</title>
+
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="shortcut icon" href="{% static 'curiousWorkbench/images/favicon.png' %}">
+    <link rel="apple-touch-icon" sizes="57x57" href="{% static 'curiousWorkbench/images/apple-touch-icon.png' %}">
+    <link rel="apple-touch-icon" sizes="72x72" href="{% static 'curiousWorkbench/images/apple-touch-icon-72x72.png' %}">
+    <link rel="apple-touch-icon" sizes="114x114" href="{% static 'curiousWorkbench/images/apple-touch-icon-114x114.png' %}">
+    <script src="http://test.walnutai.com/static/curiousWorkbench/js/particles.js"></script>
+
+    <link rel="stylesheet" href="{% static 'curiousWorkbench/css/webstyle.css' %}">
+
+</head>
+
+<body>
+
+    <form action="{% url 'curiousWorkbench:user_login' %}" method="post">
+        {% csrf_token %}
+
+        <nav id="mainNav" class="navbar navbar-default navbar-fixed-top navbar-custom affix-top">
+                <div class="container">
+                    <!-- Brand and toggle get grouped for better mobile display -->
+                    <div class="navbar-header page-scroll" style="width:200px;float:left;">
+                        <!-- <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                            <span class="sr-only">Toggle navigation</span> Menu <i class="fa fa-bars"></i>
+                        </button> -->
+                        <a class="navbar-brand" href="#page-top">
+                          Walnut
+                          <!-- <img src="{% static 'curiousWorkbench/images/walnut_logo.png' %}" style="height:50px;" > -->
+                        </a>
+                    </div>
+
+                    <!-- Collect the nav links, forms, and other content for toggling -->
+                    <div class="navbar-collapse" id="bs-example-navbar-collapse-1"  style="width:500px;float:right;">
+                        <ul class="nav navbar-nav navbar-right">
+                            <li class="hidden active">
+                                <a href="#page-top"></a>
+                            </li>
+                            <li class="page-scroll">
+                                <a href="#portfolio">Slack</a>
+                            </li>
+                            <li class="page-scroll">
+                                <a href="#about">About Us</a>
+                            </li>
+                            <li class="page-scroll">
+                                <a href="#contact">Contact Us</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- /.navbar-collapse -->
+                </div>
+                <!-- /.container-fluid -->
+            </nav>
+
+        <section id="what">
+            <div class="promotional-block container" id="HowDoesItWork" style="display:block;">
+                <div class="row">
+                    <div class="col-lg-12 text-center">
+                        <h2>How does it work</h2>
+                    </div>
+                    <div class="clear" style="width:850px;margin: auto;">
+                        <div class="col-sm-4 portfolio-item" style="width:33%;float:left;">
+                            <img src="{% static 'curiousWorkbench/images/qna_icon.png' %}" style="height:150px;width:150px;padding-bottom:20px;" />
+                            <span class="a" style="width:80%;float:left;font-weight:600;font-size:20px;;">Learn</span>
+                            <span class="a" style="width:80%;float:left;">Learn short concepts one question at a time, content is organized in the form of 101s</span>
+                        </div>
+                        <div class="col-sm-4 portfolio-item" style="width:33%;float:left;">
+                            <img src="{% static 'curiousWorkbench/images/puzzle_icon.png' %}" style="height:150px;width:150px;padding-bottom:20px;"/>
+                            <span class="a" style="width:100%;float:left;font-weight:600;font-size:20px;">Share</span>
+                            <span class="a" style="width:60%;float:left;">Create and share 101s that will help others</span>
+                        </div>
+                        <div class="col-sm-4 portfolio-item" style="width:33%;float:left;">
+                            <img src="{% static 'curiousWorkbench/images/medal_icon.png' %}" style="height:150px;width:150px;padding-bottom:20px;" />
+                            <span class="a" style="width:100%;float:left;font-weight:600;font-size:20px;">Win</span>
+                            <span class="a" style="width:60%;float:left;">Get recognized for your contibution to the team. When your team learns your get recognized and so do they</span>
+                        </div>
+
+                    </div>
+                </div>
+
+
+            </div>
+        </section>
+
+
+
+
+
+        <div class="footer-block" style="display:block;">
+            <div class="footer">
+                <div class="container-full">
+                    <div class="clear footer-content-blocks">
+                        <div class="footer-content-block col-4-tablet col-3-desktop">
+                            <div class="col-12-desktop no-float-desktop">
+                                <ul class="contact-list">
+                                    <li><a class="footer-link icon icon-left " href="https://medium.com/walnutai">Walnut Blog</a></li>
+                                    <li><a class="footer-link icon icon-left " href="mailto:chandan.maruthi@gmail.com">Contact</a></li>
+                                    <li><a class="footer-link icon icon-left " href="http://www.walnutai.com/curiousWorkbench/displayPVPolicy/">Privacy</a></li>
+                                    <li><a class="footer-link icon icon-left " href="http://www.walnutai.com/curiousWorkbench/displayTnC/">Terms</a></li>
+
+                                    <li><a class="footer-link icon icon-left " href="javascript:showhide('AdminOnly')">Admin Area</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+        <div class="footer-copyright">
+            <div class="container">
+                <p>
+                    Copyright 2017 Walut AI
+                </p>
+            </div>
+        </div>
+        </div>
+        <script src="http://test.walnutai.com/static/curiousWorkbench/js/jquery-1.11.3.min.js"></script>
+        <script src="http://test.walnutai.com/static/curiousWorkbench/js/webfontloader.js"></script>
+        <script src="http://test.walnutai.com/static/curiousWorkbench/js/jquery.mobile.custom.min.js"></script>
+        <script src="http://test.walnutai.com/static/curiousWorkbench/js/bootstrap.transition.js"></script>
+        <script src="http://test.walnutai.com/static/curiousWorkbench/js/bootstrap.carousel.js"></script>
+        <script src="http://test.walnutai.com/static/curiousWorkbench/js/bootstrap.collapse.js"></script>
+        <script src="http://test.walnutai.com/static/curiousWorkbench/js/bootstrap.dropdown.js"></script>
+        <script src="http://test.walnutai.com/static/curiousWorkbench/js/bootstrap.tab.js"></script>
+
+        <script src="js/vendor/jquery.drawsvg.js"></script>
+
+        <script src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
+
+        <script src="js/default.js"></script>
+
+    </form>
+    <script>
+        (function(i, s, o, g, r, a, m) {
+            i['GoogleAnalyticsObject'] = r;
+            i[r] = i[r] || function() {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date();
+            a = s.createElement(o),
+                m = s.getElementsByTagName(o)[0];
+            a.async = 1;
+            a.src = g;
+            m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+
+        ga('create', 'UA-34198029-2', 'auto');
+        ga('send', 'pageview');
+    </script>
+</body>
+
+</html>

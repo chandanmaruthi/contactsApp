@@ -1,0 +1,89 @@
+{% extends "curiousWorkbench/base.html" %}
+{% load staticfiles %}
+
+
+{% block Header %}Walnut ...  {% endblock %}
+
+{% block Content %}
+<style>
+.SubContentBlock{
+  width:900px;
+  float:left;}
+.ThreeDivBlockHeader
+{
+  width: 300px;
+  float: left;
+  font-size: 15px;
+  text-align: center;
+}
+.ThreeDivBlockBody
+{
+  width: 300px;
+  float: left;
+  font-size: 15px;
+  font-family: Arial;
+  text-align: center;
+}
+
+</style>
+
+
+
+<form action="{% url 'curiousWorkbench:handleActions' %}" method="post">
+{% csrf_token %}
+
+<div class="row">
+  <div class="col-lg-4">
+    <div class="ibox float-e-margins">
+      <div class="ibox-title">Manage Chat
+        <!-- <span class="label label-primary pull-right;" style="float:right;"><input style="background-color:Transparent;border:0px;"  type="submit" name="refreshBotBehaviour" value="Publish Changes" /> -->
+  </span>
+        </div>
+      <div class="ibox-content">
+        <a style="text-align:center;" href="http://test.walnutai.com/configBot/">
+        <img alt ="Manage Chat Bot Behavior" src="http://test.walnutai.com/static/curiousWorkbench/images/dash-icon-chat.png" style="width:200px;height:200px;">
+      </a>
+      <br>
+
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-4">
+    <div class="ibox float-e-margins">
+      <div class="ibox-title">Manage Logs</div>
+      <div class="ibox-content">
+        <a style="text-align:center;" href="http://test.walnutai.com/configBot/">
+        <img alt ="View Chat logs" src="http://test.walnutai.com/static/curiousWorkbench/images/dash-icon-logs.png"  style="width:200px;height:200px;">
+      </a> </div>
+
+    </div>
+  </div>
+  <div class="col-lg-4">
+    <div class="ibox float-e-margins">
+      <div class="ibox-title">Metrics</div>
+      <div class="ibox-content">
+                <a style="text-align:center;" href="http://test.walnutai.com/configUsers/">
+                  <img alt ="View Chat Analytics" src="http://test.walnutai.com/static/curiousWorkbench/images/dash-icon-metrics.png" style="width:200px;height:200px;">
+                </a>
+    </div>
+  </div></div>
+
+  <div class="col-lg-4">
+    <div class="ibox float-e-margins">
+      <div class="ibox-title">Manage Settings</div>
+      <div class="ibox-content">
+                <a style="text-align:center;" href="http://test.walnutai.com/configSettings/">
+                  <img alt ="Edit Platform Setting" src="http://test.walnutai.com/static/curiousWorkbench/images/dash-icon-settings.png"  style="width:200px;height:200px;">
+                </a>
+    </div>
+  </div>
+</div>
+
+</form>
+
+
+
+{% csrf_token %}
+
+{% endblock %}
+{% block Footer %}My Footer{% endblock %}

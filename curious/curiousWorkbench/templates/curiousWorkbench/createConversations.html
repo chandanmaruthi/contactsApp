@@ -1,0 +1,42 @@
+{% extends "curiousWorkbench/base.html" %}
+{% load staticfiles %}
+{% block Header %}
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript" src="{% static 'curiousWorkbench/ajaxmain.js' %}"></script>
+
+{% endblock %}
+
+{% block Footer %}My Footer{% endblock %}
+
+{% block Content %}
+{% if contentList %}
+
+{% endif %}
+
+
+      <div class="container">
+          <div class="container">
+              <h3>Conversations:</h3>
+              {% csrf_token %}
+              <div class="convList">
+                  <li>conversations ...</li>
+              </div>
+              <button class='btn get-conv' value="{{ moduleID }}">refresh</button>
+              <input class="todo-item" type="text" placeholder="enter message" onkeydown = "if (event.keyCode == 13)
+                        document.getElementById('btnAdd').click()"  >
+                <button class="btn add-conv" id="btnAdd">send</button>
+          </div>
+          <!--
+          <div class="container">
+              <h3>Add Conv</h3>
+
+              <div>
+                  <label for="AddConv">
+
+                  </div>
+
+              </div>
+          </div>-->
+      </div>
+
+    {% endblock %}

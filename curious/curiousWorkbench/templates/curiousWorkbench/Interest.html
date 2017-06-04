@@ -1,0 +1,61 @@
+{% extends "curiousWorkbench/base.html" %}
+{% load staticfiles %}
+{% block Header %}Projects{% endblock %}
+
+{% block Footer %}My Footer{% endblock %}
+
+{% block Content %}
+{% if projectList %}
+
+<div class="FormHeader">
+    <div class="Title">Projects :<span> {{ projectList.count }} Found </span></div></div>
+<br>
+<table class="FormTable">
+    <tr class="TableHeader"><td width="400px" >Module Name</td>
+        <td width="200px">Description</td>
+        <td width="200px">Modul</td>
+        <td width="200px">Edit</td>
+        <td width="100px">Created By</td>
+        <td width="400px">Last Updated </td></tr>
+    {% for project in projectList %}
+
+    <tr class="TableRow"><td>
+        <img class="Logo" src="{% static 'curiousWorkbench/images/network.png' %}" height="15px" >
+        <a href="">{{ project.Name }}</a></td>
+        <td>{{ project.Description }}</td>
+        <td><a href="{% url 'curiousWorkbench:editModel' project.ModelMap.id  %}" method="post">{{ project.ModelMap.Name }}</a></td>
+
+        <td><a href="{% url 'curiousWorkbench:trainProject' project.id  %}" method="post">Train</a></td>
+        <td>{{ project.CreatedBy }}</td>
+        <td>{{ project.LastUpdated }}</td></tr>
+        {% endfor %}
+</table>
+
+
+{% else %}
+    <p>No projects are available.</p>
+{% endif %}
+<br><br>
+<form action="{% url 'curiousWorkbench:configProject' %}" method="post">
+{% csrf_token %}
+    <div class="FormHeader"><div class="Title">Create Project</div></div>
+    <br>
+    <div class="FormRow"><div class="Label">Name:</div><div class="Value">	<input type="Text" name="projectName" /> </div></div>
+	<div class="FormRow"><div class="Label">Description:</div><div class="Value">	<input type="Text" name="projectDescription" /> </div></div>
+	<div class="FormRow"><div class="Label">Created By:</div><div class="Value">Chandan</div></div>
+    <div class="FormRow"><div class="Label">Created Date:</div><div class="Value">	{{ timeStamp }}</div></div>
+    <div class="FormRow"><div class="Label">Model:</div><div class="Value">
+
+        <select name="selModelMap" >
+        {% for modelMap in ModelMap %}
+            <option value="{{ modelMap.id }}">{{modelMap.Name}}</option>
+        {% endfor %}
+        </select>
+
+    </span></div>
+    <div class="FormRow"><div class="Label">Save Model</div>
+    <div class="Value"><input type="submit" value="Save Project" /></div></div>
+        </div>
+</form>
+
+{% endblock %}

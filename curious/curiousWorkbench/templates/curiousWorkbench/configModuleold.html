@@ -1,0 +1,82 @@
+{% extends "curiousWorkbench/base.html" %}
+{% load staticfiles %}
+{% block Header %}Modules{% endblock %}
+
+{% block Footer %}My Footer{% endblock %}
+
+{% block Content %}
+{% if moduleList %}
+<div class="form-style-5">
+
+  <fieldset>
+    <legend><span class="number">1</span>Learning Modules : <span> {{ moduleList.count }}  found </legend>
+      </fieldset
+      <div class="Title"></span></div></div>
+      <table class="table-fill">
+        <thead>
+          <tr class="TableHeader">
+            <th class="text-left" width="100px" >Title</th>
+            <th class="text-left" width="200px">Description</th>
+            <th class="text-left" width="100px">Created By</th>
+            <th class="text-left" width="100px">Created</th>
+            <th class="text-left" width="100px">Content</th>
+            <th class="text-left" width="100px">&nbsp;</th>
+            <th class="text-left" width="100px">&nbsp;</th>
+          </tr></thead>
+          <tbody class="table-hover">
+            {% for eachModule in moduleList %}
+
+            <tr class="TableRow">
+              <td><a href="{% url 'curiousWorkbench:editModule' eachModule.id %}" method="post" alt="{{ eachModule.Description }}">{{ eachModule.Title }}</a></td>
+              <td>{{ eachModule.Description }}</td>
+              <td>{{ eachModule.CreatedBy }}</td>
+              <td>{{ eachModule.Created }}</td>
+              <td><a href="{% url 'curiousWorkbench:createConversations' eachModule.id  %}" method="post">content</a></td>
+              <td><a href="{% url 'curiousWorkbench:editModule' eachModule.id  %}" method="post">edit</a></td>
+              <td><a href="{% url 'curiousWorkbench:deleteModule' eachModule.id  %}" method="post">delete</a></td>
+
+              {% endfor %}</tbody>
+            </table>
+
+
+            {% else %}
+            <p>No Modules are available.</p>
+            {% endif %}
+            <br><br>
+            <form action="{% url 'curiousWorkbench:configModule' %}" method="post">
+              {% csrf_token %}
+              <div class="FormHeader"><div class="Title"></div></div>
+              <br>
+              <!--
+              <div class="FormRow"><div class="Label">Title:</div><div class="Value">	<input type="Text" name="moduleTitle" /> </div></div>
+              <div class="FormRow"><div class="Label">Description:</div><div class="Value">	<input type="Text" name="moduleDescription" /> </div></div>
+              <div class="FormRow"><div class="Label">Created By:</div><div class="Value">Chandan</div></div>
+              <div class="FormRow"><div class="Label">Created Date:</div><div class="Value">	{{ timeStamp }}</div></div>
+              <div class="FormRow"><div class="Label">Model:</div><div class="Value">
+
+              <select name="selModelMap" >
+              {% for KnuggetsTrainingModule in KnuggetsTrainingModules %}
+              <option value="{{ KnuggetsTrainingModule.id }}">{{KnuggetsTrainingModule.Tite}}</option>
+              {% endfor %}
+            </select>
+
+          </span></div>
+          <div class="FormRow"><div class="Label">&nbsp;</div>
+          <div class="Value"><input type="submit" value="Save Module" /></div></div>
+        </div>-->
+
+        <div class="form-style-5">
+
+          <fieldset>
+            <legend><span class="number">2</span> Create Module</legend>
+            <input type="text" name="moduleTitle" placeholder="Title *">
+            <input type="text" name="moduleDescription" placeholder="Description *">
+            <input type="text" name="moduleCreated" placeholder="Created by *">
+            <textarea name="txtCreatedBy" placeholder="Chandan"></textarea>
+            <input type="submit" value="Save Module" />
+          </fieldset>
+
+        </div>
+      </form>
+
+      {% endblock %}

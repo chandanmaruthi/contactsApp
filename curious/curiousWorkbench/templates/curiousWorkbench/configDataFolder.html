@@ -1,0 +1,28 @@
+{% extends "curiousWorkbench/base.html" %}
+{% load staticfiles %}
+{% block Header %}My Config Model Page{% endblock %}
+
+{% block Footer %}My Footer{% endblock %}
+
+{% block Content %}
+{% if dataFolderList %}
+
+
+
+
+<table>
+    <tr TableRow><td width="400px" >Data Folder</td><td width="200px">Description</td><td width="100px">Created By</td><td width="400px">Last Updated </td></tr>
+    {% for dataFolder in dataFolderList %}
+    <tr TableRow><td>
+        <img class="Logo" src="{% static 'curiousWorkbench/images/network.png' %}" height="15px" >
+        <a href="{% url 'curiousWorkbench:editModel' dataFolder.id %}" method="post" alt="{{ dataFolder.Description }}">{{ dataFolder.Name }}</a></td><td>{{ dataFolder.Description }}</td><td>{{ dataFolder.CreatedBy }}</td><td>{{ dataFolder.Created }}</td><td></td></tr>
+        {% endfor %}
+</table>
+<span> {{ dataFolderList.count }} Model Maps Found </span>
+
+{% else %}
+    <p>No models are available.</p>
+
+{% endif %}
+<a href="{% url 'curiousWorkbench:addModel' %}">+Create New Model</a>
+{% endblock %}

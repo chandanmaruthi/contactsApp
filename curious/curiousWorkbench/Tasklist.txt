@@ -1,0 +1,13 @@
+Slack: Key word replacements are missing
+Slack: View more us missing
+F/S : Some questions have space , some dont
+Facebook: CheckChallengeAns Legend is get cut off, check sizing
+Slack: CheckChallengeAns , quick replies are missing
+Slack: No Persistent menu in slack
+F/S : bring back the scoreboard after every 10 attempts
+F/S : Tell user to say "what can I do " to learn more
+F/S : Text has some special characters remove it
+F/S : Job related skill insights add, allow user to converse
+F/S : Try not to repeat the same thing the same day
+F/S : stop after 10 tries, tell users you will be back tommorow, Subscription
+F/S : When user gets something wrong tell you will be back, subscrption

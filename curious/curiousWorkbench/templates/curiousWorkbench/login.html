@@ -1,0 +1,536 @@
+{% load staticfiles %}
+<script type="text/javascript">
+    function showhide(id) {
+        var e = document.getElementById(id);
+        e.style.display = (e.style.display == 'block') ? 'none' : 'block';
+    }
+</script>
+
+<script src="{% static 'curiousWorkbench/js/typed.js' %}"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        Typed.new('.elementBox', {
+            strings: ["Tell me about our Cloud Services",
+                      "What 101s are available for me",
+                      "What 101s are recommended for sales",
+                      "Tell me about our pricing model",
+                      "How do I get feature request through",
+                      "Tell me about our banking product",
+          ],
+            typeSpeed: 50,
+            breakLines: false,
+autoStart: false,
+startDelete: true,
+deleteDelay: 5000,
+breakDelay: 5000,
+loop: true
+        });
+    });
+</script>
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Walnut - Smarter Workforce Everyday</title>
+
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="shortcut icon" href="{% static 'curiousWorkbench/images/favicon.png' %}">
+    <link rel="apple-touch-icon" sizes="57x57" href="{% static 'curiousWorkbench/images/apple-touch-icon.png' %}">
+    <link rel="apple-touch-icon" sizes="72x72" href="{% static 'curiousWorkbench/images/apple-touch-icon-72x72.png' %}">
+    <link rel="apple-touch-icon" sizes="114x114" href="{% static 'curiousWorkbench/images/apple-touch-icon-114x114.png' %}">
+    <script src="http://test.walnutai.com/static/curiousWorkbench/js/particles.js"></script>
+
+    <link rel="stylesheet" href="{% static 'curiousWorkbench/css/webstyle.css' %}">
+
+</head>
+
+<body>
+    <script>
+        particlesJS.load('particles-js', 'http://test.walnutai.com/static/curiousWorkbench/js/particlesjs-config.json', function() {
+            console.log('callback - particles.js config loaded');
+        });
+
+        window.fbAsyncInit = function() {
+            FB.init({
+                appId: "1173900045986214",
+                xfbml: true,
+                version: "v2.6"
+            });
+
+        };
+
+        (function(d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) {
+                return;
+            }
+            js = d.createElement(s);
+            js.id = id;
+            js.src = "//connect.facebook.net/en_US/sdk.js";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+    </script>
+
+        {% csrf_token %}
+
+        <nav id="mainNav" class="navbar navbar-default navbar-fixed-top navbar-custom affix-top">
+                <div class="container">
+                    <!-- Brand and toggle get grouped for better mobile display -->
+                    <div class="navbar-header page-scroll" style="min-width:200px;float:left;">
+                        <!-- <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                            <span class="sr-only">Toggle navigation</span> Menu <i class="fa fa-bars"></i>
+                        </button> -->
+                        <a class="navbar-brand" href="#page-top">
+                          Walnut
+                          <!-- <img src="{% static 'curiousWorkbench/images/walnut_logo.png' %}" style="height:50px;" > -->
+                        </a>
+                    </div>
+
+                    <!-- Collect the nav links, forms, and other content for toggling -->
+                    <div class="navbar-collapse" id="bs-example-navbar-collapse-1"  style="width:80%;float:right;">
+                        <ul class="nav navbar-nav navbar-right">
+                            <li class="hidden active">
+                                <a href="#page-top"></a>
+                            </li>
+                            <li class="page-scroll">
+                                <a href="#portfolio">Slack</a>
+                            </li>
+                            <li class="page-scroll">
+                                <a href="#about">About Us</a>
+                            </li>
+                            <li class="page-scroll">
+                                <a href="#contact">Contact Us</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- /.navbar-collapse -->
+                </div>
+                <!-- /.container-fluid -->
+            </nav>
+
+        <div class="banner">
+            <div id="particles-js" class="backgroundTexture"></div>
+
+
+
+            <div class="container text-center" style="padding-top:100px;width:80%">
+                <div class="elementContainer">
+                    <div class="elementBox"></div>
+                </div>
+                <div class="subHeadingBox">
+                    <p class="p-big col-8-tablet col-6-desktop no-float center-element">
+                        <p style="font-size:20px;">
+                            Whatever you need to get your job done, Walnut assistant helps you learn and train others
+                        </p>
+                    </p>
+                    <div class="banner-buttons" style="max-width:200px">
+                        <!-- <a href="http://m.me/1664936797130936" target='_blank'>
+            <img src="{% static 'curiousWorkbench/images/AddToMessenger.png' %}"  ></a> -->
+                        <a class="homeButton" href="#InstallBot">Get Walnut Now</a>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+        <section id="what">
+            <div class="promotional-block container" id="HowDoesItWork" style="display:block;">
+                <div class="row">
+                    <div class="col-lg-12 text-center">
+                        <h2>How does it work</h2>
+                    </div>
+                    <div class="clear" style="width:80%;margin: auto;">
+                        <div  style="max-width:33%;min-width:200px;float:left;">
+                            <img src="{% static 'curiousWorkbench/images/qna_icon.png' %}" style="height:150px;width:150px;padding-bottom:20px;" />
+                            <span class="a" style="width:100%;float:left;font-weight:600;font-size:20px;;">Learn</span>
+                            <span class="a" style="width:100%;float:left;">Learn short concepts one question at a time, content is organized in the form of 101s</span>
+                        </div>
+                        <div  style="max-width:33%;min-width:200px;float:left;">
+                            <img src="{% static 'curiousWorkbench/images/puzzle_icon.png' %}" style="height:150px;width:150px;padding-bottom:20px;"/>
+                            <span class="a" style="width:100%;float:left;font-weight:600;font-size:20px;">Share</span>
+                            <span class="a" style="width:100%;float:left;">Create and share 101s that will help others</span>
+                        </div>
+                        <div  style="max-width:33%;min-width:200px;float:left;">
+                            <img src="{% static 'curiousWorkbench/images/medal_icon.png' %}" style="height:150px;width:150px;padding-bottom:20px;" />
+                            <span class="a" style="width:100%;float:left;font-weight:600;font-size:20px;">Win</span>
+                            <span class="a" style="width:100%;float:left;">Get recognized for your contibution to the team. When your team learns your get recognized and so do they</span>
+                        </div>
+
+                    </div>
+                </div>
+
+
+            </div>
+        </section>
+
+        <section id="what">
+            <div class="promotional-block container" id="HowDoesItWork" style="display:block;">
+                <div class="row">
+                    <div class="col-lg-12 text-center">
+                        <h2>Learn </h2>
+                    </div>
+                    <div class="clear">
+                        <div class="col-sm-4 portfolio-item" style="width:50%;min-width:400px;float:left;background-color:#eeeeee;padding:20px;border-radius: 25px;overflow:hidden;">
+                          <img src="{% static 'curiousWorkbench/images/HomeScreenShot_Learn.png' %}" style="width:400px;">
+                        </div>
+                        <div class="col-sm-4 portfolio-item" style="width:50%;min-width:400px;float:left;padding-left:15px;">
+                            <span class="HomeContentDescription">
+                          Learn a topic<br>
+                          <span class="homeCodeSection">train me on pricing model </span><br><br><br>
+                          Walnut will look for a 101 on pricing models, Several concepts can be grouped into a topic, you can learn this topic by just asking for it. Each topic is presented
+                          in the form a question and answer you can learn over time.
+
+                        </span>
+
+                          <div class="banner-buttons" style="max-width:200px">
+                              <!-- <a href="http://m.me/1664936797130936" target='_blank'>
+                  <img src="{% static 'curiousWorkbench/images/AddToMessenger.png' %}"  ></a> -->
+                        <a href="#InstallBot" class="homeButton" >Get Walnut Now</a>
+                          </div>
+                        </div>
+
+                    </div>
+                </div>
+
+
+            </div>
+        </section>
+
+
+        <section id="what">
+            <div class="promotional-block container" id="HowDoesItWork" style="display:block;">
+                <div class="row">
+                    <div class="col-lg-12 text-center">
+                        <h2>Share</h2>
+                    </div>
+                    <div class="clear">
+                      <div class="col-sm-4 portfolio-item" style="width:50%;min-width:400px;float:left;padding-left:15px;">
+                          <span class="HomeContentDescription">
+                        Create a Module <br>
+                        <span class="homeCodeSection">create a module </span><br><br><br>
+                        Creates your own concept, it takes less than a minute to create a concept
+                        <br><br>
+
+                        Share <br>
+                        <span class="homeCodeSection">Share concept with #sales </span><br><br><br>
+                        Share concepts with individual people or teams. Walnut ensures that these people are reached out and compete their concepts.
+
+                      </span>
+                        <div class="banner-buttons" style="max-width:200px">
+                            <!-- <a href="http://m.me/1664936797130936" target='_blank'>
+                <img src="{% static 'curiousWorkbench/images/AddToMessenger.png' %}"  ></a> -->
+                        <a href="#InstallBot" class="homeButton" >Get Walnut Now</a>
+                        </div>
+                      </div>
+                      <div class="col-sm-4 portfolio-item" style="width:50%;min-width:400px;float:left;text-align:right;background-color:#eeeeee;padding:20px;border-radius: 25px;overflow:hidden;">
+                        <img src="{% static 'curiousWorkbench/images/HomeScreenShot_Metrics.png' %}" style="width:400px;">
+
+                      </div>
+
+                    </div>
+                </div>
+
+
+            </div>
+        </section>
+        <section id="what">
+            <div class="promotional-block container" id="HowDoesItWork" style="display:block;">
+                <div class="row">
+                    <div class="col-lg-12 text-center">
+                        <h2>Measure </h2>
+                    </div>
+                    <div class="clear">
+                      <div class="col-sm-4 portfolio-item" style="width:50%;min-width:400px;float:left;background-color:#eeeeee;padding:20px;border-radius: 25px;overflow:hidden;">
+                        <img src="{% static 'curiousWorkbench/images/HomeScreenShot_Metrics.png' %}" style="width:400px;">
+
+                      </div>
+
+                      <div class="col-sm-4 portfolio-item" style="width:50%;min-width:400px;float:left;padding-left:15px;">
+                      <span class="HomeContentDescription">
+                      Monitor <br>
+                      <span class="homeCodeSection">how am I doing </span><br><br><br>
+                      Your profile provides you a comprehesive view of what you have acquired over time.
+                      <br><br>
+                      Monitor Team <br>
+                      <span class="homeCodeSection">how is my Team I doing </span><br><br><br>
+                      You can see how your team is doing and people that are doing better thatn others
+
+                    </span>
+
+                        <div class="banner-buttons" style="max-width:200px">
+                            <!-- <a href="http://m.me/1664936797130936" target='_blank'>
+                <img src="{% static 'curiousWorkbench/images/AddToMessenger.png' %}"  ></a> -->
+                        <a href="#InstallBot" class="homeButton" >Get Walnut Now</a>
+                        </div>
+                      </div>
+
+                    </div>
+                </div>
+
+
+            </div>
+        </section>
+        <section id="what">
+          <form action="{% url 'curiousWorkbench:user_signup' %}" method="post">
+
+            <div class="promotional-block container" id="InstallBot" style="display:block;">
+                <div class="row" >
+                    <div class="col-lg-12 text-center">
+                        <h2>Get Walnut Now</h2>
+                    </div>
+                    <div class="clear" style="background-color:#18BC9C">
+                      <div class="col-sm-4 portfolio-item" style="width:50%;min-width:400px;float:left;background-color:#18BC9C;padding:15px;">
+                        <!-- <div class="banner-buttons">
+<img src="{% static 'curiousWorkbench/images/slack_icon.png' %}" style="height:150px;"><br>
+
+                            <a href="https://slack.com/oauth/authorize?scope=incoming-webhook,commands,bot&client_id=10930857875.95745926624&redirect_uri=https://test.walnutai.com/slackAuth"><img alt="Add to Slack" height="40" width="139" src="https://platform.slack-edge.com/img/add_to_slack.png" srcset="https://platform.slack-edge.com/img/add_to_slack.png 1x, https://platform.slack-edge.com/img/add_to_slack@2x.png 2x"
+                                /></a>
+                        </div> -->
+
+
+                        <div class="LoginBox">
+                            <!-- <div>
+                                <h4 class="uppercase">Signup for Beta</h4>
+                            </div> -->
+                            <div>
+                                <!-- <div class="FormTitle">
+                                    Login
+                                </div> -->
+                                <div class="UserID">
+
+                                    <div class="Input"><input class="LoginFormInput" style="width:300px" type="text" name="userEmail" id="userEmail" value="me@mycompany.com"><input class="SignUpFormSubmit" type="submit" value="Sign Me Up" style="margin-left:20px;"> </div>
+                                </div>
+
+                                <div>
+                                    <div class="Message">
+                                        <div class="ValidationMessage">
+                                            {{SignUpState}}</div>
+                                    </div>
+                                </div>
+                            </div>
+                      </div>
+
+
+
+                    </div>
+                    <div class="col-sm-4 portfolio-item" style="width:40%;min-width:400px;float:left;padding-left:15px;color:#ffffff;padding:15px;">
+                                            <span class="HomeContentDescription">
+
+                      Sign up for early access to the beta product, we are working hard to launch Walnut and will send you an
+                      invite as soon as we are ready.
+                      <!-- <strong>Step 1:</strong> Click on the slack button and install the bot in your slack
+                      <br><br>
+                      <strong>Step 2:</strong> Upload content using some of the product templates
+                      <br><br>
+                      <strong>Step 3:</strong> Let you team know
+                      <br><br> -->
+                    </span>
+                    </div>
+                </div>
+
+
+            </div>
+          </form>
+        </section>
+        <section id="what">
+            <div class="promotional-block container" id="HowDoesItWork" style="display:block;">
+                <div class="row">
+                    <div class="col-lg-12 text-center">
+                        <h2>Frequently Asked Questions </h2>
+                    </div>
+                    <div class="clear">
+
+                      <div class="col-sm-4 portfolio-item" style="width:100%;float:left;padding-left:15px;">
+                                              <span class="HomeContentDescription">
+                        <strong>How much does it cost ?</strong><br>
+                        Walnut is free to use for the first year.<br>
+                        We will offer premium versions in the future that you will have an option to upgrade to.<br>
+
+<br><br>
+                        <strong>Do I need Slack to use Walnut ?</strong><br>
+                        Walnut is a new experince, we are currently offering Walnut only through Slack, <br>supoort for more platforms will be announced shortly. Let us know what you are looking for.<br>
+<br><br>
+                        <strong>Why dont you have your own app?</strong><br>
+                        Our vision is to be where users are. Today users exist on messageing platforms like <br>slack , facebook etc. We want to be there and help them get smarter without having to <br>install another app<br>
+<br><br>
+                        <strong>Is walnut a real person</strong><br>
+                        Walnut is bot, a bunch of code in the background. We dont intend do gain consiousness <br>any time soon.<br>
+
+<br><br>
+                        Contact us at support@wanutai.com
+                      </span>
+                      </div>
+
+                    </div>
+                </div>
+
+
+            </div>
+        </section>
+
+    <form action="{% url 'curiousWorkbench:user_login' %}" method="post">
+        <div class="promotional-block container" id="AdminOnly" style="display:none;">
+            <div class="clear">
+                <div class="col-6-desktop">
+                    <div class="video-responsive">
+                        <div width="560" height="315">&nbsp; For Admins:<br/> This section is for Administrators only
+                        </div>
+                    </div>
+                </div>
+                <div class="col-5-desktop right-desktop row-2 row-0-desktop">
+
+                    <div class="LoginBox">
+                        <div>
+                            <h4 class="uppercase">For Admins</h4>
+                        </div>
+                        <div>
+                            <div class="FormTitle">
+                                Login
+                            </div>
+                            <div class="UserID">
+                                <div class="Label">User ID</div>
+                                <div class="Input"><input class="LoginFormInput" type="text" name="username" id="username"> </div>
+                            </div>
+                            <div class="Password">
+                                <div class="Label">Password</div>
+                                <div class="Input"><input class="LoginFormInput" type="password" name="password" id="password"> </div>
+                                <div class="Label">&nbsp;&nbsp;</div>
+                                <div class="Input"><input class="LoginFormSubmit" type="submit" value="Login"></div>
+                            </div>
+                            <div>
+                                <div class="Message">
+                                    <div class="ValidationMessage">
+                                        {{state}}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+            </form>
+
+
+
+
+
+
+
+
+
+        <!-- <div class="grey-row" style="display:block;">
+            <div class="register-block row-6 container text-center">
+                <h2 class="uppercase">Sign-up for Beta </h2>
+                <div class="col-6-tablet no-float center-element">
+                    <p class="p-big">
+                        Walnut is close to a beta launch and will be available shortly. Signup for an early bird access .
+                    </p>
+                </div>
+                <div action="" class="register-form col-10-desktop col-8-hd no-float center-element">
+                    <fieldset>
+                        <legend class="sr">Register your event</legend>
+                        <div class="clear">
+                            <div class="col-3-tablet row-1 row-0-tablet">
+                                <label for="name" class="sr">Full Name</label>
+                                <input type="text" class="field" name="name" id="name" placeholder="Full Name">
+                            </div>
+                            <div class="col-3-tablet row-1 row-0-tablet">
+                                <label for="email" class="sr">Email Address</label>
+                                <input type="email" class="field" name="email" id="email" placeholder="Email Address">
+                            </div>
+                            <div class="col-3-tablet row-1 row-0-tablet">
+                                <label for="plan" class="sr">Event Plan</label>
+                                <span class="select">
+              <select name="plan" id="plan">
+                <option value="">My business</option>
+                <option value="plan-1">Software</option>
+                <option value="plan-1">Hardware </option>
+                <option value="plan-1">Finance</option>
+                <option value="plan-1">Law</option>
+                <option value="plan-1">Services</option>
+                <option value="plan-1">Marketing</option>
+                <option value="plan-1">Education</option>
+                <option value="plan-1">Government</option>
+
+              </select>
+            </span>
+                            </div>
+                            <div class="col-3-tablet row-1 row-0-tablet">
+                                <button class="button button-primary"><span class="icon icon-right chevron-right">Register</span></button>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+            </div>
+        </div> -->
+        <div class="footer-block" style="display:block;">
+            <div class="footer">
+                <div class="container-full">
+                    <div class="clear footer-content-blocks">
+                        <div class="footer-content-block col-4-tablet col-3-desktop">
+                            <div class="col-12-desktop no-float-desktop">
+                                <ul class="contact-list">
+                                    <li><a class="footer-link icon icon-left " href="https://medium.com/walnutai">Walnut Blog</a></li>
+                                    <li><a class="footer-link icon icon-left " href="mailto:chandan.maruthi@gmail.com">Contact</a></li>
+                                    <li><a class="footer-link icon icon-left " href="http://www.walnutai.com/curiousWorkbench/displayPVPolicy/">Privacy</a></li>
+                                    <li><a class="footer-link icon icon-left " href="http://www.walnutai.com/curiousWorkbench/displayTnC/">Terms</a></li>
+
+                                    <li><a class="footer-link icon icon-left " href="javascript:showhide('AdminOnly')">Admin Area</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+        <div class="footer-copyright">
+            <div class="container">
+                <p>
+                    Copyright 2017 Walut AI
+                </p>
+            </div>
+        </div>
+        </div>
+        <script src="http://test.walnutai.com/static/curiousWorkbench/js/jquery-1.11.3.min.js"></script>
+        <script src="http://test.walnutai.com/static/curiousWorkbench/js/webfontloader.js"></script>
+        <script src="http://test.walnutai.com/static/curiousWorkbench/js/jquery.mobile.custom.min.js"></script>
+        <script src="http://test.walnutai.com/static/curiousWorkbench/js/bootstrap.transition.js"></script>
+        <script src="http://test.walnutai.com/static/curiousWorkbench/js/bootstrap.carousel.js"></script>
+        <script src="http://test.walnutai.com/static/curiousWorkbench/js/bootstrap.collapse.js"></script>
+        <script src="http://test.walnutai.com/static/curiousWorkbench/js/bootstrap.dropdown.js"></script>
+        <script src="http://test.walnutai.com/static/curiousWorkbench/js/bootstrap.tab.js"></script>
+
+        <script src="js/vendor/jquery.drawsvg.js"></script>
+
+        <script src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
+
+        <script src="js/default.js"></script>
+
+
+    <script>
+        (function(i, s, o, g, r, a, m) {
+            i['GoogleAnalyticsObject'] = r;
+            i[r] = i[r] || function() {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date();
+            a = s.createElement(o),
+                m = s.getElementsByTagName(o)[0];
+            a.async = 1;
+            a.src = g;
+            m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+
+        ga('create', 'UA-34198029-2', 'auto');
+        ga('send', 'pageview');
+    </script>
+</body>
+
+</html>

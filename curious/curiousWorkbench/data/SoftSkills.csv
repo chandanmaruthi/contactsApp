@@ -1,0 +1,88 @@
+Role,Skill,SKILL_CODE,Location,CompanyClass,Percentage,Enabled,Demand_Count,World_Count
+Soft_Skills,Verbal Communication,Verbal_Communication,,,0,TRUE,0,0
+Soft_Skills,Body Language,Body_Language,,,0,TRUE,0,0
+Soft_Skills,Physical Communication,Physical_Communication,,,0,TRUE,0,0
+Soft_Skills,Writing,Writing,,,0,TRUE,0,0
+Soft_Skills,Storytelling,Storytelling,,,0,TRUE,0,0
+Soft_Skills,Visual Communication,Visual_Communication,,,0,TRUE,0,0
+Soft_Skills,Humor,Humor,,,0,TRUE,0,0
+Soft_Skills,Quick-wittedness,Quick-wittedness,,,0,TRUE,0,0
+Soft_Skills,Listening,Listening,,,0,TRUE,0,0
+Soft_Skills,Presentation Skills,Presentation_Skills,,,0,TRUE,0,0
+Soft_Skills,Public Speaking,Public_Speaking,,,0,TRUE,0,0
+Soft_Skills,Interviewing,Interviewing,,,0,TRUE,0,0
+Soft_Skills,Team Building,Team_Building,,,0,TRUE,0,0
+Soft_Skills,Strategic Planning,Strategic_Planning,,,0,TRUE,0,0
+Soft_Skills,Coaching,Coaching,,,0,TRUE,0,0
+Soft_Skills,Mentoring,Mentoring,,,0,TRUE,0,0
+Soft_Skills,Delegation,Delegation,,,0,TRUE,0,0
+Soft_Skills,Dispute Resolution,Dispute_Resolution,,,0,TRUE,0,0
+Soft_Skills,Diplomacy,Diplomacy,,,0,TRUE,0,0
+Soft_Skills,Giving Feedback,Giving_Feedback,,,0,TRUE,0,0
+Soft_Skills,Managing Difficult Conversations,Managing_Difficult_Conversations,,,0,TRUE,0,0
+Soft_Skills,Decision Making,Decision_Making,,,0,TRUE,0,0
+Soft_Skills,Performance Management,Performance_Management,,,0,TRUE,0,0
+Soft_Skills,Supervising,Supervising,,,0,TRUE,0,0
+Soft_Skills,Managing ,Managing_,,,0,TRUE,0,0
+Soft_Skills,Manager Management,Manager_Management,,,0,TRUE,0,0
+Soft_Skills,Talent Management,Talent_Management,,,0,TRUE,0,0
+Soft_Skills,Managing Remote Teams,Managing_Remote_Teams,,,0,TRUE,0,0
+Soft_Skills,Managing Virtual Teams,Managing_Virtual_Teams,,,0,TRUE,0,0
+Soft_Skills,Crisis Management,Crisis_Management,,,0,TRUE,0,0
+Soft_Skills,Facilitation,Facilitation,,,0,TRUE,0,0
+Soft_Skills,Selling,Selling,,,0,TRUE,0,0
+Soft_Skills,Inspiring,Inspiring,,,0,TRUE,0,0
+Soft_Skills,Persuasion,Persuasion,,,0,TRUE,0,0
+Soft_Skills,Negotiation,Negotiation,,,0,TRUE,0,0
+Soft_Skills,Motivating,Motivating,,,0,TRUE,0,0
+Soft_Skills,Collaborating,Collaborating,,,0,TRUE,0,0
+Soft_Skills,Networking,Networking,,,0,TRUE,0,0
+Soft_Skills,Interpersonal Relationships,Interpersonal_Relationships,,,0,TRUE,0,0
+Soft_Skills,Dealing with Difficult People,Dealing_with_Difficult_People,,,0,TRUE,0,0
+Soft_Skills,Conflict Resolution,Conflict_Resolution,,,0,TRUE,0,0
+Soft_Skills,Personal Branding,Personal_Branding,,,0,TRUE,0,0
+Soft_Skills,Office Politics,Office_Politics,,,0,TRUE,0,0
+Soft_Skills,Emotional Intelligence,Emotional_Intelligence,,,0,TRUE,0,0
+Soft_Skills,Self Awareness,Self_Awareness,,,0,TRUE,0,0
+Soft_Skills,Emotion Management,Emotion_Management,,,0,TRUE,0,0
+Soft_Skills,Stress Management,Stress_Management,,,0,TRUE,0,0
+Soft_Skills,Tolerance of Change and Uncertainty,Tolerance_of_Change_and_Uncertainty,,,0,TRUE,0,0
+Soft_Skills,Taking Criticism,Taking_Criticism,,,0,TRUE,0,0
+Soft_Skills,Self Confidence,Self_Confidence,,,0,TRUE,0,0
+Soft_Skills,Adaptability,Adaptability,,,0,TRUE,0,0
+Soft_Skills,Resilience,Resilience,,,0,TRUE,0,0
+Soft_Skills,Assertiveness,Assertiveness,,,0,TRUE,0,0
+Soft_Skills,Competitiveness,Competitiveness,,,0,TRUE,0,0
+Soft_Skills,Self Leadership,Self_Leadership,,,0,TRUE,0,0
+Soft_Skills,Self Assessment,Self_Assessment,,,0,TRUE,0,0
+Soft_Skills,Work-Life Balance,Work-Life_Balance,,,0,TRUE,0,0
+Soft_Skills,Friendliness,Friendliness,,,0,TRUE,0,0
+Soft_Skills,Enthusiasm,Enthusiasm,,,0,TRUE,0,0
+Soft_Skills,Empathy,Empathy,,,0,TRUE,0,0
+Soft_Skills,Problem Solving,Problem_Solving,,,0,TRUE,0,0
+Soft_Skills,Critical Thinking,Critical_Thinking,,,0,TRUE,0,0
+Soft_Skills,Innovation,Innovation,,,0,TRUE,0,0
+Soft_Skills,Troubleshooting,Troubleshooting,,,0,TRUE,0,0
+Soft_Skills,Design Sense,Design_Sense,,,0,TRUE,0,0
+Soft_Skills,Artistic Sense,Artistic_Sense,,,0,TRUE,0,0
+Soft_Skills,Organization,Organization,,,0,TRUE,0,0
+Soft_Skills,Planning,Planning,,,0,TRUE,0,0
+Soft_Skills,Scheduling,Scheduling,,,0,TRUE,0,0
+Soft_Skills,Time Management,Time_Management,,,0,TRUE,0,0
+Soft_Skills,Meeting Management,Meeting_Management,,,0,TRUE,0,0
+Soft_Skills,Technology Savvy,Technology_Savvy,,,0,TRUE,0,0
+Soft_Skills,Technology Trend Awareness,Technology_Trend_Awareness,,,0,TRUE,0,0
+Soft_Skills,Business Trend Awareness,Business_Trend_Awareness,,,0,TRUE,0,0
+Soft_Skills,Research,Research,,,0,TRUE,0,0
+Soft_Skills,Business Etiquette,Business_Etiquette,,,0,TRUE,0,0
+Soft_Skills,Business Ethics,Business_Ethics,,,0,TRUE,0,0
+Soft_Skills,Diversity Awareness,Diversity_Awareness,,,0,TRUE,0,0
+Soft_Skills,Disability Awareness,Disability_Awareness,,,0,TRUE,0,0
+Soft_Skills,Intercultural Competence,Intercultural_Competence,,,0,TRUE,0,0
+Soft_Skills,Training,Training,,,0,TRUE,0,0
+Soft_Skills,Train the Trainer,Train_the_Trainer,,,0,TRUE,0,0
+Soft_Skills,Process Improvement,Process_Improvement,,,0,TRUE,0,0
+Soft_Skills,Knowledge Management,Knowledge_Management,,,0,TRUE,0,0
+Soft_Skills,Writing Reports and Proposals,Writing_Reports_and_Proposals,,,0,TRUE,0,0
+Soft_Skills,Customer Service,Customer_Service,,,0,TRUE,0,0
+Soft_Skills,Entrepreneurial Thinking,Entrepreneurial_Thinking,,,0,TRUE,0,0

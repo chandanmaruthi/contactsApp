@@ -1,0 +1,33 @@
+{% extends "curiousWorkbench/base.html" %}
+{% load staticfiles %}
+{% block Header %}Model{% endblock %}
+
+{% block Footer %}My Footer{% endblock %}
+
+{% block Content %}
+{% if modelMapList %}
+
+
+<div class="FormHeader">
+  <div class="Title"> Models :<span> {{ modelMapList.count }} Found </span></div>
+</div>
+<br>
+<table>
+  <tr class="TableHeader"><td width="400px" >Model Name</td><td width="200px">Description</td><td>Delete</td><td width="100px">Created By</td><td width="400px">Last Updated </td></tr>
+  {% for ModelMap in modelMapList %}
+  <tr class="TableRow"><td>
+    <img class="Logo" src="{% static 'curiousWorkbench/images/network.png' %}" height="15px" >
+    <a href="{% url 'curiousWorkbench:editModel' ModelMap.id %}" method="post" alt="{{ ModelMap.Description }}">{{ ModelMap.Name }}</a></td>
+    <td>{{ ModelMap.Description }}</td>
+    <td> <a href="{% url 'curiousWorkbench:deleteStateMachineSubscription' stateMachineSubscription.id %}" method="post" alt="{{ ModelMap.Description }}">delete</a> </td>
+    <td>{{ ModelMap.CreatedBy }}</td><td>{{ ModelMap.Created }}</td></tr>
+    {% endfor %}
+  </table>
+
+  {% else %}
+  <p>No models are available.</p>
+
+  {% endif %}
+  <br><br>
+  <a href="{% url 'curiousWorkbench:addStateMachineSubscription' %}">+Create New Model</a>
+  {% endblock %}

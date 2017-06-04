@@ -1,0 +1,38 @@
+{% load staticfiles %}
+<html>
+<head>
+  <!--<link rel="stylesheet" type="text/css" href="{% static 'curiousWorkbench/style.css' %}">-->
+  <link rel="shortcut icon" type="image/x-icon" href="{% static 'curiousWorkbench/images/walnut_logo.png' %}" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Walnut - Conversational Learning Platform</title>
+
+  <link href="{% static 'curiousWorkbench/css/bootstrap.min.css' %}" rel="stylesheet">
+  <link href="{% static 'curiousWorkbench/font-awesome/css/font-awesome.css' %}" rel="stylesheet">
+
+  <link href="{% static 'curiousWorkbench/css/animate.css' %}" rel="stylesheet">
+  <link href="{% static 'curiousWorkbench/css/style.css' %}" rel="stylesheet">
+    <link href="{% static 'curiousWorkbench/css/treeMenu.css' %}" rel="stylesheet">
+</head>
+<body class="pacedonechild">
+        {% block Content %}My content{% endblock %}
+
+
+
+<!-- Mainly scripts -->
+<script src="{% static 'curiousWorkbench/js/jquery-3.1.1.min.js' %}"></script>
+<script src="{% static 'curiousWorkbench/js/bootstrap.min.js' %}"></script>
+<script src="{% static 'curiousWorkbench/js/plugins/metisMenu/jquery.metisMenu.js' %}"></script>
+<script src="{% static 'curiousWorkbench/js/plugins/slimscroll/jquery.slimscroll.min.js' %}"></script>
+
+<!-- Custom and plugin javascript -->
+<script src="{% static 'curiousWorkbench/js/inspinia.js' %}"></script>
+<script src="{% static 'curiousWorkbench/js/treeMenu.js' %}"></script>
+<script src="{% static 'curiousWorkbench/js/plugins/pace/pace.min.js' %}"></script>
+
+
+</body>
+
+
+  </html>

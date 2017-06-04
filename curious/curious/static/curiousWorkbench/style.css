@@ -1,0 +1,931 @@
+body
+{
+background-color:#ffffff ;
+font-family:'Arial';
+font-size:15px;
+margin:0px;
+padding:0px;
+}
+a
+{
+	color: #222222;
+	font-weight: bold;
+  text-decoration: none; /* no underline */
+}
+.RightMenu ul
+{
+	list-style-type: none;
+	padding:0px;
+	margin:0px;
+	width:100%;
+	-webkit-padding-start: 0px;
+}
+.LoginBox
+{
+	width: 300px;
+
+}
+.ValidationMessage
+{
+	background-color: #cccccc;
+	color:#000000;
+	display: block;
+	float: left;
+}
+.RightMenu a
+{
+text-decoration:none;
+color:#000000;
+padding:0px;
+margin:0px;
+
+}
+.RightMenu li
+{
+
+	list-style-type: none;
+	text-decoration:none;
+	border-bottom:solid 0px #000000;
+	height:15px;
+	margin-top:5px;
+	padding-left:5px;
+	font-family:'Arial';
+	font-size:15px;
+    font-weight:normal;
+
+}
+
+.RightMenu .MenuHeader
+{
+	list-style-type: none;
+	text-decoration:none;
+	font-family:'Arial';
+	border-bottom:solid 0px #000000;
+	height:20px;
+	margin-top:20px;
+	font-size:20px;
+    font-weight:normal;
+		padding: 0px
+}
+
+
+a{
+text-decoration:none;
+}
+
+.FormTable
+{
+border:solid 1px #cccccc;
+cell-spacing:0px;
+cell-padding:0px;
+}
+.TableHeader
+{
+font-style:bold;
+Font-Size:15px;
+background-color:#cccccc;
+}
+
+table {
+    border-collapse: collapse;
+		table-layout: fixed;
+}
+
+table, th, td {
+    border: 1px solid black;
+    font-size:15px;
+}
+
+
+.Logo
+{
+	height: 50px;
+	float:left;
+	vertical-align:text-middle;
+}
+.Header
+{
+	border: solid 0px black;
+	background-color:  #55aa87;
+	font-size:15px;
+	text-align:left;
+	height: 60px;
+	padding:2px;
+	float: left;
+	width:100%;
+}
+.Footer {
+	border: solid 0px black;
+	background-color: #99CCFF;
+	font-size:15px;
+	text-align:left;
+	height: 50px;
+	float: left;
+	width:100%;
+}
+.FooterText{
+	padding-left:10px;
+	font-family: Arial;
+	font-size: 15px;
+	font-weight: bold;
+	float:Left;
+
+}
+
+.PageHeader
+{
+	font-family: 'Times New Roman';
+	font-size: 15px;
+	font-weight: bold;
+	float:Left;
+}
+.PageHeaderLinks
+{
+	font-family: 'Arial';
+	font-size: 15px;
+	font-weight: normal;
+	float:right;
+	color:#ffffff;
+	text-decoration: none;
+
+}
+.Breadcrumbs
+{
+	border: solid 0px black;
+	background-color: #eeeeee;
+	font-size:10px;
+	text-align:left;
+	height: 10px;
+	padding:2px;
+	float: left;
+	width:100%;
+}
+.Breadcrumbs
+{
+	font-family: 'Arial';
+	font-size: 10px;
+	font-weight: normal;
+	float:left;
+	color:#ffffff;
+	text-decoration: none;
+
+}
+
+.Header .Title
+{
+	font-size:20px;
+	text-align:center:
+}
+
+.TextArea
+{
+height:500px;
+width: 600px;
+overflow:auto;
+}
+
+.RightContent {
+	float: left;
+	width: 140px;
+	text-align:left;
+	padding:0px;
+	}
+
+.CenterContent {
+	float: left;
+	text-align:left;
+	width: 800px;
+	padding-top:10px;
+	padding-left:10px;
+	font-family:'Arial';
+
+}
+
+.CenterContent .Label
+{
+width:100px;
+float:left;
+font-weight: bold;
+font-size:15px;
+text-align:right;
+	font-family:'Arial';
+}
+.CenterContent .Value
+{
+margin-left:5px;
+width:200px;
+float:left;
+font-weight: normal;
+font-family:'Arial';
+}
+.CenterContent .FormHeader
+{
+width:98%
+float:left;
+font-size:20px;
+font-family:'Arial';
+}
+
+.FormTitle
+{
+width:100%;
+font-family:Arial;
+font-size:20px;
+text-align:center;
+}
+.FormBox
+{
+width:100%;
+border:solid 0px #000000;
+float:left;
+}
+.FormBoxTwoColumn
+{
+width:50%;
+border:solid 0px #000000;
+float:left;
+}
+.FormRow
+{
+border:solid 0px black;
+
+margin-top:5px;
+width:500px;
+float:left;
+font-weight: bold;
+font-family: Ariel;
+}
+.FormFooter
+{
+float:left;
+font-family:Ariel;
+}
+.FormActionRow
+{
+float:left;
+font-weight: bold;
+font-family:Ariel;
+background-color:#C0C0C0;
+}
+
+.LeftContent {
+	float: left;
+	width: 0px;
+}
+
+
+.Page {
+	float: left;
+	border: solid 0px black;
+	width: 100%;
+
+}
+
+.PageBody {
+	float: left;
+	border: solid 0px black;
+	width:100%:
+	scroll-y:auto;
+}
+
+.RightMenu {
+	float: left;
+	width: 100px;
+	height: 100%;
+}
+
+.MenuItem {
+	all: none;
+	float: left;
+	width: 180px;
+}
+.MenuItemSelected {
+	all: none;
+	float: left;
+	width: 180px;
+	font-size: 15x;
+}
+
+.Content
+{
+	width :100%;
+	height: auto;
+	margin: auto;
+
+}
+.Authenticate .TitleBox
+{
+margin-top:50px;
+margin-left:50px;
+width:100%;
+height:50px;
+}
+.Authenticate .Title{
+font-family: 'Times New Roman';
+font-size:50px;
+font-width:bold;
+float:left;
+}
+.Authenticate .TitlePostFix{
+float:left;
+font-family: 'Times New Roman';
+font-style: italic;
+font-size:20px;
+font-width:bold;
+float:left;
+color:#ffffff;
+}
+.Authenticate .SubTitle{
+margin: auto;
+font-family: 'Arial';
+font-size:26px;
+font-width:bold;
+color:#000000;
+overflow-x:hidden;
+float:left;
+}
+.IndexProductBox
+{
+	margin-left: 100px;
+	margin-top: 15px;
+	width: 900px;
+	float: left;
+}
+.IndexProductTitle
+{
+	font-family: "GT-Haptik-Light",sans-serif ;
+	font-size: 25pt;
+}
+.IndexProductDesc
+{
+	margin-top: 15px;
+	font-family: "GT-Haptik-Light",sans-serif ;
+	font-size: 15pt;
+}
+
+.IndexPageActionBox{
+	margin-left: 100px;
+	margin-top: 15px;
+	width: 900px;
+	float: left;
+}
+.IndexProductPicture
+{
+	margin-top: 15px;
+	width: 1000px;
+	float: left;
+
+}
+
+.Authenticate .Login{
+margin-top:10px;
+margin-right:20px;
+width:400px;
+height:200px;
+border:solid 5px #b3b3cc;
+background-color: #f0f0f5;
+opacity: 0.6;
+filter: alpha(opacity=60);
+float:left;
+}
+.Authenticate .UserID
+{
+margin-top:20px;
+width:380px;
+float:left;
+font-size:20px;
+font-family:'Arial';
+font-color:#cccccc;
+font-weight:bold;
+}
+.Authenticate .Password
+{
+margin-left:20px;
+margin-top:10px;
+width:380px;
+float:left;
+font-size:20px;
+font-family:'Arial';
+font-color:#cccccc;
+font-weight:bold;
+}
+.Authenticate .Label
+{
+width:100px;
+float:left;
+Text-Align:right;
+}
+.Authenticate .Input
+{
+margin-left:10px;
+width:200px;
+float:left;
+Text-Align:left;
+}
+.FormTitle
+{
+	font-size:20px;
+	font-width:bold;
+
+}
+.Authenticate .LoginFormSubmit
+{
+margin-top:10px;
+width:250px;
+height:30px;
+font-size:20px;
+font-width:bold;
+font-family:'Arial';
+}
+.Authenticate .LoginFormInput
+{
+Font-size:25px;
+font-family:'Arial';
+color:#cccccc;
+width:250px;
+}
+.HeaderTopLinks
+{
+float:right;
+vertical-align:top;
+font-size:15px;
+}
+.Authenticate .Message
+{
+margin-top:10px;
+margin-left:20px;
+Font-size:15px;
+font-family:'Arial';
+color:#ffffff;
+text-background: #cccccc;
+}
+.Console
+{
+overflow-y: scroll;
+border:solid 0px black;
+background-color:black;
+color:#00FF00;
+float:left;
+font-family:Arial;
+font-size:2px;
+}
+.Console table
+{
+width:100%;
+}
+.Console th, td
+{
+
+font-size:10px;
+}
+.FormRow input, select
+{
+border:solid 1px #000000;
+height:25px;
+padding:2px;
+margin-right:5px;
+}
+.FormRowInformation .FormHeader
+{
+	margin-top:5px;
+	font-size: 16px;
+	height: 16px;
+	font-weight: bold;
+	color:#cccccc;
+}
+
+.FormRowInformation .Label
+{
+	font-size: 10px;
+	height: 12px;
+	font-weight: bold;
+	color:#cccccc;
+}
+.FormRowInformation .Value
+{
+	font-size: 10px;
+	height: 12px;
+	font-weight: normal;
+	color:#cccccc;
+}
+.ResetSubmitButton
+{
+	color: #FFF;
+  background-color: #900;
+  font-weight: bold;
+	float: right;
+}
+<style type="text/css">
+.form-style-1 {
+    margin:10px auto;
+    max-width: 400px;
+    padding: 20px 12px 10px 20px;
+    font: 13px "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+}
+.form-style-1 li {
+    padding: 0;
+    display: block;
+    list-style: none;
+    margin: 10px 0 0 0;
+}
+.form-style-1 label{
+    margin:0 0 3px 0;
+    padding:0px;
+    display:block;
+    font-weight: bold;
+}
+.form-style-1 input[type=text],
+.form-style-1 input[type=date],
+.form-style-1 input[type=datetime],
+.form-style-1 input[type=number],
+.form-style-1 input[type=search],
+.form-style-1 input[type=time],
+.form-style-1 input[type=url],
+.form-style-1 input[type=email],
+textarea,
+select{
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    border:1px solid #BEBEBE;
+    padding: 7px;
+    margin:0px;
+    -webkit-transition: all 0.30s ease-in-out;
+    -moz-transition: all 0.30s ease-in-out;
+    -ms-transition: all 0.30s ease-in-out;
+    -o-transition: all 0.30s ease-in-out;
+    outline: none;
+}
+.form-style-1 input[type=text]:focus,
+.form-style-1 input[type=date]:focus,
+.form-style-1 input[type=datetime]:focus,
+.form-style-1 input[type=number]:focus,
+.form-style-1 input[type=search]:focus,
+.form-style-1 input[type=time]:focus,
+.form-style-1 input[type=url]:focus,
+.form-style-1 input[type=email]:focus,
+.form-style-1 textarea:focus,
+.form-style-1 select:focus{
+    -moz-box-shadow: 0 0 8px #88D5E9;
+    -webkit-box-shadow: 0 0 8px #88D5E9;
+    box-shadow: 0 0 8px #88D5E9;
+    border: 1px solid #88D5E9;
+}
+.form-style-1 .field-divided{
+    width: 49%;
+}
+
+.form-style-1 .field-long{
+    width: 100%;
+}
+.form-style-1 .field-select{
+    width: 100%;
+}
+.form-style-1 .field-textarea{
+    height: 100px;
+}
+.form-style-1 input[type=submit], .form-style-1 input[type=button]{
+    background: #4B99AD;
+    padding: 8px 15px 8px 15px;
+    border: none;
+    color: #fff;
+}
+.form-style-1 input[type=submit]:hover, .form-style-1 input[type=button]:hover{
+    background: #4691A4;
+    box-shadow:none;
+    -moz-box-shadow:none;
+    -webkit-box-shadow:none;
+}
+.form-style-1 .required{
+    color:red;
+}
+
+<!----------------------------------------------------------------------->
+<style type="text/css">
+.form-style-5{
+    max-width: 500px;
+    padding: 10px 20px;
+    background: #f4f7f8;
+    margin: 10px auto;
+    padding: 20px;
+    background: #f4f7f8;
+    border-radius: 8px;
+    font-family: Georgia, "Times New Roman", Times, serif;
+}
+.form-style-5 fieldset{
+    border: none;
+}
+.form-style-5 legend {
+    font-size: 1.4em;
+    margin-bottom: 10px;
+}
+.form-style-5 label {
+    display: block;
+    margin-bottom: 8px;
+}
+.form-style-5 input[type="text"],
+.form-style-5 input[type="date"],
+.form-style-5 input[type="datetime"],
+.form-style-5 input[type="email"],
+.form-style-5 input[type="number"],
+.form-style-5 input[type="search"],
+.form-style-5 input[type="time"],
+.form-style-5 input[type="url"],
+.form-style-5 textarea,
+.form-style-5 select {
+    font-family: Georgia, "Times New Roman", Times, serif;
+    background: rgba(255,255,255,.1);
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    margin: 0;
+    outline: 0;
+    padding: 7px;
+    width: 100%;
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    background-color: #e8eeef;
+    color:#8a97a0;
+    -webkit-box-shadow: 0 1px 0 rgba(0,0,0,0.03) inset;
+    box-shadow: 0 1px 0 rgba(0,0,0,0.03) inset;
+    margin-bottom: 30px;
+
+}
+.form-style-5 input[type="text"]:focus,
+.form-style-5 input[type="date"]:focus,
+.form-style-5 input[type="datetime"]:focus,
+.form-style-5 input[type="email"]:focus,
+.form-style-5 input[type="number"]:focus,
+.form-style-5 input[type="search"]:focus,
+.form-style-5 input[type="time"]:focus,
+.form-style-5 input[type="url"]:focus,
+.form-style-5 textarea:focus,
+.form-style-5 select:focus{
+    background: #d2d9dd;
+}
+.form-style-5 select{
+    -webkit-appearance: menulist-button;
+    height:35px;
+}
+.form-style-5 .number {
+    background: #1abc9c;
+    color: #fff;
+    height: 30px;
+    width: 30px;
+    display: inline-block;
+    font-size: 0.8em;
+    margin-right: 4px;
+    line-height: 30px;
+    text-align: center;
+    text-shadow: 0 1px 0 rgba(255,255,255,0.2);
+    border-radius: 15px 15px 15px 0px;
+}
+
+.form-style-5 input[type="submit"],
+.form-style-5 input[type="button"]
+{
+    position: relative;
+    display: block;
+    padding: 19px 39px 18px 39px;
+    color: #FFF;
+    margin: 0 auto;
+    background: #1abc9c;
+    font-size: 18px;
+    text-align: center;
+    font-style: normal;
+    width: 100%;
+    border: 1px solid #16a085;
+    border-width: 1px 1px 3px;
+    margin-bottom: 10px;
+}
+.form-style-5 input[type="submit"]:hover,
+.form-style-5 input[type="button"]:hover
+{
+    background: #109177;
+}
+/*** Table Styles **/
+
+.table-fill {
+  background: white;
+  border-radius:3px;
+  border-collapse: collapse;
+  margin: auto;
+  max-width: 600px;
+  padding:5px;
+  width: 100%;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+  animation: float 5s infinite;
+}
+
+th {
+  color:#000000;;
+  background:#cccccc;
+  border-bottom:4px solid #9ea7af;
+  border-right: 1px solid #343a45;
+  font-size:12px;
+  font-weight: 100;
+  padding:6px;
+  text-align:left;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+  vertical-align:middle;
+}
+
+th:first-child {
+  border-top-left-radius:3px;
+}
+
+th:last-child {
+  border-top-right-radius:3px;
+  border-right:none;
+}
+
+tr {
+  border-top: 1px solid #C1C3D1;
+  border-bottom-: 1px solid #C1C3D1;
+  color:#666B85;
+  font-size:16px;
+  font-weight:normal;
+  text-shadow: 0 1px 1px rgba(256, 256, 256, 0.1);
+}
+
+tr:hover td {
+  background:#4E5066;
+  color:#FFFFFF;
+  border-top: 1px solid #22262e;
+  border-bottom: 1px solid #22262e;
+}
+
+tr:first-child {
+  border-top:none;
+}
+
+tr:last-child {
+  border-bottom:none;
+}
+
+tr:nth-child(odd) td {
+  background:#EBEBEB;
+}
+
+tr:nth-child(odd):hover td {
+  background:#4E5066;
+}
+
+tr:last-child td:first-child {
+  border-bottom-left-radius:3px;
+}
+
+tr:last-child td:last-child {
+  border-bottom-right-radius:3px;
+}
+
+td {
+  background:#FFFFFF;
+  padding:4px;
+  text-align:left;
+  vertical-align:middle;
+  font-weight:300;
+  font-size:12px;
+  text-shadow: -1px -1px 1px rgba(0, 0, 0, 0.1);
+  border-right: 1px solid #C1C3D1;
+}
+
+td:last-child {
+  border-right: 0px;
+}
+
+th.text-left {
+  text-align: left;
+}
+
+th.text-center {
+  text-align: center;
+}
+
+th.text-right {
+  text-align: right;
+}
+
+td.text-left {
+  text-align: left;
+}
+
+td.text-center {
+  text-align: center;
+}
+
+td.text-right {
+  text-align: right;
+}
+
+
+div.callout {
+	width: 300px;
+	float: left;
+}
+div.calloutIconsBar
+{
+	width: 15px;
+	height: 30px;
+	margin-top:10px;
+	float: left;
+	display: block;
+
+}
+div.calloutIcons
+{
+	height: 15px;
+	width: 15px;
+	padding: 2px;
+	margin-top: 5px;
+	float: left;
+	display: block;
+	border: 0px black;
+}
+.trashIcon
+{
+	background-image: url('/static/curiousWorkbench/images/trash-2x.png');
+	background-repeat: no-repeat;
+	height: 20px;
+	width: 20px;
+	display: block;
+	border: 0px;
+}
+.editIcon
+{
+	background-image: url('/static/curiousWorkbench/images/pencil-2x.png');
+	background-repeat: no-repeat;
+	height: 20px;
+	width: 20px;
+	display: block;
+	border: 0px;
+}
+
+div.callout {
+	background-color: #444;
+	background-image: -moz-linear-gradient(top, #444, #444);
+	position: relative;
+	color: #ccc;
+	padding: 10px;
+	border-radius: 3px;
+	box-shadow: 0px 0px 10px #999;
+	margin: 10px;
+	min-height: 10px;
+	border: 0px solid #333;
+	text-shadow: 0 0 1px #000;
+
+	/*box-shadow: 0 1px 0 rgba(255, 255, 255, 0.2) inset;*/
+}
+
+.callout::before {
+	content: "";
+	width: 0px;
+	height: 0px;
+	border: 0.8em solid transparent;
+	position: absolute;
+}
+
+.callout.top::before {
+	left: 45%;
+	bottom: -20px;
+	border-top: 10px solid #444;
+}
+
+.callout.bottom::before {
+	left: 45%;
+	top: -20px;
+	border-bottom: 10px solid #444;
+}
+
+.callout.left::before {
+	right: -20px;
+	top: 40%;
+	border-left: 10px solid #444;
+}
+
+.callout.right::before {
+	left: -20px;
+	top: 40%;
+	border-right: 10px solid #444;
+}
+
+.callout.top-left::before {
+	left: 7px;
+	bottom: -20px;
+	border-top: 10px solid #444;
+}
+
+.callout.top-right::before {
+	right: 7px;
+	bottom: -20px;
+	border-top: 10px solid #444;
+}
+.convList{
+	width:400px;
+	height: 450px;
+	overflow-y: scroll;
+
+}
+</style>
+</style>

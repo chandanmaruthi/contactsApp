@@ -1,0 +1,37 @@
+{% extends "curiousWorkbench/base.html" %}
+{% load staticfiles %}
+{% block Header %}Train {% endblock %}
+
+{% block Footer %}My Footer{% endblock %}
+
+{% block Content %}
+{% if projectList %}
+<div class="FormHeader">
+    <div class="Title">Train :<span> {{ projectList.count }} Projects Found  </span></div></div>
+<br>
+
+<table>
+    <tr class="TableHeader"><td width="400px" >Project Name</td>
+        <td width="200px">Description</td>
+        <td width="200px">Model</td>
+        <td width="200px">Train</td>
+        <td width="100px">Created By</td>
+        <td width="400px">Last Updated </td></tr>
+    {% for project in projectList %}
+    <tr class="TableRow"><td>
+        <img class="Logo" src="{% static 'curiousWorkbench/images/network.png' %}" height="15px" >
+        <a href="">{{ project.Name }}</a></td>
+        <td>{{ project.Description }}</td>
+        <td><a href="{% url 'curiousWorkbench:editModel' project.ModelMap.id  %}" method="post">{{ project.ModelMap.Name }}</a></td>
+
+        <td><a href="{% url 'curiousWorkbench:trainProject' project.id  %}" method="post">Train</a></td>
+        <td>{{ project.CreatedBy }}</td>
+        <td>{{ project.LastUpdated }}</td></tr>
+        {% endfor %}
+</table>
+
+{% else %}
+    <p>No projects are available.</p>
+{% endif %}
+
+{% endblock %}

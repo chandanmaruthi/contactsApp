@@ -1,0 +1,94 @@
+{% extends "curiousWorkbench/base.html" %}
+{% load staticfiles %}
+{% block Header %}Model{% endblock %}
+
+{% block Footer %}My Footer{% endblock %}
+
+{% block Content %}
+{% if ContentLibraryList %}
+
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-lg-10">
+    <h2>Content</h2>
+    <ol class="breadcrumb">
+                            <li>
+                                <a href="{% url 'curiousWorkbench:index' %}">Home</a>
+                            </li>
+                            <li class="active">
+                                <strong>Configure Content</strong>
+                            </li>
+                          </ol>
+  </div>
+</div>
+<div class="wrapper wrapper-content animated fadeInRight">
+  <div class="row">
+    <div class="col-lg-12">
+
+      <div class="ibox float-e-margins">
+        <div class="ibox-title">
+          <h5>  {{ ContentLibraryList.count }} Found        </h5>
+          <div class="ibox-tools">
+
+            <a href="{% url 'curiousWorkbench:addContentLibrary' %}"> + Add Content</a></div>
+
+          </div>
+          <div class="ibox-content">
+            <div class="table-responsive">
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th >ID</th>
+                    <th >Rating</th>
+                    <th  >Type</th>
+                    <th  >Module</th>
+                    <th  >Order</th>
+                    <th >Content</th>
+                    <!-- <th >Skill</th> -->
+                    <!-- <th >Questions</th> -->
+                    </tr>
+
+                  </thead>
+                  <tbody>
+
+                    {% for ContentLibraryEntry in ContentLibraryList %}
+                    <tr>
+
+                      <td><a href="{% url 'curiousWorkbench:editContentLibrary' ContentLibraryEntry.ID %}" method="post" alt="{{ ContentLibraryEntry.ID }}">{{ ContentLibraryEntry.ID }}</a></td>
+                      <td>{{ ContentLibraryEntry.Rating }}</td>
+                      <td>{{ ContentLibraryEntry.Message_Type }}</td>
+                      <td>{{ ContentLibraryEntry.Module_ID }}</td>
+                      <td>{{ ContentLibraryEntry.Content_Order }}</td>
+                      <td>
+                        <!-- Image: <img src='{{ ContentLibraryEntry.ImageURL }}'><br> -->
+                        {{ ContentLibraryEntry.Title }}<br>
+                        {{ ContentLibraryEntry.Text }}<br>
+                        {{ ContentLibraryEntry.Tags }}<br>
+                        <!-- Link URL: <a href='{{ ContentLibraryEntry.LinkURL }}'>{{ ContentLibraryEntry.LinkURL }}</a><br>
+                        Text: {{ ContentLibraryEntry.Text }}<br>
+                        Subtitle: {{ ContentLibraryEntry.SubTitle }}<br>
+                        Content Type: {{ ContentLibraryEntry.Type }}<br>
+                        Embed: {{ ContentLibraryEntry.Embed_ID }} -->
+                      </td>
+                      <!-- <td>{{ ContentLibraryEntry.Skill }}</td> -->
+                      <!-- <td>
+                        Question : {{ ContentLibraryEntry.Questions }}<br>
+                        Options :{{ ContentLibraryEntry.AnswerOptions }}<br>
+                        RightAnswer: {{ ContentLibraryEntry.RightAnswer }}<br>
+                        Right Respone:{{ ContentLibraryEntry.Right_Ans_Response }}<br>
+                        Wrong Response{{ ContentLibraryEntry.Wrong_Ans_Response }}<br>
+                    </td> -->
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+  {% else %}
+  <p>No models are available.</p>
+
+  {% endif %}
+  <br><br>
+  <a href="{% url 'curiousWorkbench:addContentLibrary' %}">+Create New Content</a>
+  {% endblock %}

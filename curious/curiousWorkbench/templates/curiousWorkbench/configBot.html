@@ -1,0 +1,59 @@
+{% extends "curiousWorkbench/base.html" %} {% load staticfiles %} {% block Header %}Model{% endblock %} {% block Footer %}My Footer{% endblock %} {% block Content %} {% if StateMachineList %} {% csrf_token %}
+
+
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-8">
+        <h2>Config Bot</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="{% url 'curiousWorkbench:index' %}">Home</a>
+            </li>
+            <li class="active">
+                <strong>Configure Bot</strong>
+            </li>
+        </ol>
+    </div>
+    <div class="col-lg-4">
+        <div class="title-action">
+
+            <form action="{% url 'curiousWorkbench:handleActions' %}" method="post">
+                {% csrf_token %}
+                <span class="label label-primary pull-right;" style="float:right;"><input class="btn btn-primary"  type="submit" name="refreshBotBehaviour" value="Publish Changes" />
+                  </form>
+        </div></div>
+</div>
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+
+            <div class="ibox float-e-margins">
+
+                <div class="ibox-content" style="height:100%;">
+
+
+                    <div style="width:1200px;height:100%;float:left;">
+                        <div style="width:350px;overflow-y: scroll;;height:100%;border:solid 0px;float:left">
+                          <iframe id="eventList" name="EventList" src="{% url 'curiousWorkbench:configStateMachine' %}" style="float:left;width:400px;height:100%;overflow-y: scroll;border:solid 0px;">
+&nbsp;
+</iframe>&nbsp;&nbsp;
+                        </div>
+                        <div style="width:810px;overflow-y: scroll;sroll;height:100%;border:solid 0px;float:left;">
+                            <iframe id="stateMachine" name="stateMachine" style="float:left;width:400px;height:100%;overflow-y: scroll;border:solid 0px;">
+  </iframe>
+                            <iframe id="messageWindow" name="messageWindow" src="" style="float:left;width:400px;height:100%;overflow-y: scroll;border:solid 0px;">
+  </iframe>&nbsp;&nbsp;
+                        </div>&nbsp;&nbsp;
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        {% else %}
+        <p>No models are available.</p>
+
+        {% endif %}
+    </div>
+</div>
+</div>
+{% endblock %}

@@ -1,0 +1,170 @@
+{% load staticfiles %}
+<html>
+<head>
+  <!--<link rel="stylesheet" type="text/css" href="{% static 'curiousWorkbench/style.css' %}">-->
+  <link rel="shortcut icon" type="image/x-icon" href="{% static 'curiousWorkbench/images/walnut_logo.png' %}" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Walnut - Conversational Learning Platform</title>
+
+  <link href="{% static 'curiousWorkbench/css/bootstrap.min.css' %}" rel="stylesheet">
+  <link href="{% static 'curiousWorkbench/font-awesome/css/font-awesome.css' %}" rel="stylesheet">
+
+  <link href="{% static 'curiousWorkbench/css/animate.css' %}" rel="stylesheet">
+  <link href="{% static 'curiousWorkbench/css/style.css' %}" rel="stylesheet">
+    <link href="{% static 'curiousWorkbench/css/treeMenu.css' %}" rel="stylesheet">
+</head>
+<body class="top-navigation">
+
+<div id="wrapper">
+      <div id="page-wrapper" class="gray-bg">
+  <div class="row border-bottom white-bg">
+  <nav class="navbar navbar-static-top" role="navigation">
+      <div class="navbar-header">
+          <button aria-controls="navbar" aria-expanded="false" data-target="#navbar" data-toggle="collapse" class="navbar-toggle collapsed" type="button">
+              <i class="fa fa-reorder"></i>
+          </button>
+          <a href="#" class="navbar-brand">Walnut</a>
+      </div>
+      <div class="navbar-collapse collapse" id="navbar">
+          <ul class="nav navbar-nav">
+              <li class="active">
+                  <a aria-expanded="false" role="button" href="{% url 'curiousWorkbench:index' %}"> Home</a>
+              </li>
+              <li class="dropdown">
+                  <a aria-expanded="false" role="button" href="#" class="dropdown-toggle" data-toggle="dropdown"> <i class="fa fa-wechat"></i>Bot Behavior <span class="caret"></span></a>
+                  <ul role="menu" class="dropdown-menu">
+                    <li><a href="{% url 'curiousWorkbench:configBot' %}" method="post"><i class="fa fa-sitemap"></i>Events </a></li>
+                    <li><a href="{% url 'curiousWorkbench:configMessageLibrary' %}" method="post"><i class="fa fa-wechat"></i>Messages</a></li>
+                    <li><a href="{% url 'curiousWorkbench:configModule' %}"><i class="fa fa-flask"></i>Modules </a></li>
+                    <li><a href="{% url 'curiousWorkbench:configContentLibrary' %}"><i class="fa fa-files-o"></i>Content </a></li>
+                  </ul>
+              </li>
+              <li class="dropdown">
+                  <a aria-expanded="false" role="button" href="#" class="dropdown-toggle" data-toggle="dropdown"> <i class="fa fa-pie-chart"></i> Metrics <span class="caret"></span></a>
+                  <ul role="menu" class="dropdown-menu">
+                <li><a href="{% url 'curiousWorkbench:configUsers' %}" method="post"><i class="fa fa-pie-chart"></i>Metrics </a></li>
+                  </ul>
+              </li>
+              <li class="dropdown">
+                  <a aria-expanded="false" role="button" href="#" class="dropdown-toggle" data-toggle="dropdown"> <i class="fa fa-paragraph"></i>Platforms <span class="caret"></span></a>
+                  <ul role="menu" class="dropdown-menu">
+                    <li><a href="#" method="post"><i class="fa fa-paragraph"></i>Platforms </a></li>
+
+                  </ul>
+              </li>
+              <li class="dropdown">
+                  <a aria-expanded="false" role="button" href="#" class="dropdown-toggle" data-toggle="dropdown"> <i class="fa fa-magic"></i>Settings <span class="caret"></span></a>
+                  <ul role="menu" class="dropdown-menu">
+                    <li><a href="#" method="post"><i class="fa fa-history"></i>Functions </a></li>
+                    <li><a href="{% url 'curiousWorkbench:configSettings' %}" method="post"><i class="fa fa-magic"></i>Settings </a></li>
+                  </ul>
+              </li>
+
+          </ul>
+          <ul class="nav navbar-top-links navbar-right">
+            <li>
+                <a href="{% url 'curiousWorkbench:user_logout' %}">
+                    <i class="fa fa-user"></i> {% block UserName %} {{ UserName}} {% endblock %}
+                </a>
+            </li>
+              <li>
+                  <a href="{% url 'curiousWorkbench:user_logout' %}">
+                      <i class="fa fa-sign-out"></i> Log out
+                  </a>
+              </li>
+          </ul>
+      </div>
+  </nav>
+  </div>
+  <div id="page-wrapper" class="gray-bg">
+      <!-- <div class="row border-bottom">
+          <nav class="navbar navbar-static-top white-bg" role="navigation" style="margin-bottom: 0">
+              <div class="navbar-header">
+                  <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i> </a>
+                  <form role="search" class="navbar-form-custom" method="post" action="#">
+                      <div class="form-group">
+                          <input type="text" placeholder="Search for something..." class="form-control" name="top-search" id="top-search">
+                      </div>
+                  </form>
+              </div>
+              <ul class="nav navbar-top-links navbar-right">
+                  <li>
+
+                          <a href="{% url 'curiousWorkbench:user_logout' %}" method="post">
+                          <i class="fa fa-sign-out"></i>Log out
+
+                      </a>
+                  </li>
+              </ul>
+
+          </nav>
+      </div> -->
+      {% block Content %}My content{% endblock %}
+      <div class="footer">
+          <div class="pull-right">
+              Chat Bot Manager
+          </div>
+          <div>
+              <strong>Copyright</strong> WalnutAI &copy; 2017-2018
+          </div>
+      </div>
+
+  </div>
+</div>
+    <!-- <nav class="navbar-default navbar-static-top" role="navigation">
+        <div class="sidebar-collapse">
+            <ul class="nav metismenu" id="side-menu">
+                <li class="nav-header">
+                    <div class="dropdown profile-element">
+                      <span>
+
+                           <img alt="image" class="img-circle" src="{% static 'curiousWorkbench/images/walnut_logo.png' %}" style="width:150px;" />
+                            </span>
+
+                            <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+
+                            <span class="clear"> <span class="block m-t-xs"> <strong class="font-bold">Admin </strong>
+                            </span>
+                            <ul class="dropdown-menu animated fadeInRight m-t-xs">
+                                <li>  <a href="{% url 'curiousWorkbench:user_logout' %}" method="post">Logout</a></li>
+                            </ul>
+                    </div>
+                    <div class="logo-element">
+                        IN+
+                    </div>
+                </li>
+                <li class="active"><a href="{% url 'curiousWorkbench:index' %}" method="post"><i class="fa fa-th-large"></i>Home</a></li>
+                <li><a href="{% url 'curiousWorkbench:configStateMachine' %}" method="post"><i class="fa fa-sitemap"></i>Events </a></li>
+                <li><a href="{% url 'curiousWorkbench:configMessageLibrary' %}" method="post"><i class="fa fa-wechat"></i>Messages</a></li>
+                <li><a href="{% url 'curiousWorkbench:configModule' %}"><i class="fa fa-flask"></i>Modules </a></li>
+                <li><a href="{% url 'curiousWorkbench:configContentLibrary' %}"><i class="fa fa-files-o"></i>Content </a></li>
+                <li><a href="{% url 'curiousWorkbench:configUsers' %}" method="post"><i class="fa fa-pie-chart"></i>Metrics </a></li>
+                <li><a href="#" method="post"><i class="fa fa-history"></i>Functions </a></li>
+                <li><a href="#" method="post"><i class="fa fa-paragraph"></i>Platforms </a></li>
+                <li><a href="{% url 'curiousWorkbench:configSettings' %}" method="post"><i class="fa fa-magic"></i>Settings </a></li>
+            </ul>
+
+        </div>
+    </nav> -->
+
+
+</div>
+
+<!-- Mainly scripts -->
+<script src="{% static 'curiousWorkbench/js/jquery-3.1.1.min.js' %}"></script>
+<script src="{% static 'curiousWorkbench/js/bootstrap.min.js' %}"></script>
+<script src="{% static 'curiousWorkbench/js/plugins/metisMenu/jquery.metisMenu.js' %}"></script>
+<script src="{% static 'curiousWorkbench/js/plugins/slimscroll/jquery.slimscroll.min.js' %}"></script>
+
+<!-- Custom and plugin javascript -->
+<script src="{% static 'curiousWorkbench/js/inspinia.js' %}"></script>
+<script src="{% static 'curiousWorkbench/js/treeMenu.js' %}"></script>
+<script src="{% static 'curiousWorkbench/js/plugins/pace/pace.min.js' %}"></script>
+
+
+</body>
+
+
+  </html>

@@ -1,0 +1,85 @@
+{% extends "curiousWorkbench/base.html" %}
+{% load staticfiles %}
+{% block Header %}My Data File{% endblock %}
+
+{% block Footer %}My Footer{% endblock %}
+
+{% block Content %}
+{% if dataFileList %}
+<div class="FormHeader">
+    <div class="Title">Data Files :<span> {{ dataFileList.count }} Found </span></div>
+</div>
+<br>
+
+<table>
+    <tr class="TableHeader">
+        <td width="400px">Names</td>
+        <td>Action</td>
+        <td width="200px">Created</td>
+        <td width="100px">Created By</td>
+    </tr>
+    {% for dataFile in dataFileList %}
+
+
+    <tr class="TableRow">
+        <td>
+            <img class="Logo" src="{% static 'curiousWorkbench/images/network.png' %}" height="15px">
+            <a href="{{ dataFile.dataFile.url }}" method="post" alt="{{ dataFile.FileName }}">{{ dataFile.FileName}}</a>
+        </td>
+        <td>
+            <a href="{% url 'curiousWorkbench:deleteDataFile' dataFile.id %}">delete</a>
+
+        </td>
+
+        <td>{{ dataFile.CreatedBy }}</td>
+        <td>{{ dataFile.LastUpdated }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+{% else %}
+<p>No Data Files are available.</p>
+
+{% endif %}
+<br><br>
+<form action="{% url 'curiousWorkbench:configDataFile' %}" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    <div class="FormHeader">
+        <div class="Title">Add Data File</div>
+    </div>
+    <br>
+
+    <div class="FormRow">
+        <div class="Label">Name</div>
+        <div class="Value">
+            <input type="Text" name="FileName"/>
+        </div>
+    </div>
+    <div class="FormRow">
+        <div class="Label">Upload File</div>
+        <div class="Value">
+            {{ form.docfile.label_tag }}
+
+        </div>
+    </div>
+    <div class="FormRow">
+        <div class="Label">&nbsp;</div>
+        <div class="Value">{{ form.non_field_errors }}
+            {{ form.docfile.errors }}
+            {{ form.docfile }}
+            {{ form.docfile.help_text }}
+        </div>
+    </div>
+    <div class="FormRow">
+        <div class="Label">&nbsp;</div>
+        <div class="Value">
+            <input type="submit" value="Upload"/>
+        </div>
+
+    </div>
+
+
+</form>
+
+{% endblock %}
