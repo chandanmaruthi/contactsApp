@@ -848,7 +848,7 @@ def getEventElement(selStateMachine):
     strExpectedState=""
     if selStateMachine.ExpectedState !="":
         strExpectedState = " [ " + str(selStateMachine.ExpectedState) + " ]"
-    strQ +='<span class="tree_label" for="'+ str(selStateMachine.SM_ID) + '"><a nohref onclick="javascript:parent.document.getElementById(\'stateMachine\').src=\'' + configSettingsObj.webUrl + "/editStateMachineSubscription/" + str(selStateMachine.SM_ID) + '\';">' + selStateMachine.Event_Code + strExpectedState + '</a></span>'
+    strQ +='<span class="tree_label" for="'+ str(selStateMachine.SM_ID) + '"><a nohref onclick="javascript:parent.document.getElementById(\'stateMachine\').src=\'' + configSettingsObj.webUrl + "/editStateMachineSubscription/" + str(selStateMachine.SM_ID) + '/\';">' + selStateMachine.Event_Code + strExpectedState + '</a></span>'
     # if selStateMachine.NextEvent !="":
     #     strCh =  getEventElement(selStateMachine.NextEvent, StateMachineList)
     #     strQ += strCh
