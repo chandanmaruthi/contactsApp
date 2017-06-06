@@ -1977,7 +1977,7 @@ a {
   transition: all 0.5s;
 }
 .banner {
-  background-color: #18BC9C;
+  background-color: #ff6361;
   background-size: cover;
   color: #fff;
   padding-top: 3em;
@@ -1993,6 +1993,7 @@ a {
 }
 .banner-buttons {
   margin-top: 3em;
+  margin: auto;
 }
 .banner-buttons .button {
   display: block;
@@ -2844,9 +2845,10 @@ a {
     -moz-animation: blink 0.7s infinite;
     animation: blink 0.7s infinite;
     float: left;
-    font-size: 50px;
-    line-height: 1em;
-    font-weight: 700;
+    margin-left: 10px;
+    font-size: 40px;
+    line-height: 1.2em;
+    font-weight: 600;
     text-align: left;
     color: #ffffff;
 }
@@ -2867,7 +2869,7 @@ a {
 }
 .elementBox{
   font-size: 50px;
-  line-height: 1em;
+  line-height: 1.4em;
   font-weight: 700;
   text-align: left;
   color: #ffffff;
@@ -2881,6 +2883,7 @@ a {
 }
 .subHeadingBox{
   height:100px;
+  width: 100%;
   float:left;
   margin-top: 50px;
   margin-bottom: 50px;
@@ -2962,7 +2965,7 @@ button, input, select, textarea {
     text-transform: uppercase;
 }
 .navbar-default {
-    background-color: #18BC9C;
+    background-color: #ff6361;
     border-color: #e7e7e7;
 }
 .navbar-fixed-top {
@@ -3031,7 +3034,7 @@ button, input, select, textarea {
 
 }
 .homeButton{
-
+text-align: center;
 color: #fff!important;
 background: #FF914A;
 border-color: #FF914A;

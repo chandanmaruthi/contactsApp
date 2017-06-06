@@ -828,7 +828,7 @@ def getEventTree(StateMachineList):
 
     # <li>
     # <input type="checkbox" checked="checked" id="c1" />
-    # <label class="tree_label" for="c1"><a href="http://test.walnutai.com/editStateMachineSubscription/{{ stateMachineSubscription.SM_ID }}" target="stateMachine">{{ stateMachineSubscription.Event_Code }}</label>
+    # <label class="tree_label" for="c1"><a href=configSettingsObj.webUrl + "editStateMachineSubscription/{{ stateMachineSubscription.SM_ID }}" target="stateMachine">{{ stateMachineSubscription.Event_Code }}</label>
 
     return strEventTree
 def getEventElement(selStateMachine):
@@ -843,12 +843,12 @@ def getEventElement(selStateMachine):
     #     if selStateMachine.ExpectedState !="":
     #         strExpectedState = " [" + selStateMachine.ExpectedState + "] "
     #     strQ +='<input type="checkbox"  id="' + str(selStateMachine.SM_ID) + '" />'
-    #     strQ +='<label class="tree_label" for="'+ str(selStateMachine.SM_ID) + '"><a nohref onclick="javascript:parent.document.getElementById(\'stateMachine\').src=\'' + "http://test.walnutai.com/editStateMachineSubscription/" + str(selStateMachine.SM_ID) + '\';">' + selStateMachine.Event_Code + strExpectedState + '</a></label>'
+    #     strQ +='<label class="tree_label" for="'+ str(selStateMachine.SM_ID) + '"><a nohref onclick="javascript:parent.document.getElementById(\'stateMachine\').src=\'' + configSettingsObj.webUrl + "editStateMachineSubscription/" + str(selStateMachine.SM_ID) + '\';">' + selStateMachine.Event_Code + strExpectedState + '</a></label>'
     # else:
     strExpectedState=""
     if selStateMachine.ExpectedState !="":
         strExpectedState = " [ " + str(selStateMachine.ExpectedState) + " ]"
-    strQ +='<span class="tree_label" for="'+ str(selStateMachine.SM_ID) + '"><a nohref onclick="javascript:parent.document.getElementById(\'stateMachine\').src=\'' + "http://test.walnutai.com/editStateMachineSubscription/" + str(selStateMachine.SM_ID) + '\';">' + selStateMachine.Event_Code + strExpectedState + '</a></span>'
+    strQ +='<span class="tree_label" for="'+ str(selStateMachine.SM_ID) + '"><a nohref onclick="javascript:parent.document.getElementById(\'stateMachine\').src=\'' + configSettingsObj.webUrl + "/editStateMachineSubscription/" + str(selStateMachine.SM_ID) + '\';">' + selStateMachine.Event_Code + strExpectedState + '</a></span>'
     # if selStateMachine.NextEvent !="":
     #     strCh =  getEventElement(selStateMachine.NextEvent, StateMachineList)
     #     strQ += strCh
@@ -871,9 +871,9 @@ def getEventElement(selStateMachine):
 #             if selStateMachine.ExpectedState !="":
 #                 strExpectedState = " [" + selStateMachine.ExpectedState + "] "
 #             strQ +='<input type="checkbox"  id="' + str(selStateMachine.SM_ID) + '" />'
-#             strQ +='<label class="tree_label" for="'+ str(selStateMachine.SM_ID) + '"><a nohref onclick="javascript:parent.document.getElementById(\'stateMachine\').src=\'' + "http://test.walnutai.com/editStateMachineSubscription/" + str(selStateMachine.SM_ID) + '\';">' + selStateMachine.Event_Code + strExpectedState + '</a></label>'
+#             strQ +='<label class="tree_label" for="'+ str(selStateMachine.SM_ID) + '"><a nohref onclick="javascript:parent.document.getElementById(\'stateMachine\').src=\'' + configSettingsObj.webUrl + "editStateMachineSubscription/" + str(selStateMachine.SM_ID) + '\';">' + selStateMachine.Event_Code + strExpectedState + '</a></label>'
 #         else:
-#             strQ +='<span class="tree_label" for="'+ str(selStateMachine.SM_ID) + '"><a nohref onclick="javascript:parent.document.getElementById(\'stateMachine\').src=\'' + "http://test.walnutai.com/editStateMachineSubscription/" + str(selStateMachine.SM_ID) + '\';">' + selStateMachine.Event_Code + '</a></span>'
+#             strQ +='<span class="tree_label" for="'+ str(selStateMachine.SM_ID) + '"><a nohref onclick="javascript:parent.document.getElementById(\'stateMachine\').src=\'' + configSettingsObj.webUrl + "editStateMachineSubscription/" + str(selStateMachine.SM_ID) + '\';">' + selStateMachine.Event_Code + '</a></span>'
 #         if selStateMachine.NextEvent !="":
 #             strCh =  getEventElement(selStateMachine.NextEvent, StateMachineList)
 #             strQ += strCh
