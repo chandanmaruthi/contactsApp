@@ -1,0 +1,3 @@
+# Add this to the crontab and save it:
+* 7,19 * * * sudo certbot-auto certonly  -n --quiet --pre-hook "service apache stop" --post-hook "service apache2 star$
+* 23 * * * sh ~/ebs1/serverCode/dev/botrepo1/curious/curiousWorkbench/extractSQLScripts.sh
