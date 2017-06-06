@@ -88,6 +88,7 @@ hdlr.setFormatter(formatter)
 logger.addHandler(hdlr)
 logger.setLevel(logging.INFO)
 logger.info('logging log folder path views.py')
+rootURL = configSettingsObj.webUrl
 # logger.info(configSettingsObj.logFolderPath)
 #----------------Logging ------------------
 
@@ -147,6 +148,7 @@ def fbAriseBotContentWebView(request, content_Id, user_Id):
         template = get_template('curiousWorkbench/displayContentWebView.html')
         strTitle = dictContent["Title"]
         context = RequestContext(request, {
+            'rootURL' : rootURL,
             'strHTML': strHTML,
             'strTitle': strTitle,
             'timeStamp': timezone.now(),
@@ -176,6 +178,7 @@ def user_login(request):
 
                 template = get_template('curiousWorkbench/index.html')
                 context = RequestContext(request, {
+                    'rootURL' : rootURL,
                     'state': state,
                 })
                 return HttpResponse(template.render(context))
@@ -183,6 +186,7 @@ def user_login(request):
                 state = "Your username and/or password were incorrect."
                 template = get_template('curiousWorkbench/login.html')
                 context = RequestContext(request, {
+                    'rootURL' : rootURL,
                     'state': state,
                 })
                 return HttpResponse(template.render(context))
@@ -190,6 +194,7 @@ def user_login(request):
     #state = "error occured."
     template = get_template('curiousWorkbench/login.html')
     context = RequestContext(request, {
+        'rootURL' : rootURL,
         'state': state,
         'UserName': request.user.username,
     }
@@ -225,6 +230,7 @@ def user_signup(request):
     #state = "error occured."
     template = get_template('curiousWorkbench/login.html')
     context = RequestContext(request, {
+        'rootURL' : rootURL,
         'SignUpState': SignUpState,
         'state':""
 
@@ -258,6 +264,7 @@ def successfullInstall(request):
 
             template = get_template('curiousWorkbench/index.html')
             context = RequestContext(request, {
+                'rootURL' : rootURL,
                 'state': state,
             })
             return HttpResponse(template.render(context))
@@ -265,6 +272,7 @@ def successfullInstall(request):
             state = "Your username and/or password were incorrect."
             template = get_template('curiousWorkbench/login.html')
             context = RequestContext(request, {
+                'rootURL' : rootURL,
                 'state': state,
             })
             return HttpResponse(template.render(context))
@@ -272,6 +280,7 @@ def successfullInstall(request):
     #state = "error occured."
     template = get_template('curiousWorkbench/successfullInstall.html')
     context = RequestContext(request, {
+        'rootURL' : rootURL,
         'state': state,
         'UserName': request.user.username,
     }
@@ -347,6 +356,7 @@ def webHome(request):
     #state = "error occured."
     template = get_template('curiousWorkbench/webManageModule.html')
     context = RequestContext(request, {
+        'rootURL' : rootURL,
         'state': state,
         'UserName': request.user.username,
     }
@@ -376,6 +386,7 @@ def webManageModule(request):
     #state = "error occured."
     template = get_template('curiousWorkbench/webManageModule.html')
     context = RequestContext(request, {
+        'rootURL' : rootURL,
         'state': state,
         'UserName': request.user.username,
     }
@@ -392,6 +403,7 @@ def user_logout(request):
     request.user = AnonymousUser
     template = get_template('curiousWorkbench/login.html')
     context = RequestContext(request, {
+        'rootURL' : rootURL,
         'state': "You Have been logged out, Please login again if you wish to continue ",
     })
     return HttpResponse(template.render(context))
@@ -401,6 +413,7 @@ def user_logout(request):
 def index(request):
     template = get_template('curiousWorkbench/index.html')
     context = RequestContext(request, {
+        'rootURL' : rootURL,
         'latest_question_list': 1,
         'UserName': request.user.username,
     })
@@ -1048,6 +1061,7 @@ def editStateMachineSubscription(request, SM_ID):
     template = get_template(
         'curiousWorkbench/editStateMachineSubscription.html')
     context = RequestContext(request, {
+        'rootURL' : rootURL,
         'selStateMachine': selStateMachine,
         'selEventID':selStateMachine.SM_ID,
                 'UserName': request.user.username,

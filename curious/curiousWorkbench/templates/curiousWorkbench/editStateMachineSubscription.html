@@ -120,7 +120,7 @@
 	</form>
 	<script type="text/javascript">
 		function changeWindowContent(){
-			parent.document.getElementById('messageWindow').src="/editMessageLibrary/"+ {{ selEventID }}  ;
+			parent.document.getElementById('messageWindow').src= "{{rootURL}}/editMessageLibrary/"+ {{ selEventID }}  ;
 		}
 		window.onload = changeWindowContent;
 	</script>
