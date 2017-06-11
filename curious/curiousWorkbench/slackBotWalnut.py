@@ -551,7 +551,7 @@ class slackBotWalnut():
                 strImage =   dictContent["ImageURL"]
 
             dictButtons =[]
-            strLink = "http://www.walnutai.com/curiousWorkbench/fbABWCV/" + str(dictContent["ID"])
+            strLink = self.configSettingsObj.webUrl + "/curiousWorkbench/fbABWCV/" + str(dictContent["ID"])
 
             dictButtons.append(self.getButton("web_url","read",surl=strLink,spayload=""))
             if dictContent["Questions"] != "":
@@ -801,16 +801,16 @@ class slackBotWalnut():
                 #self.logger.info("heeree 26")
             #self.logger.info("heeree 30")
             strMessage="Awesome, you have compelted this topic"
-            strImage = "http://www.walnutai.com/static/curiousWorkbench/images/CertificateImageLarge.png"
+            strImage = self.configSettingsObj.webUrl + "/static/curiousWorkbench/images/CertificateImageLarge.png"
             strMessageType = "Buttons"
             strSubTitleInfo = "This topic has been added to your skill board"
             dictButtons =[]
-            strLink = "http://www.walnutai.com/curiousWorkbench/fbABWCertV/" + str(userID)
+            strLink = self.configSettingsObj.webUrl + "/curiousWorkbench/fbABWCertV/" + str(userID)
             #self.logger.info("heeree 40")
 
             strLinkedInShareURL = "https://www.linkedin.com/shareArticle?mini=true&"
             dictLinkedInURLParams ={}
-            dictLinkedInURLParams["url"] = "www.walnutai.com"
+            dictLinkedInURLParams["url"] = self.configSettingsObj.webUrl
             dictLinkedInURLParams["title"] = objModule.Title
             dictLinkedInURLParams["summary"] = "I just acquired this short skill."
             dictLinkedInURLParams["source="] = "Walnut Ai - Learn skills bot"
@@ -881,7 +881,7 @@ class slackBotWalnut():
             if dictContent["ImageURL"] != "":
                 strImage =  dictContent["ImageURL"]
             dictButtons =[]
-            strLink = "http://www.walnutai.com/curiousWorkbench/fbABWCV/" + str(dictContent["ID"])
+            strLink = self.configSettingsObj.webUrl + "/curiousWorkbench/fbABWCV/" + str(dictContent["ID"])
             dictButtons.append(self.getButton("web_url","read more",surl=strLink,spayload=""))
             if dictContent["Questions"] != "":
                 payload = "SHOW_QUESTIONS" + "-" + "ContentID" + "|" + dictContent["ID"]
@@ -923,7 +923,7 @@ class slackBotWalnut():
                 #strSubTitleInfo = dictContent["Subtitle"]
                 strSubTitleInfo =""
                 strLink = ""
-                strImage = "http://www.walnutai.com/static/curiousWorkbench/images/sunAskQuestion.jpg"
+                strImage = self.configSettingsObj.webUrl + "/static/curiousWorkbench/images/sunAskQuestion.jpg"
                 dictButtons =[]
                 #self.logger.info("In Ask Question")
                 for answerOption in dictAnswerOptions:
@@ -1018,7 +1018,7 @@ class slackBotWalnut():
             # if dictContent["ImageURL"] != "":
             #     strImage =  dictContent["ImageURL"]
             # dictButtons =[]
-            # strLink = "http://www.walnutai.com/curiousWorkbench/fbABWCV/" + str(dictContent["ID"])
+            # strLink = self.configSettingsObj.webUrl + "/curiousWorkbench/fbABWCV/" + str(dictContent["ID"])
             # dictButtons.append(self.getButton("web_url","read more",surl=strLink,spayload=""))
             # dictButtons.append(self.getButton("postback","next article",surl="",spayload="SHOW_RECO"))
             # strDictButtons = json.dumps(dictButtons)
@@ -1033,11 +1033,11 @@ class slackBotWalnut():
             strQuickReplies = ""
             strMessageType = "Text"
             strMessage="Here we go, click on view progress."
-            strImage = "http://www.walnutai.com/static/curiousWorkbench/images/CertificateImageLarge.png"
+            strImage = self.configSettingsObj.webUrl + "/static/curiousWorkbench/images/CertificateImageLarge.png"
             strMessageType = "Buttons"
             strSubTitleInfo = "Check It Out"
             dictButtons =[]
-            strLink = "http://www.walnutai.com/curiousWorkbench/fbABWCertV/" + str(userID)
+            strLink = self.configSettingsObj.webUrl + "/curiousWorkbench/fbABWCertV/" + str(userID)
             #self.logger.info("heeree 40")
             dictButtons.append(self.getButton("web_url","View Proress",surl=strLink,spayload=""))
             strDictButtons= json.dumps(dictButtons)
@@ -1166,7 +1166,7 @@ class slackBotWalnut():
             strMessage =  strMessage[:295]
             strDictButtons = ""
 
-            return "",strMessage, strImage, strSubTitleInfo, strImage, "","https://www.walnutai.com", strDictButtons,strQuickReplies
+            return "",strMessage, strImage, strSubTitleInfo, strImage, "",self.configSettingsObj.webUrl , strDictButtons,strQuickReplies
         except Exception,e:
             self.logger.error('actionGetRoleDemandInfo' + str(e))
 

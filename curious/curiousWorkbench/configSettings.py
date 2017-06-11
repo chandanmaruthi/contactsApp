@@ -8,13 +8,19 @@ from environmentVariables import environmentVariables
 from environmentVariables import *
 
 class configSettings:
-
+    baseDevDirPath = os.environ['BASE_DEV_DIR_PATH']
+    baseProdDirPath = os.environ['BASE_PROD_DIR_PATH']
     with open(appSettingsPath) as json_file:
         json_data = json.load(json_file)
         #print(json_data)
     fileAppSetttings = open(appSettingsPath,'rb')
     jsonSettings = json.load(fileAppSetttings)
     serverName =  jsonSettings['Server']
+    basePath =""
+    if serverName == "DEV":
+        basePath = os.environ['BASE_DEV_DIR_PATH']
+    elif serverName == "PROD":
+        basePath = os.environ['BASE_PROD_DIR_PATH']
     #print jsonSettings[serverName]['dbHost']
 
     #------------DB Credentials ------------------------------------------------------------------------------
@@ -28,10 +34,10 @@ class configSettings:
     _inMemDataDbName = jsonSettings[serverName]['inMemDataDbName']
     _inMemStateDbName = jsonSettings[serverName]['inMemStateDbName']
     #-----------Server Folder locations---------------------------------------------------------------------------------------------
-    _appFolderPath = jsonSettings[serverName]['appFolderPath']
-    _helpFilePath = jsonSettings[serverName]['helpFilePath']
-    _absFileLocation = jsonSettings[serverName]['absFileLocation']
-    _logFolderPath = jsonSettings[serverName]['logFolderPath']
+    _appFolderPath = basePath + jsonSettings[serverName]['appFolderPath']
+    _helpFilePath = basePath + jsonSettings[serverName]['helpFilePath']
+    _absFileLocation = basePath + jsonSettings[serverName]['absFileLocation']
+    _logFolderPath = basePath + jsonSettings[serverName]['logFolderPath']
     #--------------WIT Credentials------------------------------------------------------------------------------------------
     _witToken = jsonSettings[serverName]['witToken']
     #--------------FB Credentials------------------------------------------------------------------------------------------

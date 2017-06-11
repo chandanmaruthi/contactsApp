@@ -409,7 +409,7 @@ class clientFacebook():
                     imageURL = ""
                     if len(quickReplyDetails)>3:
                         imageURL = quickReplyDetails[3]
-                        imageURL =  "http://www.walnutai.com/static/curiousWorkbench/images/" +imageURL
+                        imageURL =  self.configSettingsObj.webUrl + "/static/curiousWorkbench/images/" +imageURL
                     if imageURL =="":
                         quickReplies.append({"content_type":contentType,"title":title,"payload":payload})
                     else:
@@ -591,7 +591,7 @@ class clientFacebook():
                         imageURL=""
                         if len(quickReplyDetails)>3:
                             imageURL = quickReplyDetails[3]
-                            imageURL =  "http://www.walnutai.com/static/curiousWorkbench/images/" +imageURL
+                            imageURL =  self.configSettingsObj.webUrl + "/static/curiousWorkbench/images/" +imageURL
                         if imageURL =="":
                             quickReplies.append({"content_type":contentType,"title":title,"payload":payload})
                         else:
@@ -668,7 +668,7 @@ class clientFacebook():
                         imageURL=""
                         if len(quickReplyDetails)>3:
                             imageURL = quickReplyDetails[3]
-                            imageURL =  "http://www.walnutai.com/static/curiousWorkbench/images/" +imageURL
+                            imageURL =  self.configSettingsObj.webUrl + "static/curiousWorkbench/images/" +imageURL
                         if imageURL =="":
                             quickReplies.append({"content_type":contentType,"title":title,"payload":payload})
                         else:

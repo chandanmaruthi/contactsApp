@@ -457,7 +457,7 @@ class clientSlack():
                         imageURL = ""
                         if len(quickReplyDetails) > 3:
                             imageURL = quickReplyDetails[3]
-                            imageURL = "http://www.walnutai.com/static/curiousWorkbench/images/" + imageURL
+                            imageURL = self.configSettingsObj.webUrl + "/static/curiousWorkbench/images/" + imageURL
                         if title != "":
                             quickReplies.append(
                                 {"name": title, "text": title, "type": "button", "value": payload})
@@ -663,7 +663,7 @@ class clientSlack():
                         imageURL = ""
                         if len(quickReplyDetails) > 3:
                             imageURL = quickReplyDetails[3]
-                            imageURL = "http://www.walnutai.com/static/curiousWorkbench/images/" + imageURL
+                            imageURL = self.configSettingsObj.webUrl + "/static/curiousWorkbench/images/" + imageURL
                         if imageURL == "":
                             dictbuttons.append(
                                 {"type": "button", "name": title, "text": title, "value": payload})
@@ -765,7 +765,7 @@ class clientSlack():
                         imageURL = ""
                         if len(quickReplyDetails) > 3:
                             imageURL = quickReplyDetails[3]
-                            imageURL = "http://www.walnutai.com/static/curiousWorkbench/images/" + imageURL
+                            imageURL = self.configSettingsObj.webUrl + "/static/curiousWorkbench/images/" + imageURL
                         if imageURL == "":
                             quickReplies.append(
                                 {"content_type": contentType, "title": title, "payload": payload})

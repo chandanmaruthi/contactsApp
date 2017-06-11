@@ -1,6 +1,10 @@
 import sys
-sys.path.append('/home/ubuntu/ebs1/serverCode/dev/botrepo1/curious/curious')
-sys.path.append('/home/ubuntu/ebs1/serverCode/dev/botrepo1/curious/')
+import os
+baseDevDirPath = os.environ['BASE_DEV_DIR_PATH']
+baseProdDirPath = os.environ['BASE_PROD_DIR_PATH']
+
+sys.path.append(baseDevDirPath + '/curious')
+sys.path.append(baseDevDirPath)
 
 """
 WSGI config for curious project.

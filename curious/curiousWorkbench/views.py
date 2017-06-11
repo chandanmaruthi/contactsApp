@@ -1409,7 +1409,7 @@ def slackAuth(request):
             payload["client_id"] = configSettingsObj.slackWalnutClientID
             payload["client_secret"] = configSettingsObj.slackClientSecret
             payload["code"] = strTempCode
-            payload["redirect_uri"] = "https://test.walnutai.com/slackAuth"
+            payload["redirect_uri"] = configSettingsObj.webUrl + "/slackAuth"
             r = requests.get(
                 "https://slack.com/api/oauth.access", params=payload)
 
@@ -1484,7 +1484,7 @@ def slackAuth(request):
                     #"event":{"type":"message","user":"U0ATCR7S7","text":"hello","channel":"D3X5U1BBJ"},"type":"event_callback","authed_users":["U3XQL857V"]}
 
                     strJsonMessage = json.dumps(dictMessage)
-                    r= requests.post("https://test.walnutai.com/slackWebhookWalnutBot/", data=strJsonMessage)
+                    r= requests.post(configSettingsObj.webUrl +"/slackWebhookWalnutBot/", data=strJsonMessage)
                     logger.info(str(r))
             else:
                 logger.info(str('slackAuth no code found'))

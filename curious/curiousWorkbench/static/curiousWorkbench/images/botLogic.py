@@ -1733,9 +1733,6 @@ class botLogic():
                 dictSkillList["Buttons"] = dictButton
                 arrSkillList.append(dictSkillList)
             #---------------------------------------------
-            #dictSkillList["Title"] = "Product Managers"
-            #dictSkillList["SubTitle"] = "Skills currently in demand"
-            #dictSkillList["Image"] = "http://www.walnutai.com/static/curiousWorkbench/images/banner.jpg"
 
             dictButton ={}
             #dictbuttons.append(self.getButton(arrButtons["ButtonType"],arrButtons["ButtonTitle"], surl=arrButtons["ButtonLinkURL"], spayload=arrButtons["ButtonPostback"]))
@@ -1841,7 +1838,7 @@ class botLogic():
             selectedModule = Module()
             selectedModule.Title = recevied_message
             selectedModule.UserID = userStateObj.UserID
-            selectedModule.AuthorURL = "http://www.walnutai.com/static/curiousWorkbench/images/walnuty_small.png"
+            selectedModule.AuthorURL = configSettingsObj.webUrl + "static/curiousWorkbench/images/walnuty_small.png"
             selectedModule.Goal =  ""
             selectedModule.Author = userStateObj.UserName
             selectedModule.Units = 0

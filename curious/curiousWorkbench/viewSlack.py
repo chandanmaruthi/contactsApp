@@ -95,8 +95,22 @@ class slackClientWalnutBotView(generic.View):
     def post(self, request, *args, **kwargs):
         try:
             strJson = self.request.body.decode('utf-8')
-            #######self.logger.info(strJson)
             strJson = urllib.unquote(strJson)
+            if strJson[:7] != "payload":
+                jsonBody = json.loads(strJson)
+                if jsonBody["type"]=="url_verification":
+                    strChallenge = jsonBody["challenge"]
+                    strToken = jsonBody["token"]
+                    self.logger.info(strChallenge)
+                    self.logger.info(strToken)
+                    self.logger.info(self.configSettingsObj.slackVerificationToken)
+                    if strToken== self.configSettingsObj.slackVerificationToken:
+                        self.logger.info("heere 1")
+                        return HttpResponse(strChallenge)
+                    else:
+                        self.logger.info("heere 2")
+                        return HttpResponse('Error, invalwewid token111')
+
             self.handleMessage(strJson)
 
             return HttpResponse(status=200)
@@ -122,14 +136,15 @@ class slackClientWalnutBotView(generic.View):
             strHeaders = ""
             strJson = messageString
             strTeamID =""
-            ####self.logger.info(str("asdsadad----------1"))
+            strUser = ""
+            self.logger.info(str("asdsadad----------1"))
 
             if strJson[:7] == "payload":
                 strJson = strJson[8:]
-                ###self.logger.info(strJson)
+                self.logger.info(strJson)
 
                 incoming_message = json.loads(strJson)
-                ####self.logger.info(str("asdsadad----------2"))
+                self.logger.info(str("asdsadad----------2"))
                 jsonBody = incoming_message
                 if "user" in jsonBody:
                     if "id" in jsonBody["user"]:
@@ -151,17 +166,17 @@ class slackClientWalnutBotView(generic.View):
                 inpTxtMessage = ""
 
             else:
-                ####self.logger.info("asdsadad----------3")
+                self.logger.info("asdsadad----------3")
                 incoming_message = json.loads(strJson)
-                #####self.logger.info(str(incoming_message))
+                self.logger.info(str(incoming_message))
                 #----------Log to Dashbot------------------
                 jsonBody = incoming_message
                 if "token" in jsonBody:
                     strToken = jsonBody["token"]
-                ####self.logger.info("asdsadad----------3.1")
+                self.logger.info("asdsadad----------3.1")
                 if "team_id" in jsonBody:
                     strTeamID = jsonBody["team_id"]
-                ####self.logger.info("asdsadad----------3.2")
+                self.logger.info("asdsadad----------3.2")
                 if "event" in jsonBody:
                     dictEvent = jsonBody["event"]
                     if "type" in dictEvent:
@@ -177,7 +192,7 @@ class slackClientWalnutBotView(generic.View):
                     if "channel" in dictEvent:
                         strChannel = dictEvent["channel"]
 
-                    ####self.logger.info("asdsadad----------3.4")
+                    self.logger.info("asdsadad----------3.4")
                     if "file" in dictEvent:
 
                         attachmentURL = dictEvent["file"]["url_private"]
@@ -189,40 +204,43 @@ class slackClientWalnutBotView(generic.View):
                             strVideoURL = attachmentURL
 
 
-            ####self.logger.info("4")
+
+
+            self.logger.info("4")
             ######self.logger.info(strTeamID)
             objPlatformCredentialsList = PlatformCredentials.objects.filter(SlackTeamID=strTeamID)
             if len(objPlatformCredentialsList)>0:
                 strBotAccessToken = objPlatformCredentialsList[0].SlackBotAccessToken
 
-            ####self.logger.info("asdsadad----------4.1")
+            self.logger.info("asdsadad----------4.1")
 
             ######self.logger.info("bot tokemn" + strBotAccessToken)
 
-            objUserList = UserState.objects.filter(UserID = strUser )
-            if len(objUserList) ==0:
-                newUserState = UserState(UserID = strUser,
-                                 UserCurrentState = 'INIT' ,
-                             	UserLastAccessedTime = datetime.datetime.now(),
-                                Org_ID=strTeamID,
-                                DM_ID=strChannel)
-                newUserState.save()
-            else:
-                objUser = objUserList[0]
-                #####self.logger.info("22222-"+str(strUser)+"-22222")
-                #####self.logger.info("22222-"+str(objUser.Org_ID)+"-22222")
-                if objUser.Org_ID is None:
-                    objUser.Org_ID = strTeamID
-                    objUser.DM_ID = strChannel
-                    objUser.save()
-                elif objUser.Org_ID == "":
-                    objUser.Org_ID = strTeamID
-                    objUser.DM_ID = strChannel
-                    objUser.save()
-            ####self.logger.info("asdsadad----------5")
+            if strUser !="":
+                objUserList = UserState.objects.filter(UserID = strUser )
+                if len(objUserList) ==0:
+                    newUserState = UserState(UserID = strUser,
+                                     UserCurrentState = 'INIT' ,
+                                 	UserLastAccessedTime = datetime.datetime.now(),
+                                    Org_ID=strTeamID,
+                                    DM_ID=strChannel)
+                    newUserState.save()
+                else:
+                    objUser = objUserList[0]
+                    #####self.logger.info("22222-"+str(strUser)+"-22222")
+                    #####self.logger.info("22222-"+str(objUser.Org_ID)+"-22222")
+                    if objUser.Org_ID is None:
+                        objUser.Org_ID = strTeamID
+                        objUser.DM_ID = strChannel
+                        objUser.save()
+                    elif objUser.Org_ID == "":
+                        objUser.Org_ID = strTeamID
+                        objUser.DM_ID = strChannel
+                        objUser.save()
+                ####self.logger.info("asdsadad----------5")
             if strHeaders != "":
                 strHeaders += strBotAccessToken
-            #####self.logger.info("222222222222")
+            self.logger.info("222222222222")
             ######self.logger.info(strMessageType)
             ######self.logger.info(strSubType)
             if (strMessageType == "message" and strSubType == "bot_remove"):
@@ -234,7 +252,7 @@ class slackClientWalnutBotView(generic.View):
                         pk=objPlatformCredentials.ID).delete()
 
             elif (strMessageType == "message" and strSubType != "bot_message") or strMessageType == "payload":
-                ####self.logger.info("asdsadad----------6.1")
+                self.logger.info("asdsadad----------6.1")
                 if strSubType == "file_share":
                     inpTxtMessage = ""
 
@@ -271,7 +289,7 @@ class slackClientWalnutBotView(generic.View):
                                     if messageDictStr[1][0] is not None:
                                         strChannel =  messageDictStr[1][0]
                             ####self.logger.info(strChannel)
-                            ####self.logger.info("10")
+                            self.logger.info("10")
                             if strAttachments == "":
                                 ####self.logger.info("here 1")
 
@@ -281,14 +299,14 @@ class slackClientWalnutBotView(generic.View):
                                 resultStr = sc.api_call("chat.postMessage", unfurl_links="true",channel=strChannel,
                                             text=strResponseMessageText)
                             else:
-                                ####self.logger.info("here 2")
+                                self.logger.info("here 2")
                                 ####self.logger.info(strChannel)
-                                ####self.logger.info(strResponseMessageText)
+                                self.logger.info(strResponseMessageText)
                                 resultStr =sc.api_call("chat.postMessage", unfurl_links="true", channel=strChannel,
                                             text=strResponseMessageText, attachments=strAttachments)
-                            ####self.logger.info(str("12"))
+                            self.logger.info(str(resultStr))
 
-            ####self.logger.info("asdsadad----------13")
+            self.logger.info("asdsadad----------13")
         except KeyError, e:
             self.logger.error("error here")
 

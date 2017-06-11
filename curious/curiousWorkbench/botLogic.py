@@ -2922,7 +2922,7 @@ class botLogic(object):
             selectedModule = Module()
             selectedModule.Title = recevied_message
             selectedModule.UserID = userStateObj.UserID
-            selectedModule.AuthorURL = "http://www.walnutai.com/static/curiousWorkbench/images/walnuty_small.png"
+            selectedModule.AuthorURL = self.configSettingsObj.webUrl + "/static/curiousWorkbench/images/walnuty_small.png"
             selectedModule.Goal =  ""
             selectedModule.Author = userStateObj.UserName
             selectedModule.Units = 0
