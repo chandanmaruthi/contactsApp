@@ -1,8 +1,9 @@
 import sys
+import os
 server = "DEV"
 #server = "PROD"
-baseDevDirPath="/Users/chandannm/Documents/chandanWorkspace/workspace/dev/moonshotRepo/curious"
-baseProdDirPath="/Users/chandannm/Documents/chandanWorkspace/workspace/dev/moonshotRepo/curious"
+baseDevDirPath=os.environ['BASE_DEV_DIR_PATH']
+baseProdDirPath=os.environ['BASE_PROD_DIR_PATH']
 
 if server=="DEV":
     sys.path.append(baseDevDirPath + '/curious')
