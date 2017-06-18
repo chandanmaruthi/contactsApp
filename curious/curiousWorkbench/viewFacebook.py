@@ -7,8 +7,6 @@ import ast
 dir_path = os.path.dirname(os.path.realpath(__file__))
 sys.path.append(dir_path)
 
-from environmentVariables import environmentVariables
-from environmentVariables import *
 from django.views.decorators.csrf import ensure_csrf_cookie
 from django.utils.html import escape
 from django.shortcuts import render

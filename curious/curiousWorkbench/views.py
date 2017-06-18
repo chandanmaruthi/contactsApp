@@ -17,8 +17,6 @@ from random import randint
 from django.db.models import Q
 from django.core.exceptions import ValidationError
 from django.core.validators import validate_email
-from environmentVariables import environmentVariables
-from environmentVariables import *
 from django.views.decorators.csrf import ensure_csrf_cookie
 from django.utils.html import escape
 from django.shortcuts import render
@@ -349,7 +347,7 @@ def webHome(request):
         if 'FileUpload' in request.FILES:
             myfile = request.FILES['FileUpload']
             fs = FileSystemStorage()
-            filePath = self.configSettingsObj.appFolderPath() + "UserContent/FileUploads/" + myfile.name
+            filePath = self.configSettingsObj.appFolderPath() + "/UserContent/FileUploads/" + myfile.name
             filename = fs.save(filePath, myfile)
             uploaded_file_url = fs.url(filename)
 
@@ -379,7 +377,7 @@ def webManageModule(request):
         if 'FileUpload' in request.FILES:
             myfile = request.FILES['FileUpload']
             fs = FileSystemStorage()
-            filePath = self.configSettingsObj.appFolderPath() + "UserContent/FileUploads/" + myfile.name
+            filePath = self.configSettingsObj.appFolderPath() + "/UserContent/FileUploads/" + myfile.name
             filename = fs.save(filePath, myfile)
             uploaded_file_url = fs.url(filename)
 

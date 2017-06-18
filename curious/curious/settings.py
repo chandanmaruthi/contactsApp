@@ -3,9 +3,8 @@ import os
 
 dir_path = os.path.dirname(os.path.realpath(__file__)+"/curiousWorkbench")
 sys.path.append(dir_path)
-from curiousWorkbench.environmentVariables import environmentVariables
-from curiousWorkbench.environmentVariables import *
-
+from curiousWorkbench.configSettings import configSettings
+configSettingsObj = configSettings()
 """
 Django settings for curious project.
 
@@ -19,7 +18,7 @@ https://docs.djangoproject.com/en/1.7/ref/settings/
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
-BASE_DIR = appDir
+BASE_DIR = configSettingsObj.appFolderPath
 ACCOUNT_ACTIVATION_DAYS = 7
 EMAIL_USE_TLS = True
 #EMAIL_USE_SSL = True
@@ -133,8 +132,8 @@ TEMPLATES = [
 {
     'BACKEND': 'django.template.backends.django.DjangoTemplates',
     'DIRS': [
-        appDir+ '/templates/curiousWorkbench/',
-                appDir + '/templates/admin/',
+        configSettingsObj.appFolderPath + '/templates/curiousWorkbench/',
+                configSettingsObj.appFolderPath + '/templates/admin/',
         ],
     'OPTIONS': {
         'context_processors': [

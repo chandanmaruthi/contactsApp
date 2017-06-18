@@ -4,8 +4,6 @@ import os
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
 sys.path.append(dir_path)
-from environmentVariables import environmentVariables
-from environmentVariables import *
 
 import time
 import json
@@ -107,7 +105,7 @@ class clientSlack():
 
     def processEvent(self, event, fbid, recevied_message='', VideoURL='', ImageURL='', Headers=''):
         try:
-            ##self.logger.info("in  processEvent 1")
+            self.logger.info("in  processEvent 1")
             # #######self.logger.info(str(recevied_message))
             strNotificationType = "REGULAR"
             strToState = ''
@@ -212,7 +210,7 @@ class clientSlack():
                         eval(strCallFunctionSyntax)
                         #########self.logger.info("step 6.1.1-")
 
-                    ##self.logger.info("step 8")
+                    self.logger.info("step 8")
                     strMessage = self.buildMessage(
                         strEventID, fbid, recevied_message, strDictParams)
                     ##self.logger.info("step 8.2")
@@ -231,7 +229,7 @@ class clientSlack():
                             #########self.logger.info("step 6.3")
                         strMessageNew = ""
 
-            ##self.logger.info("10")
+            self.logger.info("10")
             return strMessage
         except Exception, e:
             self.logger.error("processEvent" + str(e))

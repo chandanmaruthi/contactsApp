@@ -4,24 +4,17 @@ import os
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
 sys.path.append(dir_path)
-from environmentVariables import environmentVariables
-from environmentVariables import *
 
 class configSettings:
-    baseDevDirPath = os.environ['BASE_DEV_DIR_PATH']
-    baseProdDirPath = os.environ['BASE_PROD_DIR_PATH']
-    with open(appSettingsPath) as json_file:
-        json_data = json.load(json_file)
-        #print(json_data)
+    appSettingsPath = dir_path + "/appSettings.json"
     fileAppSetttings = open(appSettingsPath,'rb')
     jsonSettings = json.load(fileAppSetttings)
     serverName =  jsonSettings['Server']
     basePath =""
     if serverName == "DEV":
-        basePath = os.environ['BASE_DEV_DIR_PATH']
+        basePath = jsonSettings[serverName]['basePath']
     elif serverName == "PROD":
-        basePath = os.environ['BASE_PROD_DIR_PATH']
-    #print jsonSettings[serverName]['dbHost']
+        basePath =  jsonSettings[serverName]['basePath']
 
     #------------DB Credentials ------------------------------------------------------------------------------
     _dbHost = jsonSettings[serverName]['dbHost']
@@ -34,6 +27,7 @@ class configSettings:
     _inMemDataDbName = jsonSettings[serverName]['inMemDataDbName']
     _inMemStateDbName = jsonSettings[serverName]['inMemStateDbName']
     #-----------Server Folder locations---------------------------------------------------------------------------------------------
+    
     _appFolderPath = basePath + jsonSettings[serverName]['appFolderPath']
     _helpFilePath = basePath + jsonSettings[serverName]['helpFilePath']
     _absFileLocation = basePath + jsonSettings[serverName]['absFileLocation']
