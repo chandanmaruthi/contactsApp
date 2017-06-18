@@ -21,7 +21,10 @@ Welcome to the parent repo for Walnut
 
 * Contains the NLU extract from API.ai this is done to prevent loss of data and to eventually move to a custom location
 
-
+###Things that could go wrong###
+- After installation login to app and refresh the bot behavior . Else the bot does not know how to respond to event
+- Check the end points are working
+- Check the auth code is working, this should be ok in prod as the codes are automatically retrieved
 
 ###Project-Related Intellectual Property###
 Access to this code repository is governed by the following clauses. Please read carefully before using or contributing any ip/code into the repository.
