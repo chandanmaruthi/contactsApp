@@ -2,7 +2,9 @@ import sys
 import os
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
-sys.path.append(dir_path)
+sys.path.append(dir_path + "/../curiousWorkbench")
+from configSettings import configSettings
+configSettingsObj = configSettings()
 
 """
 Django settings for curious project.
@@ -17,7 +19,7 @@ https://docs.djangoproject.com/en/1.7/ref/settings/
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
-BASE_DIR = appDir
+BASE_DIR = configSettingsObj.appFolderPath
 ACCOUNT_ACTIVATION_DAYS = 7
 EMAIL_USE_TLS = True
 #EMAIL_USE_SSL = True

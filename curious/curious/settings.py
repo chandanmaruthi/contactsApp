@@ -1,9 +1,9 @@
 import sys
 import os
 
-dir_path = os.path.dirname(os.path.realpath(__file__)+"/curiousWorkbench")
-sys.path.append(dir_path)
-from curiousWorkbench.configSettings import configSettings
+dir_path = os.path.dirname(os.path.realpath(__file__))
+sys.path.append(dir_path + "/../curiousWorkbench")
+from configSettings import configSettings
 configSettingsObj = configSettings()
 """
 Django settings for curious project.
