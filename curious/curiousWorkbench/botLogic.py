@@ -66,7 +66,6 @@ class botLogic(object):
         try:
             inputMsg='no value'
             lastTopicNumber = 15
-            ###################self.logger.info('init')
             db = MySQLdb.connect(host=self.configSettingsObj.dbHost,    # your host, usually localhost
                                  user=self.configSettingsObj.dbUser,         # your username
                                  passwd=self.configSettingsObj.dbPassword,  # your password
@@ -77,23 +76,18 @@ class botLogic(object):
             self.logger.error('fbClient init here' + str(e))
 
     def query_to_dicts(self, query_string, *query_args):
-        ########self.logger.info('10.1')
-        ########self.logger.info(query_string)
         cursor = connection.cursor()
         cursor.execute(query_string, query_args)
-        ########self.logger.info('10.2')
         col_names = [desc[0] for desc in cursor.description]
         while True:
             row = cursor.fetchone()
             if row is None:
                 break
             row_dict = dict(izip(col_names, row))
-            ########self.logger.info('10.3')
             yield row_dict
         return
 
     def getButton(self, stype, stitle, surl='', spayload=''):
-        ##############self.logger.info("3.5-----" + stype +"---" + stitle +"---" + surl +"---" +spayload )
 
         dictButton = {}
         if stype =='web_url':
@@ -152,10 +146,8 @@ class botLogic(object):
 
     def updateUserSkillStatus(self, userID,strSkill,intPoints):
         try:
-            ####################self.logger.info("user details " + str(userID) + str(strSkill) +str(intPoints))
 
             userSkillStatusObj = UserSkillStatus.objects.get(userID = userID, skill = strSkill)
-            ####################self.logger.info("check here")
             intOldPoints = int(userSkillStatusObj.points)
             intNewPoints = intOldPoints + int(intPoints)
             userSkillStatusObj.points = intNewPoints
@@ -213,7 +205,6 @@ class botLogic(object):
             if (status.ok):
                 strDetails = status.content
                 dictResult = json.loads(strDetails)
-                ###################self.logger.info(dictResult["data"][intRantInt]["images"]["original"]["url"])
                 strImage = dictResult["data"][intRantInt]["images"]["original"]["url"]
             strMessageType = "Buttons"
             strMessage = "Hmm,I did not get that!"
@@ -247,10 +238,8 @@ class botLogic(object):
         try:
             userStateObj = UserState.objects.get(pk=userID)
             strLocationPIN= userStateObj.Location_PIN
-            #############self.logger.info("in actionGetLocationFromPin " + strLocationPIN)
             post_message_url = "http://maps.googleapis.com/maps/api/geocode/json?address="
             post_message_url = post_message_url + strLocationPIN
-            ####################self.logger.info(post_message_url)
 
             status = requests.get(post_message_url)
             strRetMsg = ""
@@ -324,7 +313,6 @@ class botLogic(object):
             strQuickReplyPostback = "SHOW_RECO" + "-" + "SKILL_CODE" + "|" #+ str(dictContent.SKILL_CODE)
             strQuickReplies += "text" + ":" + "Learn this skill" + ":" + strQuickReplyPostback
 
-            ####################self.logger.info()
             retArr=[]
             dictParams={}
             dictParams = self.getMessageDict(strMessageType,strMessage, strImage, strSubTitleInfo, strImage, strVideoURL, strLink, strDictButtons, strQuickReplies)
@@ -337,7 +325,6 @@ class botLogic(object):
         try:
             retArr=[]
             dictParams={}
-            ###################self.logger.info(str("here"))
             userStateObj = UserState.objects.get(pk=userID)
             intMessageCount=0
             if self.r_stateServer.exists("KEY_UserState_" +str(userID)):
@@ -350,7 +337,6 @@ class botLogic(object):
             if intMessageCount % 10 ==0:
                 arrSkillStats = self.action_showSkillStats(userID, recevied_message,strDictParams)
                 for arr in arrSkillStats:
-                    ###################self.logger.info(str(arr))
                     retArr.append(arr)
             #elif intMessageCount % 9==0 and strNotifyUser=="FALSE":
             #    arrMesages = self.processEvent("SUBSCRIPTION_REMINDER",userID, '')
@@ -367,7 +353,6 @@ class botLogic(object):
     def actionGetReco(self, userID, recevied_message,strDictParams=""):
         try:
             #--------------Define Variables -------------------------------
-            #self.logger.info("in action get reco" + str(strDictParams))
             retArr=[]
             dictParams={}
             intProgressUnits = 0
@@ -383,8 +368,9 @@ class botLogic(object):
             arrAltMessage = []
             isFirst=False
             dictParamsModuleCompleted = None
-            #self.logger.info("1")
+            contentLibraryObj = None
             #--------------get Params -------------------------------
+            self.logger.info("1")
             if strDictParams.strip()!="":
                 dictParams = json.loads(strDictParams)
                 if "MODULE_ID" in dictParams:
@@ -399,19 +385,19 @@ class botLogic(object):
                     userContentOrder = int(objContentLibraryListA[0].Content_Order)
                     if userContentOrder==0:
                         userContentOrder = 1
-                        #self.logger.info(userContentOrder)
                 else:
                     objContentLibrary= ContentLibrary.objects.filter(Module_ID= moduleID).order_by("Content_Order").first()
-                    contentID = objContentLibrary.ID
-                    isFirst=True
-            #self.logger.info(userContentOrder)
-            #self.logger.info("2")
+                    if objContentLibrary is not None:
+                        contentID = objContentLibrary.ID
+                        isFirst=True
+            self.logger.info("2")
             #--------------Define Variables -------------------------------
             if moduleID is not None:
                 objUserModuleProgressList = UserModuleProgress.objects.filter(ModuleID=moduleID,UserID=userID)
                 objModule = Module.objects.get(ID=moduleID)
                 objContentLibraryList = ContentLibrary.objects.filter(Module_ID=moduleID)
 
+                self.logger.info("2.1")
                 if len(objUserModuleProgressList)>0:
                     intProgressUnits = objUserModuleProgressList[0].CurrentPosition
                 else:
@@ -426,9 +412,7 @@ class botLogic(object):
 
                     if len(contentLibraryObjList)>0:
                         contentLibraryObj=contentLibraryObjList[0]
-
                 else:
-                    #self.logger.info("3")
                     if len(objContentLibraryList)>0 :
 
                         arrProgress = []
@@ -445,22 +429,22 @@ class botLogic(object):
                         intUnusedContent = len(arrUnusedContent)
 
 
-                        #self.logger.info("4")
                         if intUnusedContent>1:
                             intRantInt = randint(0,intUnusedContent-1)
                             contentID = list(arrUnusedContent)[intRantInt]
+                            self.logger.info("here" + str(contentID))
                             contentLibraryObj = ContentLibrary.objects.get(ID= contentID)
                         else :
                             intRantInt = randint(0,len(arrContentLibrary)-1)
                             contentID = list(arrContentLibrary)[intRantInt]
+                            self.logger.info("here" + str(contentID))
                             contentLibraryObj = ContentLibrary.objects.get(ID= contentID)
 
-                currentContentOrder = contentLibraryObj.Content_Order
+                        currentContentOrder = contentLibraryObj.Content_Order
+                self.logger.info("2.2")
 
-                ##self.logger.info(str(intProgressUnits) + " - " + str(intUnits))
                 if intProgressUnits +1 >= intUnits:
                     blnLastMessage = True
-                    #self.logger.info("gerting completion message")
                     objUserModuleProgressList = UserModuleProgress.objects.filter(ModuleID=moduleID).delete()
                     dictParamsModuleCompleted =  self.actionGetModuleCompletionMessage(userID, recevied_message,moduleID)
 
@@ -468,21 +452,25 @@ class botLogic(object):
                     blnLastMessage = False
                     blnIsLastMessage1 = self.updateUserModuleProgress(userID,moduleID,contentLibraryObj.ID)
 
-                #self.logger.info("10")
-                ##self.logger.info(str(contentLibraryObj.ID))
+
+                self.logger.info("3")
 
 
-
-                ##self.logger.info(str(blnLastMessage) + "last messae ?")
-                arrParamsConcept = self.getConceptMessage( userID,contentLibraryObj.ID, blnLastMessage)
+                if contentLibraryObj is not None:
+                    intContentID= contentLibraryObj.ID
+                else:
+                    intContentID = None
+                self.logger.info("3.1.1")
+                arrParamsConcept = self.getConceptMessage( userID,intContentID, blnLastMessage)
+                self.logger.info("3.1.2")
                 for dictParamsConcept in arrParamsConcept:
                     retArr.append(dictParamsConcept)
-                #self.logger.info("5")
-                dictParamsChallenge = self.getChallengeMessage( userID,contentLibraryObj.ID, intProgressUnits, intUnits, blnLastMessage)
+                self.logger.info("3.1.3")
+                dictParamsChallenge = self.getChallengeMessage( userID,intContentID, intProgressUnits, intUnits, blnLastMessage)
+                self.logger.info("3.1.4")
                 if dictParamsChallenge is not None:
                     retArr.append(dictParamsChallenge)
-                #self.logger.info("6")
-
+                self.logger.info("3.1")
             else:
 
                 strModuleTitle = objModule.Title
@@ -496,14 +484,11 @@ class botLogic(object):
                 strDictButtons = ""
                 strQuickReplies = ""
                 strNotificationType = "SILENT"
+                self.logger.info("4")
 
-                #self.logger.info("6")
                 dictParams = self.getMessageDict(strMessageType, strMessage, strImage, strSubTitleInfo, strImage, strVideoURL, strLink, strDictButtons, strQuickReplies,strNotificationType)
                 retArr.append(dictParams)
-            ##self.logger.info(str(retArr))
-
             if dictParamsModuleCompleted is not None:
-                ##self.logger.info(str(dictParamsModuleCompleted) + "------->>>>>>>>>")
                 retArr.append(dictParamsModuleCompleted)
             return retArr
         except Exception,e:
@@ -512,55 +497,49 @@ class botLogic(object):
 
     def getConceptMessage(self,userID,contentID, blnLastMessage):
         try:
-            self.logger.info("1---------1")
             retArr=[]
-            contentLibrary = ContentLibrary.objects.get(ID=contentID)
+            if contentID is not None:
+                contentLibrary = ContentLibrary.objects.get(ID=contentID)
 
-            if contentLibrary.Message_Type =="External_Content":
-                if contentLibrary.Type == "YouTube":
-                    dictParamsConcept = self.getContentExternalYouTube( userID,contentLibrary)
-                elif contentLibrary.Type =="URL":
-                    dictParamsConcept = self.getContentExternalURL( userID,contentLibrary)
-            elif contentLibrary.Message_Type == "UGC":
-                if contentLibrary.Type == "Text":
-                    ########self.logger.info("0.11")
-                    dictParamsConcept = self.getContentUGCText( userID,contentLibrary)
-                elif contentLibrary.Type == "Video":
-                    ########self.logger.info("0.12")
+                if contentLibrary.Message_Type =="External_Content":
+                    if contentLibrary.Type == "YouTube":
+                        dictParamsConcept = self.getContentExternalYouTube( userID,contentLibrary)
+                    elif contentLibrary.Type =="URL":
+                        dictParamsConcept = self.getContentExternalURL( userID,contentLibrary)
+                elif contentLibrary.Message_Type == "UGC":
+                    if contentLibrary.Type == "Text":
+                        dictParamsConcept = self.getContentUGCText( userID,contentLibrary)
+                    elif contentLibrary.Type == "Video":
 
-                    dictParamsConcept = self.getContentUGCVideo( userID,contentLibrary)
-                elif contentLibrary.Type == "Image":
-                    ########self.logger.info("0.13")
+                        dictParamsConcept = self.getContentUGCVideo( userID,contentLibrary)
+                    elif contentLibrary.Type == "Image":
 
-                    dictParamsConcept = self.getContentUGCImage( userID,contentLibrary)
+                        dictParamsConcept = self.getContentUGCImage( userID,contentLibrary)
 
 
 
 
 
-            strQuickReplies=""
-            recoPayload =""
-            skillCode=""
-            challengeID=""
+                strQuickReplies=""
+                recoPayload =""
+                skillCode=""
+                challengeID=""
 
-            self.logger.info("2")
-            if skillCode == "":
-                recoPayload="SHOW_RECO"
-            else:
-                recoPayload = "SHOW_RECO" + "-" + "SKILL_CODE" + "|" + skillCode
-            strMessage = "_"
-            strSubTitleInfo ="_"
-            dictParams1 = self.getRecoButtons(recoPayload,strMessage,strSubTitleInfo,str(contentID), str(challengeID),blnLastMessage)
-            strQuickReplies = dictParams1["QuickReplies"]
-
-            self.logger.info("3")
+                if skillCode == "":
+                    recoPayload="SHOW_RECO"
+                else:
+                    recoPayload = "SHOW_RECO" + "-" + "SKILL_CODE" + "|" + skillCode
+                strMessage = "_"
+                strSubTitleInfo ="_"
+                dictParams1 = self.getRecoButtons(recoPayload,strMessage,strSubTitleInfo,str(contentID), str(challengeID),blnLastMessage)
+                strQuickReplies = dictParams1["QuickReplies"]
 
 
 
 
-            dictParamsConcept["QuickReplies"] = strQuickReplies
-            retArr.append(dictParamsConcept)
-            self.logger.info("4")
+
+                dictParamsConcept["QuickReplies"] = strQuickReplies
+                retArr.append(dictParamsConcept)
             return retArr
         except Exception,e:
             self.logger.error('getConceptMessage ' + str(e))
@@ -596,7 +575,6 @@ class botLogic(object):
         strDictButtons = json.dumps(dictButtons)
 
         dictParams = self.getMessageDict(strMessageType, strMessage, strImage, strSubTitleInfo, strImage, strVideoURL, strLink, strDictButtons, strQuickReplies,"SILENT")
-        ##############self.logger.info(str(dictParams))
         return dictParams
 
     def getContentExternalURL(self, userID, contentLibrary):
@@ -636,8 +614,10 @@ class botLogic(object):
         strMessageType = "Text"
         strMessage = ""
         strMessage += "💡 *Concept*:"
-        strAttachmentText =  contentLibrary.Text.encode('utf-8').strip()
-
+        if contentLibrary is not None:
+            strAttachmentText =  str(contentLibrary.Text).encode('utf-8').strip()
+        else:
+            strAttachmentText =  "not found"
         if contentLibrary.Tags is not None:
             strMessage += str(contentLibrary.Tags).replace("#","")
 
@@ -695,85 +675,77 @@ class botLogic(object):
             strMessage = "_"
 
         dictParams = self.getMessageDict(strMessageType, strMessage, strImage, strSubTitleInfo, strImage, strVideoURL, strLink, strDictButtons, strQuickReplies,strNotificationType)
-        #self.logger.info(str(dictParams))
 
         return dictParams
 
 
     def getChallengeMessage(self, userID, contentID, intProgressUnits=0, intUnits=0, blnLastMessage=False):
-        strMessageType = "Text"
-        strMessage = ""
-        strImage = ""
-        strSubTitleInfo = ""
-        strImage = ""
-        strVideoURL = ""
-        strLink = ""
-        strDictButtons = ""
-        strQuickReplies = ""
-        strNotificationType = "SILENT"
-        strQuestion =""
-        strQuestionOptions =""
-        dictParams={}
-        ###########self.logger.info("1.1")
-        challengeObjAll = Challenge.objects.filter(Content_ID=contentID)
-        contentLibraryObj = ContentLibrary.objects.get(ID= contentID)
-        if challengeObjAll is not None:
+        try:
+            strMessageType = "Text"
+            strMessage = ""
+            strImage = ""
+            strSubTitleInfo = ""
+            strImage = ""
+            strVideoURL = ""
+            strLink = ""
+            strDictButtons = ""
+            strQuickReplies = ""
+            strNotificationType = "SILENT"
+            strQuestion =""
+            strQuestionOptions =""
+            dictParams={}
+            challengeObjAll = Challenge.objects.filter(Content_ID=contentID)
+            #contentLibraryObj = ContentLibrary.objects.get(ID= contentID)
+            if challengeObjAll is not None:
 
-            for challengeObj in challengeObjAll:
-                if challengeObj is not None:
-                    ###########self.logger.info("1.2")
-                    challengeID = challengeObj.id
-                    strQuestionOptions = ''.encode('utf-8')
-                    if challengeObj.Option_A !="":
-                        strQuickReplies = "text" + ":" + "A" + ":" + "CHECK_CHALLENGE_ANS-ANS|A-CHALLENGE_ID|" + str(challengeID)
-                        strQuestionOptions += "`A`: " + str(challengeObj.Option_A) + "\r\n"
-                    if challengeObj.Option_B !="":
-                        strQuickReplies += "," + "text" + ":" + "B" + ":" + "CHECK_CHALLENGE_ANS-ANS|B-CHALLENGE_ID|" + str(challengeID)
-                        strQuestionOptions += "`B`: " + str(challengeObj.Option_B) + "\r\n"
-                    ###########self.logger.info("1.3")
-                    if challengeObj.Option_C !="":
-                        strQuickReplies += "," + "text" + ":" + "C"+ ":" + "CHECK_CHALLENGE_ANS-ANS|C-CHALLENGE_ID|" + str(challengeID)
-                        strQuestionOptions += "`C`: " + str(challengeObj.Option_C) + "\r\n"
+                for challengeObj in challengeObjAll:
+                    if challengeObj is not None:
+                        challengeID = challengeObj.id
+                        strQuestionOptions = ''.encode('utf-8')
+                        if challengeObj.Option_A !="" or challengeObj.Option_A is not None :
+                            strQuickReplies = "text" + ":" + "A" + ":" + "CHECK_CHALLENGE_ANS-ANS|A-CHALLENGE_ID|" + str(challengeID)
+                            strQuestionOptions += "`A`: " + str(challengeObj.Option_A) + "\r\n"
+                        if challengeObj.Option_B !="" or challengeObj.Option_B is not None :
+                            strQuickReplies += "," + "text" + ":" + "B" + ":" + "CHECK_CHALLENGE_ANS-ANS|B-CHALLENGE_ID|" + str(challengeID)
+                            strQuestionOptions += "`B`: " + str(challengeObj.Option_B) + "\r\n"
+                        if challengeObj.Option_C !="" or challengeObj.Option_C is not None :
+                            strQuickReplies += "," + "text" + ":" + "C"+ ":" + "CHECK_CHALLENGE_ANS-ANS|C-CHALLENGE_ID|" + str(challengeID)
+                            strQuestionOptions += "`C`: " + str(challengeObj.Option_C) + "\r\n"
 
-                    if challengeObj.Option_D !="":
-                        strQuickReplies += "," + "text" + ":" + "D" + ":" + "CHECK_CHALLENGE_ANS-ANS|D-CHALLENGE_ID|" + str(challengeID)
-                        strQuestionOptions += "`D`: " + str(challengeObj.Option_D) + "\r\n"
+                        if challengeObj.Option_D !="" or challengeObj.Option_D is not None :
+                            strQuickReplies += "," + "text" + ":" + "D" + ":" + "CHECK_CHALLENGE_ANS-ANS|D-CHALLENGE_ID|" + str(challengeID)
+                            strQuestionOptions += "`D`: " + str(challengeObj.Option_D) + "\r\n"
 
-                    if challengeObj.Option_E !="":
-                        strQuickReplies += "," + "text" + ":" + "E" + ":" + "CHECK_CHALLENGE_ANS-ANS|E-CHALLENGE_ID|" + str(challengeID)
-                        strQuestionOptions += "`E`: " + str(challengeObj.Option_E) + "\r\n"
-                    ###########self.logger.info("1.4")
+                        if challengeObj.Option_E !="" or challengeObj.Option_E is not None :
+                            strQuickReplies += "," + "text" + ":" + "E" + ":" + "CHECK_CHALLENGE_ANS-ANS|E-CHALLENGE_ID|" + str(challengeID)
+                            strQuestionOptions += "`E`: " + str(challengeObj.Option_E) + "\r\n"
 
 
-                    strQuestion = "🤔  *Challenge :" +challengeObj.Question_Text.encode('utf-8') + "*"
-                    moduleObjList =  Module.objects.filter(ID= challengeObj.Module_ID)
-                    if len(moduleObjList)>0:
-                        strModuleTitle = moduleObjList[0].Title
+                        strQuestion = "🤔  *Challenge :" +challengeObj.Question_Text.encode('utf-8') + "*"
+                        moduleObjList =  Module.objects.filter(ID= challengeObj.Module_ID)
+                        if len(moduleObjList)>0:
+                            strModuleTitle = moduleObjList[0].Title
 
-                    ###########self.logger.info("1.5")
-                    strQuestion += "\r\n"
-                    strQuestion += strQuestionOptions.encode('utf-8')
-                    strQuestion += "\r\n Topic: " + strModuleTitle.encode('utf-8') + ", Concept " + str(intProgressUnits)  + " of " + str(intUnits)
+                        strQuestion += "\r\n"
+                        strQuestion += strQuestionOptions.encode('utf-8')
+                        strQuestion += "\r\n Topic: " + strModuleTitle.encode('utf-8') + ", Concept " + str(intProgressUnits)  + " of " + str(intUnits)
 
-                    strMessage = strQuestion
-                    if challengeObj.Tags is not None:
-                        strMessage +="\r\n"
-                        strMessage += str(challengeObj.Tags).encode('utf-8')
-                    ###########self.logger.info("1.6")
-                if strMessage=="":
-                    strMessage ="Place Holder"
-                dictParams = self.getMessageDict(strMessageType, strMessage, strImage, strSubTitleInfo, strImage, strVideoURL, strLink, strDictButtons, strQuickReplies,"SILENT")
-                ###########self.logger.info("1.7")
-            return dictParams
-
+                        strMessage = strQuestion
+                        if challengeObj.Tags is not None:
+                            strMessage +="\r\n"
+                            strMessage += str(challengeObj.Tags).encode('utf-8')
+                    if strMessage=="":
+                        strMessage ="Place Holder"
+                    dictParams = self.getMessageDict(strMessageType, strMessage, strImage, strSubTitleInfo, strImage, strVideoURL, strLink, strDictButtons, strQuickReplies,"SILENT")
+                return dictParams
+        except Exception,e:
+            self.logger.error('getChallengeMessage ' + str(e))
 
 
     def actionGetChallenge(self, userID, recevied_message,strDictParams=""):
         try:
             retArr=[]
             dictParams={}
-            ###########self.logger.info("0")
-            ############self.logger.info(strDictParams)
 
             intMessageCount = 0
             skillCode = ""
@@ -796,8 +768,6 @@ class botLogic(object):
 
 
 
-            ###########self.logger.info("2")
-            ###########self.logger.info(challengeID)
             if contentID !="":
                 challengeObj = Challenge.objects.get(id=challengeID)
                 contentLibraryObj =  ContentLibrary.objects.get(ID=challengeObj.Content_ID)
@@ -811,9 +781,7 @@ class botLogic(object):
                 else:
                     intRantInt = 0
                     challengeObj = challengeObjArr[intRantInt]
-            #############self.logger.info("1")
 
-            #############self.logger.info("2")
             strMessageType = "Text"
             strMessage = ""
             strImage = ""
@@ -842,7 +810,6 @@ class botLogic(object):
 
             strImage = ""
 
-            #############self.logger.info("3")
 
             dictButtons =[]
 
@@ -857,7 +824,7 @@ class botLogic(object):
 
             strQuickReplies=""
             strQuickReplies= strQuickReplies.encode('utf-8')
-            if challengeObj.Option_A is not None:
+            if challengeObj.Option_A is not None :
                 strQuickReplies = "text" + ":" + "A" + ":" + "CHECK_CHALLENGE_ANS-ANS|A-CHALLENGE_ID|" + str(challengeID)
                 strQuestion += "A: " + challengeObj.Option_A + "\r\n"
             if challengeObj.Option_B is not None:
@@ -902,8 +869,6 @@ class botLogic(object):
 
     def actionShareChallenge(self, userID, recevied_message,strDictParams=""):
         try:
-            #####self.logger.info("in share challenge")
-            ######self.logger.info(str(recevied_message))
             userCreatedChallengeID =  self.getFromUserStateFromDict(userID,"EDITING_CHALLENGE")
             if strDictParams.strip()!="":
                 dictParams = json.loads(strDictParams)
@@ -963,26 +928,52 @@ class botLogic(object):
         except Exception,e:
             self.logger.error('actionDeleteChallenge ' + str(e))
 
+    def actionDeleteModule(self, userID, recevied_message,strDictParams=""):
+        try:
+            if strDictParams.strip()!="":
+                dictParams = json.loads(strDictParams)
+                if "MODULE_ID" in dictParams:
+                    moduleID = dictParams["MODULE_ID"]
+
+            ContentLibrary.objects.filter(Module_ID=moduleID).delete()
+            Challenge.objects.filter(Module_ID=moduleID).delete()
+            if Module.objects.filter(ID=moduleID).count()>0:
+                strModuleTitle = Module.objects.filter(ID=moduleID)[0].Title
+                Module.objects.filter(ID=moduleID).delete()
+                strMessage = "Module *" + str(strModuleTitle) +  "* removed"
+            else:
+                strMessage = "Module was not found, may have been removed"
+
+            strMessageType = "Text"
+            strVideoURL = ""
+            strImage = ""
+            strDictButtons =""
+            strQuickReplies = "text"+ ":" + "Create Challenge" + ":" + "CREATE_CHALLENGE"
+            strSubTitleInfo =""
+            strLink = ""
+            strDictButtons = ""
+            retArr = []
+
+            dictParams = self.getMessageDict(strMessageType, strMessage, strImage, strSubTitleInfo, strImage, strVideoURL, strLink, strDictButtons,strQuickReplies,"SILENT")
+            retArr.append(dictParams)
+            return retArr
+        except Exception,e:
+            self.logger.error('actionDeleteModule ' + str(e))
 
 
     def actionShareModule(self, userID, recevied_message,strDictParams=""):
         try:
             arrTargetUsers=[]
             retArr=[]
-            #self.logger.info("1")
             strModuleID = self.getFromUserStateFromDict(userID,"MODULE_ID")
             strUserName =self.getFromUserStateFromDict(userID,"USER_NAME")
-            ##self.logger.info(strDictParams)
             # if strDictParams.strip()!="":
             #     dictParams = json.loads(strDictParams)
             #     if "MODULE_ID" in dictParams:
             #         strModuleID = dictParams["MODULE_ID"]
 
-            #self.logger.info("2")
             #strMessage= "*" + str(self.getFromUserStateFromDict(userID,"USER_NAME")) + " * wants to share this challenge with you \n"
-            ##self.logger.info(strModuleID)
             arrTargetUsers = self.getShareUserList(userID, recevied_message,strDictParams)
-            #self.logger.info("3")
 
 
             objUserActions = UserActions()
@@ -990,7 +981,6 @@ class botLogic(object):
             objUserActions.Module_ID = strModuleID
             objUserActions.Action = "SHARE_MODULE"
             objUserActions.save()
-            #self.logger.info("4")
             strMessageType = ""
             strMessage = strUserName + " would like to share this with you"
             strImage = ""
@@ -1003,7 +993,6 @@ class botLogic(object):
 
             dictParams = self.getMessageDict(strMessageType, strMessage, strImage, strSubTitleInfo, strImage, strVideoURL, strLink, strDictButtons,strQuickReplies,"SILENT")
             retArr.append(dictParams)
-            #self.logger.info("5")
             for userDMID in arrTargetUsers:
                 dictParams = {}
                 strDictParams =  json.dumps({"MODULE_ID":strModuleID,"CONTENT_ORDER":1})
@@ -1011,9 +1000,7 @@ class botLogic(object):
                 for dictParam in dictParams:
                     if dictParam !={}:
                         dictParam["arrTargetUsers"] = [userDMID]
-                        #####self.logger.info("1004")
                         retArr.append(dictParam)
-            #self.logger.info("----6")
 
 
 
@@ -1027,16 +1014,12 @@ class botLogic(object):
             isChannel = False
             arrTargetUsers=[]
             strShareUserID=""
-            #####self.logger.info("1")
             intStart = recevied_message.find('<')
             intEnd = recevied_message.find('>')
             strLink = ""
             strMessageTypeFromContent = ""
-            #####self.logger.info("2")
             if intStart > -1:
                 strShareUserID = recevied_message[intStart + 2 : intEnd]
-                #####self.logger.info("share user >>" + str(strShareUserID))
-            #####self.logger.info("3")
 
 
             arrTryChannels =  strShareUserID.split("|")
@@ -1049,41 +1032,28 @@ class botLogic(object):
 
 
             strTeamID = UserState.objects.get(UserID= userID).Org_ID
-            #######self.logger.info("team id" + str(strTeamID) )
             strBotAccessToken = PlatformCredentials.objects.get(SlackTeamID=strTeamID).SlackBotAccessToken
-            #####self.logger.info("4")
 
 
             if isChannel == False:
                 strGetDMIDURL ="https://slack.com/api/im.list?token="+ strBotAccessToken  +"&pretty=1"
-                #####self.logger.info("5")
                 responseDMIDs = requests.get(strGetDMIDURL)
 
                 strDMIDsContent= responseDMIDs.content
-                #####self.logger.info("6")
                 dictDMIDs = json.loads(strDMIDsContent)
-                ######self.logger.info(strDMIDsContent)
                 dmIDs = dictDMIDs["ims"]
-                #####self.logger.info("7")
                 dmAuthUserID = ""
-                ########self.logger.info("----1")
                 for im in dmIDs:
                     if im["user"] == strShareUserID:
                         arrTargetUsers.append(im["id"])
-                    ########self.logger.info("----2")
             elif isChannel == True:
                 # strGetChannelListURL ="https://slack.com/api/channels.list?token="+ strBotAccessToken  +"&pretty=1"
-                # #####self.logger.info("5")
                 # responseChannels = requests.get(strGetChannelListURL)
                 #
                 # strChannelsContent= responseChannels.content
-                # #####self.logger.info("6")
                 # dictChannels = json.loads(strChannelsContent)
-                # ######self.logger.info(strDMIDsContent)
                 # arrChannels = dictChannels["channels"]
-                # #####self.logger.info("7")
                 # dmAuthUserID = ""
-                # ########self.logger.info("----1")
                 # for channel in arrChannels:
                 #     if channel["id"] == strChannelID:
                 arrTargetUsers.append(strChannelID)
@@ -1098,8 +1068,6 @@ class botLogic(object):
             retArr=[]
             dictParams={}
             contentLibraryObj = None
-            ###self.logger.info("0")
-            ####self.logger.info(strDictParams)
 
             intMessageCount = 0
             skillCode = ""
@@ -1121,26 +1089,19 @@ class botLogic(object):
             else:
                 challengeID = userCreatedChallengeID
 
-            ######self.logger.info("1")
             if challengeID !=-1:
-                ######self.logger.info("1.1")
                 challengeObj = Challenge.objects.get(id=challengeID)
                 if challengeObj.Content_ID is not None:
                     contentLibraryObj =  ContentLibrary.objects.get(ID=challengeObj.Content_ID)
-                ######self.logger.info("1.1.1")
             else:
-                ######self.logger.info("1.2")
                 challengeObjArr = Challenge.objects.all()
                 intNumberOfKeys =  challengeObjArr.count()
-                ######self.logger.info("1.2.1")
                 if intNumberOfKeys>1:
                     intRantInt = randint(0,intNumberOfKeys-1)
                 else:
                     intRantInt = 0
                     challengeObj = challengeObjArr[intRantInt]
-            #############self.logger.info("1")
 
-            #############self.logger.info("2")
             strMessageType = "Text"
             strMessage = ""
             strImage = ""
@@ -1152,6 +1113,8 @@ class botLogic(object):
             if contentLibraryObj is not None:
                 if contentLibraryObj.Text is not None:
                     strMessage = contentLibraryObj.Text.encode('utf-8')
+
+
                 if contentLibraryObj.Tags is not None:
                     strMessage +="\r\n"
                     strMessage += str(contentLibraryObj.Tags)
@@ -1166,7 +1129,6 @@ class botLogic(object):
                     strImage = self.configSettingsObj.webUrl + "/static/curiousWorkbench/uimgs/" + contentLibraryObj.ImageURL
                     dictParams = self.getMessageDict("Image", "_", strImage, strSubTitleInfo, strImage, strVideoURL, strLink, strDictButtons, "","SILENT")
                     retArr.append(dictParams)
-                #############self.logger.info("3")
 
             dictButtons =[]
 
@@ -1179,27 +1141,22 @@ class botLogic(object):
             strQuestion = "".encode('utf-8')
             txtContentText = "".encode('utf-8')
             txtModuleTitle = "".encode('utf-8')
-            #####self.logger.info(" 000-1")
             if challengeObj.Module_ID is not None:
                 objModule = Module.objects.get(ID= challengeObj.Module_ID)
                 txtModuleTitle = objModule.Title
-                #####self.logger.info(" 000-2")
             if challengeObj.Content_ID is not None:
                 objContent = ContentLibrary.objects.get(ID= challengeObj.Content_ID)
                 txtContentText = objContent.Text
-                #####self.logger.info(" 000-3")
 
-            if txtModuleTitle !="":
-                strQuestion += "*" +txtModuleTitle.encode('utf-8') + "*" + "\r\n"
-                #####self.logger.info(" 000-4")
-            if txtContentText !="":
-                strQuestion += txtContentText.encode('utf-8') + "\r\n"
-                #####self.logger.info(" 000-5")
+            if txtModuleTitle is not None:
+                if len(txtModuleTitle)>0 :
+                    strQuestion += "*" +txtModuleTitle.encode('utf-8') + "*" + "\r\n"
+                    # if txtContentText is not None:
+            #     strQuestion += txtContentText.encode('utf-8') + "\r\n"
 
             strQuestion += "❓" + challengeObj.Question_Text.encode('utf-8') + "\r\n"
 
 
-            #####self.logger.info("5")
 
 
             if challengeObj.Option_A is not None:
@@ -1221,13 +1178,12 @@ class botLogic(object):
                 # strQuickReplies += "," + "text" + ":" + "E" + ":" + "CHECK_CHALLENGE_ANS-ANS|E-CHALLENGE_ID|" + str(challengeID)
                 strQuestion += "E: " + challengeObj.Option_E.encode('utf-8') + "\r\n"
 
-            #####self.logger.info("6")
 
             strQuickReplies = "text" + ":" + "Share this concept!" + ":" + "SHARE_CHALLENGE-CHALLENGE_ID|" + str(challengeID)
+            strQuickReplies += "," + "text" + ":" + "Add another question" + ":" + "ASK_CHALLENGE_QUESTION"
             strQuickReplies += "," + "text" + ":" + "Nah! just delete it" + ":" + "DELETE_CHALLENGE-CHALLENGE_ID|" + str(challengeID)
 
 
-            #####self.logger.info("7")
             if challengeObj.Tags is not None:
                 strMessage = strMessage.encode('utf-8')
                 strMessage +="\r\n"
@@ -1235,13 +1191,11 @@ class botLogic(object):
             strSubTitleInfo=""
             strLink =""
             strDictButtons =""
-            #####self.logger.info("8")
             if strMessage !="":
                 dictParams = self.getMessageDict(strMessageType, strMessage, strImage, strSubTitleInfo, strImage, strVideoURL, strLink, strDictButtons, "","SILENT")
                 retArr.append(dictParams)
             dictParams = self.getMessageDict(strMessageType, strQuestion, strImage, strSubTitleInfo, strImage, strVideoURL, strLink, strDictButtons, strQuickReplies,"SILENT")
             retArr.append(dictParams)
-            #####self.logger.info("9")
 
             return retArr
         except Exception,e:
@@ -1251,9 +1205,6 @@ class botLogic(object):
         try:
             retArr=[]
             dictParams={}
-            ######self.logger.info("0")
-            #######self.logger.info(strDictParams)
-            ######self.logger.info("in ActionTest Module")
             isLastMessage =False
             intMessageCount = 0
             skillCode = ""
@@ -1261,7 +1212,6 @@ class botLogic(object):
             contentFeedback=""
             userCreatedModuleID =  self.getFromUserStateFromDict(userID,"EDITING_MODULE")
             userContentOrder =  self.getFromUserStateFromDict(userID,"CURRENT_CONTENT_ORDER")
-            ######self.logger.info("1")
 
             if strDictParams.strip()!="":
                 dictParams = json.loads(strDictParams)
@@ -1277,26 +1227,20 @@ class botLogic(object):
                 if "CONTENT_ORDER" in dictParams:
                     userContentOrder = int(dictParams["CONTENT_ORDER"])
 
-                ######self.logger.info("2.1")
             else:
                 moduleID = userCreatedModuleID
-                ######self.logger.info("2.2")
             if moduleID !=-1:
                 if userContentOrder == "":
                     userContentOrder = 1
                 else:
                     userContentOrder = userContentOrder + 1
-                ######self.logger.info("2.3")
-                #######self.logger.info(str(moduleID) + "  " + str(userContentOrder))
                 objModule = Module.objects.get(ID =moduleID )
                 strModuleTitle = objModule.Title
                 intTotalUnits = ContentLibrary.objects.filter(Module_ID=moduleID).count()
                 contentLibraryObj =  ContentLibrary.objects.get(Module_ID=moduleID, Content_Order=userContentOrder)
 
-                ######self.logger.info(str(contentObj))
                 challengeObj = Challenge.objects.filter(Content_ID = contentLibraryObj.ID)
                 if len(challengeObj) >0:
-                    #####self.logger.info("3")
                     dictParams["CHALLENGE_ID"] = challengeObj[0].id
                     strDictParams1 =  json.dumps(dictParams)
                     retArr =  self.getChallengeMessage(userID, "", strDictParams1)
@@ -1320,10 +1264,8 @@ class botLogic(object):
         if isLastMessage == False:
             strQuickReplyPostbackLike = recoPayload + "-" + "CONTENT_FEEDBACK" + "|" + "Like >>" + "-" + "CONTENT_ID" + "|" + strContentID
             strQuickReplyPostbackDisLike = recoPayload + "-" + "CONTENT_FEEDBACK" + "|" + "DisLike" + "-" + "CONTENT_ID" + "|" + strContentID
-            ################self.logger.info("11")
             strDownImage="1483408247_dislike.png"
             strUpImage="1483408228_like.png"
-            ################self.logger.info("22")
             strQuickReplies = "" #"text" + ":" + "dislike" + ":" + strQuickReplyPostbackDisLike  + ":" +strDownImage + ","
 
         if strChallengeID !="":
@@ -1334,8 +1276,6 @@ class botLogic(object):
 
         if isLastMessage == False:
             strQuickReplies += "text" + ":" + "Next >>" + ":" + strQuickReplyPostbackLike + ":" + strUpImage
-        ##########self.logger.info("33")
-        ##self.logger.info(strQuickReplies)
         dictParams = self.getMessageDict(strMessageType, strMessage, strImage, strSubTitleInfo, strImage, strVideoURL, strLink, strDictButtons, strQuickReplies,"SILENT")
         return dictParams
 
@@ -1343,8 +1283,6 @@ class botLogic(object):
     #     try:
     #         retArr=[]
     #         dictParams={}
-    #         ###self.logger.info("0")
-    #         ####self.logger.info(strDictParams)
     #         recevied_message = recevied_message.encode('utf-8')
     #         intMessageCount = 0
     #         skillCode = ""
@@ -1352,7 +1290,6 @@ class botLogic(object):
     #             dictParams = json.loads(strDictParams)
     #             if "SKILL_CODE" in dictParams:
     #                 skillCode = dictParams["SKILL_CODE"]
-    #         ###################self.logger.info("2")
     #
     #
     #         contentLibraryObj = ContentLibrary.objects.filter(Skill=skillCode, Message_Type="External_Content",Rating__gte=3)
@@ -1366,7 +1303,6 @@ class botLogic(object):
     #             intRantInt = 0
     #
     #         contentLibrary = contentLibraryObj[intRantInt]
-    #         ###################self.logger.info("2")
     #
     #
     #         strMessageType = "Buttons"
@@ -1434,7 +1370,6 @@ class botLogic(object):
 
     def actionAskShareModule(self, userID, recevied_message,strDictParams=""):
         try:
-            #self.logger.info("actionGetModule" + "  -  "+ userID + "  -  "+ recevied_message + "  -  "+ strDictParams)
             if strDictParams.strip()!="":
                 dictParams = json.loads(strDictParams)
                 if "MODULE_ID" in dictParams:
@@ -1448,18 +1383,14 @@ class botLogic(object):
 
             moduleObj = Module.objects.get(ID=moduleID)
             if moduleObj != None:
-                ####################self.logger.info("1")
                 strMessage = "Who would you like to share *"
                 strMessage += str(moduleObj.Title) + "* with, just say share with @tom" #+ " (in " + moduleObj.SKILL_CODE.replace("_"," ")[:29] + " )"
                 strVideoURL = ""
                 strImage = ""
-                ####################self.logger.info("2")
                 strSubTitleInfo = "" #"by: "+ str(moduleObj.Author) + "         " + str(moduleObj.UnitsPerDay) + " mins"
                 strDictButtons = ""
                 strQuickReplies = ""
                 strLink = ""
-                ###################self.logger.info("4")
-                ###################self.logger.info(strMessage)
                 retArr=[]
                 dictParams={}
                 dictParams = self.getMessageDict("",strMessage, strImage, strSubTitleInfo, strImage, strVideoURL, strLink, strDictButtons, strQuickReplies)
@@ -1470,7 +1401,6 @@ class botLogic(object):
 
     def actionGetModule(self, userID, recevied_message,strDictParams=""):
         try:
-            #####################self.logger.info("actionGetModule", userID, recevied_message, strDictParams)
             if strDictParams.strip()!="":
                 dictParams = json.loads(strDictParams)
                 if "ID" in dictParams:
@@ -1484,23 +1414,18 @@ class botLogic(object):
             #dictModule = json.loads(strModule)
             moduleObj = Module.objects.get(ID=moduleID)
             if moduleObj != None:
-                ####################self.logger.info("1")
                 strMessage = str(moduleObj.Title)[:39] #+ " (in " + moduleObj.SKILL_CODE.replace("_"," ")[:29] + " )"
                 strMessage += "\r\n" + str(moduleObj.Description)
                 strMessage += "\r\n" + "Author :" + str(moduleObj.Author) + " Units:" + str(moduleObj.Units)
                 strVideoURL = ""
                 strImage = str(moduleObj.AuthorURL)
-                ####################self.logger.info("2")
                 strSubTitleInfo = "" #"by: "+ str(moduleObj.Author) + "         " + str(moduleObj.UnitsPerDay) + " mins"
                 dictButtons =[]
                 strLink =""
-                ####################self.logger.info("3")
                 payload = "START_MODULE" + "-" + "MODULE_ID" + "|" + str(moduleID)
                 dictButtons.append(self.getButton("postback","Pick up this skill",surl="",spayload=payload))
                 strDictButtons = json.dumps(dictButtons)
                 strQuickReplies = ""
-                ###################self.logger.info("4")
-                ###################self.logger.info(strMessage)
                 retArr=[]
                 dictParams={}
                 dictParams = self.getMessageDict("",strMessage, strImage, strSubTitleInfo, strImage, strVideoURL, strLink, strDictButtons, strQuickReplies)
@@ -1512,7 +1437,6 @@ class botLogic(object):
     def actionStartModule(self, userID, recevied_message,strDictParams=""):
         try:
 
-            #self.logger.info("1")
             #User Accepts Module
             # - postback: Start_Module(ModuleID)
             # - Update UserState.Current Module with Module ID
@@ -1529,7 +1453,6 @@ class botLogic(object):
                     contentOrder =dictParams["CONTENT_ORDER"]
                 else:
                     contentOrder = 0
-            #self.logger.info("2")
             #strModule= self.r_server.hget( "KEY_MODULE_"+str(moduleID), "ID")
             #dictModule = json.loads(strModule)
             #objModule = Module.objects.get()
@@ -1542,7 +1465,6 @@ class botLogic(object):
             #if contentObj !=None:
             #    intCurrentPosition = contentObj.Content_Order
             # Update Current Module ID in under state
-            #self.logger.info("3")
             intCurrentPosition =1
             userModuleProgressObjList = UserModuleProgress.objects.filter(UserID=userID, ModuleID=moduleID)
             if len(userModuleProgressObjList)==0 :
@@ -1580,7 +1502,6 @@ class botLogic(object):
             #     strMessage = contentObj.Text[:295]
             #     strQuickReplyPostback = "NEXT_MODULE_CONTENT" + "-" +"Module_ID" + "|" +str(dictModule["ID"])+ "-"+ "Content_Order" + "|" + str(intCurrentPosition+1)
             #     strQuickReplies += "text" + ":" + "ok" + ":" + strQuickReplyPostback
-            #self.logger.info("4")
             dictReturnParams = {"MODULE_ID":moduleID,"CONTENT_ORDER":contentOrder+1}
             strDictReturnParams = json.dumps(dictReturnParams)
             retArr = self.actionNextModuleContent(userID, recevied_message,strDictReturnParams)
@@ -1599,7 +1520,6 @@ class botLogic(object):
             #dictParams={}
             #dictParams = self.getMessageDict(strMessageType, strMessage, strImage, strSubTitleInfo, strImage, strVideoURL, strLink, strDictButtons, strQuickReplies)
             #retArr.append(dictParams)
-            #####self.logger.info("5")
             return retArr
         except Exception,e:
             self.logger.error('actionStartModule' + str(e))
@@ -1611,16 +1531,12 @@ class botLogic(object):
             challengeObj =  None
             if strDictParams!="":
                 dictParams = json.loads(strDictParams)
-            #self.logger.info("1")
-            ##self.logger.info(str(dictParams))
             moduleID = dictParams["MODULE_ID"]
-            #self.logger.info("2")
 
             if "CONTENT_ORDER" in dictParams:
                 intContentOrder = dictParams["CONTENT_ORDER"]
             else:
                 intContentOrder =0
-            #self.logger.info("2.1")
             # Get first message of content
             objUserActions = UserActions()
             objUserActions.User_ID = userID
@@ -1628,26 +1544,19 @@ class botLogic(object):
             objUserActions.Content_Order = intContentOrder
             objUserActions.Action = "NEXT_MODULE_CONTENT"
             objUserActions.save()
-            #self.logger.info("2.2")
             intContentCount =ContentLibrary.objects.filter(Module_ID=moduleID).count()
-            #self.logger.info("2.3")
-            #self.logger.info("Module_ID" +str(int(moduleID)) +"-"+"Content_Order" +"-"+str(intContentOrder))
             contentObjList =  ContentLibrary.objects.filter(Module_ID=int(moduleID),Content_Order=intContentOrder)
-            #self.logger.info(len(contentObjList))
             if len(contentObjList) > 0:
                 contentObjList =  ContentLibrary.objects.filter(Module_ID=moduleID)
                 contentObj = contentObjList[0]
 
-                ######self.logger.info(str(contentObj))
                 challengeObj = Challenge.objects.filter(Content_ID = contentObj.ID)
                 if len(challengeObj) >0:
-                    #####self.logger.info("3")
                     dictParams["CHALLENGE_ID"] = challengeObj[0].id
                     strDictParams1 =  json.dumps(dictParams)
                     retArr =  self.getChallengeMessage(userID, "", strDictParams1)
                 else:
                     retArr =  self.getConceptMessage(userID, contentObj.ID,False)
-            ##self.logger.info(str(retArr))
 
             return retArr
         except Exception,e:
@@ -1689,12 +1598,10 @@ class botLogic(object):
             strDictButtons = ""
             strQuickReplies = ""
             strMessageType = "Buttons"
-            ########self.logger.info("heeree 10")
 
 
             objModule = Module.objects.get(ID=moduleID)
             objUserCertification = UserCertification.objects.filter(Module_ID=moduleID, userID=userID).first()
-            ########self.logger.info("heeree 20")
             if objUserCertification is None:
                 objUserCertification = UserCertification()
                 objUserCertification.userID = userID
@@ -1713,10 +1620,8 @@ class botLogic(object):
             arrCongratulate.append("Fantastic!, You finished this module ")
             arrCongratulate.append("Super!, We did it! ")
             arrCongratulate.append("Awesome!, Done with this module! ")
-            ########self.logger.info("heeree 31")
 
             strMessage = strMessage.encode('utf-8')
-            ########self.logger.info("heeree 31.5")
             strMessage= random.choice(arrCongratulate)
 
             strLink = self.configSettingsObj.webUrl +"/curiousWorkbench/myProfile/" + str(userID)
@@ -1724,10 +1629,8 @@ class botLogic(object):
             strMessage += "\n Check out your profile here " + strLink
 
             strImage = self.configSettingsObj.webUrl +"/static/curiousWorkbench/images/CertificateImageLarge.png"
-            ########self.logger.info("heeree 32")
             strMessageType = "Image"
             strSubTitleInfo = "This topic has been added to your skill board. See your Skill board Here \n ➡️➡️"
-            ########self.logger.info("heeree 33")
             strSubTitleInfo += (self.configSettingsObj.webUrl + "/myProfile/" + userID).encode('utf-8')
 
 
@@ -1740,9 +1643,7 @@ class botLogic(object):
 
 
             dictButtons =[]
-            ########self.logger.info("heeree 34")
             strLink = self.configSettingsObj.webUrl +"/curiousWorkbench/fbABWCertV/" + str(userID)
-            ########self.logger.info("heeree 40")
 
             # strLinkedInShareURL = "https://www.linkedin.com/shareArticle?mini=true&"
             # dictLinkedInURLParams ={}
@@ -1757,11 +1658,9 @@ class botLogic(object):
             # dictButtons.append(self.getButton("web_url","Share on LinkedIn",surl=strLinkedInShareURL,spayload=""))
             # dictButtons.append(self.getButton("postback","Learn more Topics",surl=strLinkedInShareURL,spayload="SHOW_SKILLS"))
             # strDictButtons= json.dumps(dictButtons)
-            ########self.logger.info("heeree 59")
             retArr=[]
             dictParams={}
             dictParams = self.getMessageDict(strMessageType, strMessage, strImage, strSubTitleInfo, strImage, strVideoURL, strLink, strDictButtons, strQuickReplies)
-            ##self.logger.info(str(dictParams))
             return dictParams
         except Exception,e:
             self.logger.error('actionGetModuleCompletionMessage' + str(e))
@@ -1823,22 +1722,16 @@ class botLogic(object):
 
             if strDictParams !="":
 
-                ####################self.logger.info("askQuestions params:" + strDictParams)
                 dictParams = json.loads(strDictParams)
-                ####################self.logger.info("here -2")
 
                 strContentID = dictParams["CONTENT_ID"]
                 strContent= self.r_server.hget( "KEY_CONTENT_"+strContentID, "Msg")
-                ####################self.logger.info("here -1")
-                ####################self.logger.info(strContent)
 
                 dictContent = json.loads(strContent)
                 strMessage = dictContent["Questions"][:79]
-                ####################self.logger.info("here 0")
 
                 strAnswerOptions = dictContent["AnswerOptions"]
 
-                ####################self.logger.info("here 1")
 
                 dictAnswerOptions = strAnswerOptions.split("|")
                 strVideoURL = ""
@@ -1849,7 +1742,6 @@ class botLogic(object):
                 strImage = self.configSettingsObj.webUrl +"/static/curiousWorkbench/images/sunAskQuestion.jpg"
                 strImage  =""
                 dictButtons =[]
-                ####################self.logger.info("In Ask Question")
                 #quickReplies.append({"content_type":contentType,"title":title,"payload":payload})
                 #dictMessage["message"]["quick_replies"] = quickReplies
                 quickReplies = []
@@ -1865,7 +1757,6 @@ class botLogic(object):
 
                 strDictButtons = json.dumps(dictButtons)
                 strDictButtons = ""
-                ####################self.logger.info("Posted Message")
                 dictParams = self.getMessageDict("Text", strMessage, strImage, strSubTitleInfo, strImage, strVideoURL, strLink, strDictButtons, strQuickReplies)
                 retArr.append(dictParams)
                 return retArr
@@ -1892,14 +1783,12 @@ class botLogic(object):
             dictParams={}
             retArr=[]
             if strDictParams !="":
-                ####################self.logger.info("actionReviewAnswer:" + strDictParams)
                 dictParams = json.loads(strDictParams)
                 strContentID = dictParams["CONTENT_ID"]
                 strAnswerID = dictParams["ANSWER_ID"]
                 strContent= self.r_server.hget( "KEY_CONTENT_"+strContentID, "Msg")
                 dictContent = json.loads(strContent)
                 strCorrectAnswerID = dictContent["RightAnswer"]
-                ###################self.logger.info( "---review ans "+ strAnswerID + strCorrectAnswerID )
                 strQuickReplies = ""
                 userModuleProgressObj = UserModuleProgress.objects.filter(ModuleID=dictContent["MODULE_ID"], UserID=userID).first()
                 intCurrentPosition = userModuleProgressObj.CurrentPosition
@@ -1949,7 +1838,6 @@ class botLogic(object):
             strLink = ""
             strDictButtons = ""
             strQuickReplies = ""
-            #############self.logger.info("I am here 110")
 
             strMessageType = "List"
             strMessage="Here we go click on view progress."
@@ -1960,17 +1848,12 @@ class botLogic(object):
             dictButtons.append(self.getButton("web_url","View Progress",surl=strLink,spayload=""))
 
             strDictButtons= json.dumps(dictButtons)
-            ################self.logger.info("heeree 59")
             retArr=[]
             dictParams={}
-            ################self.logger.info("printing message start")
             strMessage = "1"
             recevied_message =""
             strListContent , strListButtons = self.getModuleList(userID,listType, recevied_message,strDictParams,False)
-            ##############self.logger.info(strListContent)
             strMessage=strMessage[:400]
-            ################self.logger.info("printing message end")
-            ############self.logger.info(strListContent)
 
             if strListContent !="":
                 dictParams = self.getMessageDict(strMessageType,  strMessage, strImage, strSubTitleInfo, strImage, strVideoURL, strLink, strDictButtons, strQuickReplies,"SILENT",strListContent,strListButtons)
@@ -1981,7 +1864,6 @@ class botLogic(object):
                 strMessage = "Could not find anything for *" + recevied_message + "*, try another topic like *Presentation Skills*"
 
                 dictParams = self.getMessageDict(strMessageType, strMessage, strImage, strSubTitleInfo, strImage, strVideoURL, strLink, strDictButtons, strQuickReplies,"SILENT",strListContent,strListButtons)
-            #################self.logger.info(str(dictParams))
             retArr.append(dictParams)
             return retArr
         except Exception,e:
@@ -2001,13 +1883,9 @@ class botLogic(object):
             strDictButtons = ""
             strQuickReplies = ""
 
-            ########self.logger.info("1")
             strRandomKey = str(randint(0,9000))
-            ########self.logger.info("1.1")
             strSql_1= "select DATE(CreatedDate) AS 'createdDateVal', count(id) as 'units' from curiousWorkbench_usercertification where UserID ='" + userID + "' group by createdDateVal;"
-            ########self.logger.info("1.2")
             results_1 = list(self.query_to_dicts(strSql_1))
-            ########self.logger.info("2")
             chartFileName_1 = "profile_chart_1_" + "-" + str(userID) + strRandomKey + ".png"
             chartPath_1 = self.configSettingsObj.absFileLocation + "/images/plots/" + chartFileName_1
             custom_style= Style(legend_font_size=20, value_font_size=20,title_font_size=40, colors=('#29b992','#f77b71'))
@@ -2017,7 +1895,6 @@ class botLogic(object):
 
             bar_chart.render_to_png(filename=chartPath_1)
             chartURL_1 = self.configSettingsObj.webUrl + "/static/curiousWorkbench/images/plots/" + chartFileName_1
-            ########self.logger.info("3")
 
             strMessageType = "Image"
             strMessage="Here we go click on view progress."
@@ -2035,15 +1912,10 @@ class botLogic(object):
 
             strMessage += "\n *Check out your profile, click here* \n"
             strMessage += strLink
-            ########self.logger.info("4")
             strDictButtons= json.dumps(dictButtons)
-            ########self.logger.info("heeree 59")
             retArr=[]
             dictParams={}
-            ########self.logger.info("printing message start")
-            ########self.logger.info("printing message end")
             dictParams = self.getMessageDict(strMessageType, strMessage, strImage, strSubTitleInfo, strImage, strVideoURL, strLink, strDictButtons, strQuickReplies,"SILENT")
-            #########self.logger.info(str(dictParams))
             retArr.append(dictParams)
             return retArr
         except Exception,e:
@@ -2068,20 +1940,16 @@ class botLogic(object):
 
             #contentLibraryObj.refresh_from_db()
             strContentID = contentLibraryObj.ID
-            ##############self.logger.info("printing 3" + str(strContentID))
 
-            ##############self.logger.info("printing id" + str(strContentID))
             #self.getFromUserStateFromDict(userID, "EDITING_MODULE")
             self.updateUserStateDict(userID, "UGC_ID", strContentID )
             #self.updateUserStateDict(userID, "UGC_ID", strContentID )
-            ##############self.logger.info("I am gere")
             return
         except Exception,e:
             self.logger.error('actionSaveContentTitle' + str(e))
 
     def actionSaveContentVideo(self, userID, recevied_message,strDictParams=""):
         try:
-            ##############self.logger.info("I am gere")
             if strDictParams!="":
                 dictParams = json.loads(strDictParams)
                 if 'Headers' in dictParams:
@@ -2118,13 +1986,11 @@ class botLogic(object):
 
     def actionSaveContentImage(self, userID, recevied_message,strDictParams=""):
         try:
-            #self.logger.info("I am gere actionSaveContentImage")
             moduleID = self.getFromUserStateFromDict(userID,"MODULE_ID")
 
             intContentOrder = 0
             intContentOrder = ContentLibrary.objects.filter(Module_ID = moduleID).count() + 1
             self.updateUserStateDict(userID,"CONTENT_ORDER",int(intContentOrder))
-            ###################self.logger.info("current module" + str(strModuleID))
 
             ImageURL=""
             strHeader=""
@@ -2134,52 +2000,36 @@ class botLogic(object):
                     ImageURL =  dictParams['ImageURL']
                 if 'Headers' in dictParams:
                     strHeader = dictParams['Headers']
-                    #self.logger.info("-2-2-2-2-2-2-")
-                    #self.logger.info(ImageURL)
-                    ############self.logger.info("1")
 
                     disassembled = urlparse(ImageURL)
                     filename, file_ext = splitext(basename(disassembled.path))
 
                     imagePath = self.configSettingsObj.absFileLocation + "/uimgs/" + str(filename + file_ext)
-                    ############self.logger.info("2")
 
                     if strHeader !="":
-                        ############self.logger.info("2.1")
 
                         arrVal= strHeader.split("|")
-                        ############self.logger.info("2.2")
 
                         dictHeaders ={}
                         dictHeaders[arrVal[0]]=arrVal[1]
-                        ############self.logger.info("2.3")
 
                         strHeaderVal = json.dumps(dictHeaders)
-                        ############self.logger.info("2.4")
 
-                        ############self.logger.info(ImageURL)
-                        #############self.logger.info(strHeaderVal)
 
 
                         fileResp = requests.get(ImageURL, headers=dictHeaders)
-                        #self.logger.info("2.5")
                     else:
                         fileResp = requests.get(ImageURL)
-                    #self.logger.info("3")
 
                     if fileResp is not None:
                         fileObj = open(imagePath,'wb')
                         fileObj.write(fileResp.content)
                         fileObj.close()
-                    #self.logger.info("4")
 
                     #urllib.urlretrieve(ImageURL, imagePath)
 
                     contentID =-1
                     #contentID = self.getFromUserStateFromDict(userID,"EDITING_CONTENT")
-                    #self.logger.info("contentID" + str(contentID))
-                    #self.logger.info("moduleID" + str(moduleID))
-                    #self.logger.info("contentOrder" + str(intContentOrder))
                     if contentID !=-1:
                         contentLibraryObj = get_object_or_404(ContentLibrary, ID= contentID)
                         contentLibraryObj.ImageURL = str(filename + file_ext)
@@ -2227,8 +2077,6 @@ class botLogic(object):
 
     def actionSetUserRole(self, userID, recevied_message,strDictParams=""):
         try:
-            ###################self.logger.info('actionSetUserRole')
-            ###################self.logger.info('--' + str(userID))
             userStateObj = get_object_or_404(UserState, UserID=userID)
 
             if recevied_message == "Product Manager":
@@ -2247,7 +2095,6 @@ class botLogic(object):
 
     def actionSaveUserLocationProdM(self, userID, recevied_message,strDictParams=""):
         try:
-            ###################self.logger.info('actionSaveUserLocationProdM')
             self.actionSetUserRole(userID, "Product_Manager")
         except Exception,e:
             self.logger.error('actionSaveUserLocationProdM' + str(e))
@@ -2257,10 +2104,8 @@ class botLogic(object):
             strNotifyTime="MOR"
             userStateObj = get_object_or_404(UserState, UserID=userID)
             userStateObj.Notify_Subscription = "TRUE"
-            ################self.logger.info("received params" + strDictParams)
             if strDictParams !="":
                 dictParams= json.loads(strDictParams)
-                #################self.logger.info("user notify time" + strDictParams )
                 if "NOTE_TIME" in dictParams:
                     strNotifyTime = dictParams["NOTE_TIME"]
             userStateObj.Notify_Time = strNotifyTime
@@ -2280,14 +2125,12 @@ class botLogic(object):
 
     def actionSaveUserLocationProgM(self, userID, recevied_message,strDictParams=""):
         try:
-            ###################self.logger.info('actionSaveUserLocationProgM')
             self.actionSetUserRole(userID, "Program_Manager")
         except Exception,e:
             self.logger.error('actionSaveUserLocationProgM' + str(e))
 
     def actionSaveUserLocationEggM(self, userID, recevied_message,strDictParams=""):
         try:
-            ###################self.logger.info('actionSaveUserLocationEggM')
             self.actionSetUserRole(userID, "Engineering_Manager")
         except Exception,e:
             self.logger.error('actionSaveUserLocationEggM' + str(e))
@@ -2321,12 +2164,10 @@ class botLogic(object):
 
             userStateObj = UserState.objects.get(pk=userID)
             strUserRole =  userStateObj.UserRole
-            #############self.logger.info( "user role" +  strUserRole)
 
             strRoleInfoDesc = ""
             moduleID = ""
             roleInfo = self.r_server.hgetall("KEY_ROLE_" + strUserRole)
-            #############self.logger.info("role info " + str(roleInfo))
             strMessage = "Here are the top 3 skills by demand\r\n"
             intMax = 4
             intCount = 0
@@ -2345,12 +2186,10 @@ class botLogic(object):
                             if intCount != 0:
                                 strQuickReplies += ","
 
-                        ####################self.logger.info("---->Module Options" + dictRoleInfo["SKILL_CODE"] + strUserRole)
                         if moduleObj != None:
                             moduleID = moduleObj.ID
                             strPayLoad = "SHOW_MODULE" + "-" + "ID" + "|" + str(moduleID)
                             strQuickReplies += "text" + ":" + str(moduleID) + ":" + strPayLoad
-                        ####################self.logger.info("I am still here -------")
                         intCount +=1
             strRoleInfoDesc += "I will keep looking for more. \r\n Select a code below to acquire a skill "
             strMessage += strRoleInfoDesc
@@ -2395,6 +2234,7 @@ class botLogic(object):
             arrConsole.append("Lets see....  😩 not right! ")
             arrConsole.append("Wrong, but keep going 💪! ")
 
+            self.logger.info("1")
             #------------------Get Variables ----------------------------------
             userStateObj = UserState.objects.get(pk=userID)
             strUserRole =  userStateObj.UserRole
@@ -2405,9 +2245,12 @@ class botLogic(object):
                 if "ANS" in dictParams:
                     strAns = str(dictParams["ANS"])
             objChallenge = Challenge.objects.get(id=challengeID)
+            moduleID =  objChallenge.Module_ID
+            contentID =  objChallenge.Content_ID
 
-            self.LogUserAction(userID,"ANSWER_CHALLENGE",userID,moduleID,challengeID)
+            self.LogUserAction(userID,"ANSWER_CHALLENGE",None,None,challengeID)
 
+            self.logger.info("2")
             #---------------------Update Challenge Result Summary---------------------------------------------
 
             try:
@@ -2421,6 +2264,7 @@ class botLogic(object):
                 objChallengeResultSummary.Option_D_Count = 0
                 objChallengeResultSummary.Option_E_Count = 0
 
+            self.logger.info("3")
             if strAns =="A":
                 objChallengeResultSummary.Option_A_Count +=1
             elif strAns == "B":
@@ -2433,7 +2277,7 @@ class botLogic(object):
                 objChallengeResultSummary.Option_E_Count +=1
 
             objChallengeResultSummary.save()
-
+            self.logger.info("4")
             #------------------------Update User Module Progress------------------------------------------------------------------------------
             isLastMessage = self.updateUserModuleProgress(userID,moduleID, contentID)
             if isLastMessage == True:
@@ -2456,7 +2300,7 @@ class botLogic(object):
                 strCorrectAnswerText = "D: " + objChallenge.Option_D
             elif objChallenge.Correct_Answer == "E":
                 strCorrectAnswerText = "E: " + objChallenge.Option_E
-
+            self.logger.info("5")
             strMessage =''.encode('utf-8')
             objChallengeResultUser.Ans = strAns
             if strAns == objChallenge.Correct_Answer:
@@ -2475,7 +2319,7 @@ class botLogic(object):
             intRightAnsCount =0
             intTotalAnsCount =0
             intTotalAnsCount = int(objChallengeResultSummary.Option_A_Count + objChallengeResultSummary.Option_B_Count + objChallengeResultSummary.Option_C_Count + objChallengeResultSummary.Option_D_Count + objChallengeResultSummary.Option_E_Count)
-
+            self.logger.info("6")
             if objChallenge.Correct_Answer== "A":
                 intRightAnsCount = objChallengeResultSummary.Option_A_Count
             if objChallenge.Correct_Answer== "B":
@@ -2492,19 +2336,21 @@ class botLogic(object):
             dictParams = self.getMessageDict("Image",strMessage, chartURL, "", chartURL, "",self.configSettingsObj.webUrl, "","","SILENT")
             dictParams["QUICK_REPLIES"] = strQuickReplies
             retArr.append(dictParams)
+            self.logger.info("7")
             #-----------------------------Get Reco Buttons ----------------
             strMessage = "_"
             strSubTitleInfo ="_"
+            recoPayload=""
             dictParams1 = self.getRecoButtons(recoPayload,strMessage,strSubTitleInfo,str(1))
             strQuickReplies = dictParams1["QuickReplies"]
             dictParams["QuickReplies"] = strQuickReplies
             retArr.append(dictParams1)
-
+            self.logger.info("8")
             #--------------------------------------------------------------------
-
+            blnLastMessage = False
             if blnLastMessage == True:
                 retArr.append(dictParamsModuleCompleted)
-
+            self.logger.info("9")
             return retArr
         except Exception,e:
             self.logger.error('actionCheckChallengeAns' + str(e))
@@ -2520,28 +2366,22 @@ class botLogic(object):
     def getCheckChallengeAnsChartURL(self, userID, challengeID,intRightAnsCount,intTotalAnsCount):
         intPercentageRight =0
         intPercentageWrong =0
-        ###self.logger.info("5.2")
-        ############self.logger.info(str(intRightAnsCount) + " " +  str(intTotalAnsCount))
 
         if intTotalAnsCount>0:
             intPercentageRight = int((float(intRightAnsCount)/intTotalAnsCount)*100)
             intPercentageWrong = 100-intPercentageRight
 
-        ###self.logger.info("5.3")
 
         strRandomKey = str(randint(0,9000))
         chartPath = self.configSettingsObj.absFileLocation + "/images/plots/" + str(challengeID) + "-" + str(userID) + strRandomKey + ".png"
         chartFileName = str(challengeID) + "-" + str(userID) + strRandomKey  + ".png"
-        ###self.logger.info("5.4")
 
         custom_style= Style(legend_font_size=20, value_font_size=20,title_font_size=40, colors=('#29b992','#f77b71'))
 
         bar_chart = pygal.Bar(title=u'See how others did', print_values=True,print_values_position='top',  print_labels=False,show_y_labels=False, legend_at_bottom=True,include_x_axis=False,include_y_axis=False,show_y_guides=False,margin=50,style=custom_style,)
-        ###self.logger.info("5.5")
 
         bar_chart.add('Got it Right',[intPercentageRight], rounded_bars=2 * 10)
         bar_chart.add('Got it Wrong',[intPercentageWrong], rounded_bars=2 * 10)
-        ###self.logger.info("5.5.1")
         bar_chart.render_to_png(filename=chartPath)
         chartURL = self.configSettingsObj.webUrl + "/static/curiousWorkbench/images/plots/" + chartFileName
 
@@ -2574,7 +2414,6 @@ class botLogic(object):
             objUserModuleProgress.CurrentPosition = 1
             objUserModuleProgress.save()
 
-        #self.logger.info("-------->" + str(intProgressUnits) + "-"+ str(intUnits))
 
         if intContentOrder == intUnits:
             isLastMessage = True
@@ -2600,10 +2439,8 @@ class botLogic(object):
 
             userStateObj = UserState.objects.get(pk=userID)
             if listType =="SEARCH":
-                #self.logger.info("here1")
                 moduleObj = Module.objects.filter( Title__icontains=recevied_message)
             else:
-                #self.logger.info("here2")
                 moduleObj = Module.objects.all()
 
 
@@ -2614,13 +2451,12 @@ class botLogic(object):
             arrSkillList =[]
             dictSkillList={}
             intStartIndex = intStartPos
-            intMax=intStartIndex+2
-            if intMax >= intNumberofModules:
+            intMax= intStartIndex + 10
+            if intMax <= intNumberofModules:
                 isLastPage = True
             else:
                 isLastPage = False
             intCount=0
-            #self.logger.info("here3")
             if UserSkillOnlyFlag==False:
                 dictSkillList["Title"] = "Topics"
                 dictSkillList["SubTitle"] = "Select a topic to learn about it \r\n"
@@ -2634,14 +2470,13 @@ class botLogic(object):
             arrSkillList.append(dictSkillList)
 
             #----------------------------------------------------
+
             for moduleInstance in moduleObj:
                 dictSkillList={}
 
                 arrCertList = UserCertification.objects.filter(userID=userID, Module_ID=moduleInstance.ID)
-                intContentCount = ContentLibrary.objects.filter(Module_ID=int(moduleInstance.ID)).count()
-                ##self.logger.info(str(moduleInstance.ID) + " - " +str(intContentCount))
-                if intContentCount>0:
-                    #self.logger.info("here4")
+                intChallengeCount = Challenge.objects.filter(Module_ID=int(moduleInstance.ID)).count()
+                if intChallengeCount>0:
                     if len(arrCertList)>0:
                         blnModuleCompleted = True
                         strModuleCompleted = " 🏆 Completed"
@@ -2649,7 +2484,6 @@ class botLogic(object):
                         blnModuleCompleted = False
                         strModuleCompleted = ""
 
-                    ##self.logger.info(str(intStartIndex) + " - " +  str(intCount) +" - " + str(intMax))
                     if intCount>=intStartIndex and intCount<=intMax:
                         dictSkillList["Title"]=""
                         dictContent = moduleInstance
@@ -2657,7 +2491,6 @@ class botLogic(object):
                         dictSkillName = strSkilNameOld.split(" ")
                         strSkillName = ""
                         skillProgressCredits =0
-                        #self.logger.info("tape 4")
                         try:
                             #skillProgressObj = Progress.objects.get(userID=userID,SKILL_CODE=dictContent.Skill.strip().replace(" ","_"))
                             skillProgressObj = Progress.objects.get(userID=userID,SKILL_CODE="")
@@ -2668,20 +2501,15 @@ class botLogic(object):
 
 
 
-                        #self.logger.info("here5")
                         for word in dictSkillName:
                             strSkillName +=word[:1].upper() + word[1:] + " "
                         # if dictContent.Live == True:
                         dictSkillList["Title"] = strSkillName
-                        #self.logger.info("222221")
                         dictSkillList["SubTitle"] =dictContent.Description.encode('utf-8') #"Demand 🔥 :" + str(dictContent.Percentage) + "%  My Credits 🏆 : " + str(skillProgressCredits)
-                        dictSkillList["SubTitle"] += "\r\n by :" + moduleInstance.Author.encode('utf-8') +  " 💡 Concepts : " + str(intContentCount) +  strModuleCompleted
-                        #self.logger.info("222222")
+                        dictSkillList["SubTitle"] += "\r\n by :" + moduleInstance.Author.encode('utf-8') +  " 💡 Concepts : " + str(intChallengeCount) +  strModuleCompleted
                         # else:
                         #     dictSkillList["Title"] += "" + strSkillName
-                        #     #########self.logger.info("222223")
                         #     dictSkillList["SubTitle"] = dictContent.Description.encode('utf-8') + strModuleCompleted #"🔥 Common Skill My Credits 🏆 :" +  str(intContentCount)
-                        #     #########self.logger.info("222224")
 
                         dictButtons = []
                         dictButton ={}
@@ -2690,8 +2518,8 @@ class botLogic(object):
                         dictButton["ButtonTitle"] = "Get it"
                         dictButton["ButtonLinkURL"] = ""
                         dictButton["ButtonPostback"] = "SHOW_RECO" + "-" + "MODULE_ID" + "|" + str(moduleInstance.ID)
-                        #self.logger.info(dictContent.SKILL_CODE)
                         dictButtons.append(dictButton)
+
 
                         dictButton ={}
                         #dictbuttons.append(self.getButton(arrButtons["ButtonType"],arrButtons["ButtonTitle"], surl=arrButtons["ButtonLinkURL"], spayload=arrButtons["ButtonPostback"]))
@@ -2700,8 +2528,19 @@ class botLogic(object):
                         dictButton["ButtonLinkURL"] = ""
                         dictButton["ButtonPostback"] = "SHARE_CHALLENGE" + "-" + "MODULE_ID" + "|" + str(moduleInstance.ID)
                         self.updateUserStateDict(userID,"MODULE_ID",moduleInstance.ID)
-                        ###############self.logger.info(dictContent.SKILL_CODE)
                         dictButtons.append(dictButton)
+
+
+                        if userID == moduleInstance.UserID:
+
+                            dictButton ={}
+                            #dictbuttons.append(self.getButton(arrButtons["ButtonType"],arrButtons["ButtonTitle"], surl=arrButtons["ButtonLinkURL"], spayload=arrButtons["ButtonPostback"]))
+                            dictButton["ButtonType"] = "postback"
+                            dictButton["ButtonTitle"] = "delete"
+                            dictButton["ButtonLinkURL"] = ""
+                            dictButton["ButtonPostback"] = "DELETE_MODULE" + "-" + "MODULE_ID" + "|" + str(moduleInstance.ID)
+                            dictButtons.append(dictButton)
+
 
                         # if dictContent.UserID == userID :
                         #     dictButton ={}
@@ -2711,20 +2550,16 @@ class botLogic(object):
                         #     dictButton["ButtonLinkURL"] = ""
                         #     dictButton["ButtonPostback"] = "MANAGE_MODULE" + "-" + "MODULE_ID" + "|" + str(moduleInstance.ID)
                         #     self.updateUserStateDict(userID,"MODULE_ID",moduleInstance.ID)
-                        #     ###############self.logger.info(dictContent.SKILL_CODE)
                         #     dictButtons.append(dictButton)
 
                         dictSkillList["Buttons"] = dictButtons
 
 
 
-                        #self.logger.info("here6")
                         if UserSkillOnlyFlag == True and skillProgressCredits >0:
-                            ###############self.logger.info("here aaa")
                             arrSkillList.append(dictSkillList)
                             intListItems+=1
                         elif UserSkillOnlyFlag ==False:
-                            ###############self.logger.info("here bbb")
                             arrSkillList.append(dictSkillList)
                             intListItems+=1
                         intCount+=1
@@ -2747,7 +2582,6 @@ class botLogic(object):
                 arrListFooterButtons.append(dictButton)
             #dictSkillList["Buttons"] = dictButton
 
-            #self.logger.info("here7")
 
             if isSearch == True:
 
@@ -2781,8 +2615,6 @@ class botLogic(object):
                 strSkillList= json.dumps(arrSkillList)
             else:
                 strSkillList =""
-            #self.logger.info("tape 5")
-            ##self.logger.info(strListButtons)
             return strSkillList, strListButtons
         except Exception,e:
             self.logger.error('getSkillList' + str(e))
@@ -2795,7 +2627,6 @@ class botLogic(object):
             # strUserRole =  userStateObj.UserRole
             # mo
             # roleInfo = self.r_server.hgetall("KEY_ROLE_" + strUserRole)
-            # ####################self.logger.info(str(roleInfo))
             # strMessage = "Here are the top 3 skills by demand\r\n"
             intMax = 4
             intCount = 0
@@ -2811,10 +2642,8 @@ class botLogic(object):
                         strPayLoad = "SHOW_MODULE" + "-" + "ID" + "|" + str(moduleID)
                         strMessage += str(module.Title) + ":" + str(moduleID) + "\r\n"
                         strQuickReplies += "text" + ":" + str(moduleID) + ":" + strPayLoad
-                        ####################self.logger.info("I am still here -------")
                 intCount +=1
             # strRoleInfoDesc += "I will keep looking for more. \r\n Select a code below to acquire a skill "
-            ###################self.logger.info(strQuickReplies)
             strSubTitleInfo = ""
             strImage=""
             strMessage =  strMessage[:295]
@@ -2847,7 +2676,6 @@ class botLogic(object):
             # strUserRole =  userStateObj.UserRole
             # mo
             # roleInfo = self.r_server.hgetall("KEY_ROLE_" + strUserRole)
-            # ####################self.logger.info(str(roleInfo))
             # strMessage = "Here are the top 3 skills by demand\r\n"
             intMax = 4
             intCount = 0
@@ -2863,10 +2691,8 @@ class botLogic(object):
                         strPayLoad = "SHOW_MODULE" + "-" + "ID" + "|" + str(moduleID)
                         strMessage += str(module.Title) + ":" + str(moduleID) + "\r\n"
                         strQuickReplies += "text" + ":" + str(moduleID) + ":" + strPayLoad
-                        ####################self.logger.info("I am still here -------")
                 intCount +=1
             # strRoleInfoDesc += "I will keep looking for more. \r\n Select a code below to acquire a skill "
-            ###################self.logger.info(strQuickReplies)
             strSubTitleInfo = ""
             strImage=""
             strMessage =  strMessage[:295]
@@ -2884,7 +2710,6 @@ class botLogic(object):
 
             strModuleID = self.getFromUserStateFromDict(userID, "EDITING_MODULE")
             strContentOrder = self.getFromUserStateFromDict(userID, "CONTENT_ORDER")
-            ###################self.logger.info("current module" + str(strModuleID))
             if strContentOrder == "":
                 strContentOrder = 0
             intCurrentContentOrder = int(strContentOrder) + 1
@@ -2914,7 +2739,6 @@ class botLogic(object):
 
     def actionSaveModuleTitle(self,userID, recevied_message,strDictParams=""):
         try:
-            ######self.logger.info("hello 0-------1>")
             self.updateUserStateDict(userID,"EDITING_CHALLENGE",None)
             userStateObj = UserState.objects.get(UserID=userID)
             selectedModule = Module()
@@ -2927,10 +2751,10 @@ class botLogic(object):
             selectedModule.save()
             #selectedModule.refresh_from_db()
             self.updateUserStateDict(userID, "EDITING_MODULE",selectedModule.ID)
+            self.updateUserStateDict(userID, "EDITING_MODULE_TITLE",selectedModule.ID)
             self.updateUserStateDict(userID, "MODULE_ID",selectedModule.ID)
 
             self.updateUserStateDict(userID, "CONTENT_ORDER","0")
-            ###################self.logger.info(selectedModule.ID)
         except KeyError,e:
             self.logger.error("actionSaveModuleTitle "+str(e))
 
@@ -2939,7 +2763,6 @@ class botLogic(object):
         try:
             #self.updateUserStateDict(userID,"EDITING_MODULE","")
             #self.updateUserStateDict(userID,"CONTENT_ORDER","0")
-            ######self.logger.info("3")
             a=1
         except KeyError,e:
             self.logger.error("actionSaveModuleTitle "+str(e))
@@ -3004,17 +2827,24 @@ class botLogic(object):
     def actionSaveChallenge(self,userID, recevied_message,strDictParams=""):
         try:
             userStateObj = UserState.objects.get(UserID=userID)
+            strModuleID = self.getFromUserStateFromDict(userID,"EDITING_MODULE")
+
             selectedContentLibrary = ContentLibrary()
             selectedChallenge = Challenge()
 
+            intContentCount = ContentLibrary.objects.filter(Module_ID=int(strModuleID)).count()
 
 
             selectedContentLibrary.Type = "Text"
+            selectedContentLibrary.Module_ID =  strModuleID
             #selectedContentLibrary.Text = recevied_message
+            selectedContentLibrary.Content_Order= intContentCount+1
             selectedContentLibrary.Message_Type = "UGC"
+
             selectedContentLibrary.save()
 
             selectedChallenge.Content_ID = selectedContentLibrary.ID
+            selectedChallenge.Module_ID=int(strModuleID)
             selectedChallenge.Correct_Answer = "A"
             selectedChallenge.UserID = userID
             selectedChallenge.save()
@@ -3025,7 +2855,6 @@ class botLogic(object):
             self.updateUserStateDict(userID, "EDITING_CONTENT",selectedContentLibrary.ID)
 
             #self.updateUserStateDict(userID, "CONTENT_ORDER","0")
-            ###################self.logger.info(selectedModule.ID)
         except KeyError,e:
             self.logger.error("actionSaveChallenge "+str(e))
 
@@ -3035,46 +2864,37 @@ class botLogic(object):
         try:
             strChallengeText = ""
             strTags = ""
-            ############self.logger.info("1")
             arrTags = re.findall(r'([#?]\w+)', recevied_message)
             strChallengeText = recevied_message
-            ############self.logger.info("2")
 
             if arrTags is not None:
                 for tag in arrTags:
                     strTags += tag + ","
                     strChallengeText =  strChallengeText.replace(tag,"")
             strChallengeText = strChallengeText.strip()
-            ############self.logger.info("3")
 
 
 
             userStateObj = UserState.objects.get(UserID=userID)
 
             strContentID = self.getFromUserStateFromDict(userID,"EDITING_CONTENT")
-            ############self.logger.info("4")
             if strContentID is not "":
-                #############self.logger.info(strContentID)
                 selectedContentLibrary = ContentLibrary.objects.get(ID = strContentID)
                 selectedContentLibrary.Tags = strTags
                 selectedContentLibrary.Text = strChallengeText
                 selectedContentLibrary.save()
-            ############self.logger.info("5")
             #selectedModule.refresh_from_db()
             #self.updateUserStateDict(userID, "EDITING_CHALLENGE",selectedChallenge.ID)
             #self.updateUserStateDict(userID, "CONTENT_ORDER","0")
-            ###################self.logger.info(selectedModule.ID)
         except KeyError,e:
             self.logger.error("actionSaveChallengeText "+str(e))
 
     def actionSaveChallengeQuestion(self,userID, recevied_message,strDictParams=""):
         try:
             userStateObj = UserState.objects.get(UserID=userID)
+            self.actionSaveChallenge(userID,"",strDictParams)
             strChallengeKey = self.getFromUserStateFromDict(userID,"EDITING_CHALLENGE")
             strModuleID = self.getFromUserStateFromDict(userID,"EDITING_MODULE")
-            ######self.logger.info("printing module id >>")
-            #######self.logger.info(strModuleID)
-            #######self.logger.info(strChallengeKey)
 
             if strChallengeKey =="" or strChallengeKey is None:
                 selectedChallenge = Challenge()
@@ -3083,15 +2903,12 @@ class botLogic(object):
                 selectedChallenge.UserID = userID
             else:
                 selectedChallenge = Challenge.objects.get(id = strChallengeKey)
-            ######self.logger.info("asdsads>>>>")
             selectedChallenge.Question_Text = recevied_message
             selectedChallenge.save()
-            ######self.logger.info("challenege id>>" + str(selectedChallenge.id))
             self.updateUserStateDict(userID,"EDITING_CHALLENGE",selectedChallenge.id)
             #selectedModule.refresh_from_db()
             #self.updateUserStateDict(userID, "EDITING_CHALLENGE",selectedChallenge.ID)
             #self.updateUserStateDict(userID, "CONTENT_ORDER","0")
-            ###################self.logger.info(selectedModule.ID)
         except KeyError,e:
             self.logger.error("actionSaveChallengeQuestion "+str(e))
 
@@ -3108,7 +2925,6 @@ class botLogic(object):
             #selectedModule.refresh_from_db()
             #self.updateUserStateDict(userID, "EDITING_CHALLENGE",selectedChallenge.ID)
             #self.updateUserStateDict(userID, "CONTENT_ORDER","0")
-            ###################self.logger.info(selectedModule.ID)
         except KeyError,e:
             self.logger.error("actionSaveChallengeRightOption "+str(e))
 
@@ -3136,7 +2952,6 @@ class botLogic(object):
             #selectedModule.refresh_from_db()
             #self.updateUserStateDict(userID, "EDITING_CHALLENGE",selectedChallenge.ID)
             #self.updateUserStateDict(userID, "CONTENT_ORDER","0")
-            ###################self.logger.info(selectedModule.ID)
         except KeyError,e:
             self.logger.error("actionSaveChallengeWrongOption "+str(e))
 
@@ -3157,13 +2972,10 @@ class botLogic(object):
 
     def UpdateUserInfoFacebook(self, userID):
         try:
-            ####################self.logger.info("in add user" )
             post_message_url = self.configSettingsObj.facebookGraphAPIURL + userID + "?fields=first_name,last_name,profile_pic,locale,timezone,gender&access_token=" + self.configSettingsObj.fbPageAccessTokenArise
-            ##################self.logger.info("post url" + post_message_url )
             status = requests.get(post_message_url)
             if (status.ok):
                 strUserDetails = status.content
-                #################self.logger.info("recevived response" + str(strUserDetails) )
                 dictUserDetails = json.loads(strUserDetails)
 
                 userStateObj = UserState.objects.get(pk=userID)
@@ -3192,26 +3004,19 @@ class botLogic(object):
 
     def UpdateUserInfoSlack(self, userID):
         try:
-            ####################self.logger.info("in add user" )
-            #######self.logger.info("team id" + str(userID) )
             strTeamID = UserState.objects.get(UserID= userID).Org_ID
-            #######self.logger.info("team id" + str(strTeamID) )
             strBotAccessToken = PlatformCredentials.objects.get(SlackTeamID=strTeamID).SlackBotAccessToken
             strSlackToken = strBotAccessToken
             strUserID = userID
             slackURL = "https://slack.com/api/users.info?token=" + strSlackToken + "&user=" + strUserID + "&include_labels=True&pretty=1"
-            #########self.logger.info(slackURL)
             #post_message_url = self.configSettingsObj.facebookGraphAPIURL + userID + "?fields=first_name,last_name,profile_pic,locale,timezone,gender&access_token=" + self.configSettingsObj.fbPageAccessTokenArise
-            ##################self.logger.info("post url" + post_message_url )
             status = requests.get(slackURL)
             if (status.ok):
                 strUserDetails = status.content
-                ########self.logger.info("recevived response" + str(strUserDetails) )
                 dictUserDetailsAll = json.loads(strUserDetails)
                 if "user" in dictUserDetailsAll:
                     if "profile" in dictUserDetailsAll["user"]:
                         dictUserDetails = dictUserDetailsAll["user"]["profile"]
-                        ########self.logger.info(str(dictUserDetails))
                         userStateObj = UserState.objects.get(pk=userID)
                         userStateObj.UserName = str(dictUserDetails["first_name"]) +" " + str(dictUserDetails["last_name"])
                         if "gender" in dictUserDetails:

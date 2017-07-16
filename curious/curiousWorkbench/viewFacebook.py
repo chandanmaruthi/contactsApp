@@ -74,11 +74,9 @@ class fbClientAriseBotView(generic.View):
     def get(self, request, *args, **kwargs):
         #print 'in get'
         try:
-            #####self.logger.info(str('i am here 1'))
             #print self.configSettingsObj.fbVerifyToken , request.GET['hub.verify_token']
             if request.GET['hub.verify_token'] == self.self.configSettingsObj.fbVerifyToken:
                 return HttpResponse(self.request.GET['hub.challenge'])
-                #####self.logger.info(str('i am here 2'))
             else:
                 return HttpResponse('Error, invalwewid token111')
         except KeyError,e:
@@ -98,7 +96,6 @@ class fbClientAriseBotView(generic.View):
     # Post function to handle Facebook messages
     def post(self, request, *args, **kwargs):
         try:
-            ##self.logger.info(str("Step 1"))
             strResponseFlag = False
             fbCustBotObj = clientFacebook()
             strNotificationType ="REGULAR"
@@ -106,14 +103,10 @@ class fbClientAriseBotView(generic.View):
             #strJson = ast.literal_eval(strJson)
             incoming_message = json.loads(strJson)
             fbid =""
-            #self.logger.info(str(incoming_message))
 
             #----------Log to Dashbot------------------
             self.logIncommingEvent(json.dumps(incoming_message))
-            ##self.logger.info(self.request.body.decode('utf-8'))
             post_message_url = self.configSettingsObj.facebookPostMessageURL%self.configSettingsObj.fbPageAccessTokenArise
-            #####self.logger.info(incoming_message)
-            #####self.logger.info("Step 3")
             for entry in incoming_message['entry']:
                 inpTxtMessage = ""
                 inpPostback = ""
@@ -125,7 +118,6 @@ class fbClientAriseBotView(generic.View):
                 strImageURL = ""
                 for message in entry['messaging']:
                     # ------------- Start Extact input from JSON ----------------------
-                    ##self.logger.info("here a")
                     if 'message' in message:
                         if 'is_echo' in message['message']:
                             isIsEcho = True
@@ -138,14 +130,10 @@ class fbClientAriseBotView(generic.View):
                                 if 'type' in attachment:
                                     if attachment['type'] == 'video':
                                         if 'payload' in attachment:
-                                            ##self.logger.info("here b")
                                             strVideoURL= attachment['payload']['url']
-                                            ##self.logger.info("here c")
                                     if attachment['type'] == 'image':
                                         if 'payload' in attachment:
-                                            ##self.logger.info("here b")
                                             strImageURL= attachment['payload']['url']
-                                            ##self.logger.info("here c")
 
 
                     if "referral" in message:
@@ -164,70 +152,50 @@ class fbClientAriseBotView(generic.View):
                     inpRecipient = message['sender']['id']
                     fbid =  inpRecipient
                     # --------------- End Extract Input from Json ------------------
-                    ##self.logger.info("calling processEvent")
                     inpTxtMessage =  inpTxtMessage.replace("'","\'")
                     response_msg= fbCustBotObj.processEvent(inpPostback, inpRecipient, recevied_message=inpTxtMessage,VideoURL=strVideoURL,ImageURL=strImageURL)
-                    #self.logger.info(str(response_msg))
                     strVideoURL=""
 
-                    ##self.logger.info(str(response_msg))
-                    ##self.logger.info("celled processEvent")
 
                     #if recvdNotificationType!="":
                     #    strNotificationType = recvdNotificationType
-                    #####self.logger.info(response_msg)
                     #if response_msg is not None:
                     # Check to make sure the received call is a message call
                     # This might be delivery, optin, postback for other events
-                    #####self.logger.info('Step 4')
-                    #####self.logger.info("here 4")
 
                     if 'message' in message:
                         strResponseFlag = True
                         if 'is_echo' not in message['message'] and ('text' in message['message'] or 'attachments' in message['message']):
                             #response_msg = fbCustBotObj.processEvent('', message['sender']['id'], recevied_message=message['message']['text'])
-                            #####self.logger.info('Step 4.1')
                             if response_msg is not None:
                                 for response_msg_item in response_msg:
-                                    #####self.logger.info('Step 4.1.1')
                                     if str(response_msg_item) != '' :
                                         status = requests.post(post_message_url, headers={"Content-Type": "application/json"},data=response_msg_item)
                                         self.logOutGoingEvent(response_msg_item)
-                                        ##self.logger.info(response_msg_item)
-                                        #####self.logger.info('Step 4.1.2')
                                     else:
-                                        #####self.logger.info('Step 4.1.3')
                                         msg =  json.dumps({"recipient":{"id":fbid}, "message":{"text":"error"},"notification_type":strNotificationType})
                                         status = requests.post(post_message_url, headers={"Content-Type": "application/json"},data=msg)
                                         self.logOutGoingEvent(msg)
                     elif ('postback' in message) or ('referral' in message):
                         strResponseFlag = True
-                        #####self.logger.info('Step 4.2')
                         #print 'kokokoko', message['postback']['payload']
                         #print ' Process Event - a postback was raised' , message['postback']['payload']
                         #response_msg = fbCustBotObj.processEvent(message['postback']['payload'], message['sender']['id'], recevied_message='')
                         for response_msg_item in response_msg:
                             if str(response_msg_item) != '' :
-                                #####self.logger.info('Step 4.3')
-                                #self.logger.info(response_msg_item)
                                 status = requests.post(post_message_url, headers={"Content-Type": "application/json"},data=response_msg_item)
                                 self.logOutGoingEvent(response_msg_item)
 
                     else:
-                        #####self.logger.info('Step 4.4')
                         msg =  json.dumps({"recipient":{"id":fbid}, "message":{"text":"error"},"notification_type":strNotificationType})
                         status = requests.post(post_message_url, headers={"Content-Type": "application/json"},data=msg)
                         self.logOutGoingEvent(msg)
 
                 #strDashBotOutgoingURL= "https://tracker.dashbot.io/track?platform=facebook&v=0.8.1-rest&type=outgoing&apiKey=fhjN8ED9gN122XkvP3GSSao7etYrRXJPocZSs0sd"
                 #r = requests.post(strDashBotOutgoingURL,headers={"Content-Type": "application/json"},data=msg)
-                #####self.logger.info("here 5")
 
-                #####self.logger.info('completed')
                 return HttpResponse()
         except KeyError,e:
-            ##self.logger.info('Views.py post handler Error')
-            ##self.logger.info(str(e))
             if fbid !="":
                 msg =  json.dumps({"recipient":{"id":fbid}, "message":{"text":"error"}})
                 status = requests.post(post_message_url, headers={"Content-Type": "application/json"},data=msg)

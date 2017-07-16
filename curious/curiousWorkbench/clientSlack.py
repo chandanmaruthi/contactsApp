@@ -66,7 +66,6 @@ class clientSlack():
         try:
             inputMsg = 'no value'
             lastTopicNumber = 15
-            # ########self.logger.info('init')
             db = MySQLdb.connect(host=self.configSettingsObj.dbHost,    # your host, usually localhost
                                  user=self.configSettingsObj.dbUser,         # your username
                                  passwd=self.configSettingsObj.dbPassword,  # your password
@@ -82,12 +81,10 @@ class clientSlack():
                 ai = apiai.ApiAI('988345dc9f26462cb74c930198bf0616')
                 apiAIRequest = ai.text_request()
                 apiAIRequest.lang = 'en'
-                ###############self.logger.info( "starting NLP : " + inputMessage)
                 apiAIRequest.query = inputMessage
                 apiAIResponse = apiAIRequest.getresponse()
                 strApiAIIntent = apiAIResponse.read()
                 responseDict = json.loads(strApiAIIntent)
-                ##########self.logger.info( "NLP Feed : " + str(responseDict))
 
                 strAction = ''
                 if 'result' in responseDict:
@@ -105,41 +102,35 @@ class clientSlack():
 
     def processEvent(self, event, fbid, recevied_message='', VideoURL='', ImageURL='', Headers=''):
         try:
-            self.logger.info("in  processEvent 1")
-            # #######self.logger.info(str(recevied_message))
             strNotificationType = "REGULAR"
             strToState = ''
             strCurrentState = self.botLogicObj.getUserState(fbid)
             strMessage = ''
             dictParams = {}
-            ##self.logger.info("in  processEvent 2")
+
+
+
+
+
 
             if event == '' and strCurrentState == "CLEAR" and recevied_message != "":
-                ###self.logger.info("case 2.1")
                 strEvent = self.NLProcessMessage(recevied_message)["INTENT"]
                 if strEvent != "":
                     event = strEvent
                 else:
                     event = 'UNABLE_TO_UNDERSTAND'
-                ###self.logger.info("2.2")
             elif event == '' and strCurrentState != "CLEAR" and recevied_message != "":
-                ###self.logger.info("case 3.1")
                 event = 'MSG'
-                #########self.logger.info("here 02")
             elif VideoURL != "":
-                ########self.logger.info("case 3")
-                #########self.logger.info("here 03")
                 event = 'VIDEO_UPLOAD'
-                #self.logger.info("video posted" + str(VideoURL))
             elif ImageURL != "":
-                ##########self.logger.info("case 3")
-                ##########self.logger.info("here 03")
                 event = 'IMAGE_UPLOAD'
-                #self.logger.info("image posted" + str(ImageURL))
-            #self.logger.info("in  processEvent 4" + event)
 
             dictEventInfo = event.split("-")
             eventCode = dictEventInfo[0]
+
+
+
 
             for dictItem in dictEventInfo:
                 arrParamInfo = dictItem.split("|")
@@ -154,10 +145,8 @@ class clientSlack():
             strDictParams = json.dumps(dictParams)
             stateMachineSubscriptions = self.r_server.hgetall(
                 "KEY_EVENT_" + str(eventCode))
-            stateMachineSubscriptions = self.r_server.hgetall(
-                "KEY_EVENT_" + str(eventCode))
-            # #######self.logger.info(str(stateMachineSubscriptions))
-            ##self.logger.info("5")
+
+
             for subscription in stateMachineSubscriptions:
                 strAction = ""
                 strNextEvent = ""
@@ -168,19 +157,19 @@ class clientSlack():
                 strVal = stateMachineSubscriptions[subscription]
                 dictStateMachine = json.loads(strVal)
                 strExpectedState = dictStateMachine['ExpectedState']
-                ##self.logger.info("in  processEvent 5")
+                if strCurrentState =="":
+                    strCurrentState = "CLEAR"
                 process = False
-                if strExpectedState == strCurrentState:
+
+                if (event=='MSG' and strExpectedState == strCurrentState) or event !='MSG':
                     process = True
-                elif strExpectedState == '':
-                    process = True
+
                 if process == True:
                     #strAction = dictStateMachine['Action']
                     strNextEvent = dictStateMachine['NextEvent']
                     strToState = dictStateMachine['State']
                     strCallFunction = dictStateMachine['CallFunction']
                     strEventID = dictStateMachine['SM_ID']
-                    # #######self.logger.info(strCallFunction)
                     #strAction1 = strAction
                     strNextEvent1 = strNextEvent
                     strToState1 = strToState
@@ -195,41 +184,24 @@ class clientSlack():
                             strCallFunction1 = "empty"
                     mp.track(fbid, strAction1, {
                              'strNextEvent': strNextEvent, 'strToState': strToState, 'strCallFunction': strCallFunction})
-                    ##self.logger.info("step 7")
                     recevied_message = recevied_message.replace('"', "")
                     recevied_message = recevied_message.replace("'", "")
-                    # #######self.logger.info(strAction)
-                    # #######self.logger.info(fbid)
-                    # #######self.logger.info(recevied_message)
-                    # #######self.logger.info(strDictParams)
                     if strCallFunction != '':
-                        strCallFunctionSyntax = "self.botLogicObj." + strCallFunction + \
-                            "('" + fbid + "','" + recevied_message + \
-                            "','" + strDictParams + "')"
-                        ###self.logger.info("call funtion" + strCallFunctionSyntax)
+                        strCallFunctionSyntax = "self.botLogicObj." + strCallFunction + "('" + fbid + "','" + recevied_message + "','" + strDictParams + "')"
                         eval(strCallFunctionSyntax)
-                        #########self.logger.info("step 6.1.1-")
 
-                    self.logger.info("step 8")
                     strMessage = self.buildMessage(
                         strEventID, fbid, recevied_message, strDictParams)
-                    ##self.logger.info("step 8.2")
 
                     self.botLogicObj.setUserCurrentState(fbid, strToState)
-                    ##self.logger.info("9")
                     if strNextEvent1 != '':
                         strMessageNew = self.processEvent(
                             strNextEvent1, fbid, '', '')
-                        #########self.logger.info("printing internal processEvent" + str(strMessageNew))
                         if strMessage is None:
                             strMessage = []
                         for message in strMessageNew:
                             strMessage.append(message)
-                            # #######self.logger.info(str(strMessage))
-                            #########self.logger.info("step 6.3")
                         strMessageNew = ""
-
-            self.logger.info("10")
             return strMessage
         except Exception, e:
             self.logger.error("processEvent" + str(e))
@@ -282,15 +254,12 @@ class clientSlack():
 
     def buildMessage(self, eventID, fbid, recevied_message, strDictParams):
         try:
-            ##self.logger.info("0")
-            ##self.logger.info("1")
             strNotificationType = "REGULAR"
             responseMessages = []
             response_msg_item = ''
             strMessageTypeFromContent =""
             rawMessages = self.r_server.hgetall("KEY_ACTION_" + str(eventID))
             dictMessageParams = {}
-            ##self.logger.info("2")
             for message in rawMessages:
                 if message is not None:
                     strmessagesDetailsVal = rawMessages[message]
@@ -328,7 +297,6 @@ class clientSlack():
                                 strMessage = strMessage.replace("{{" + strReplaceableKey + "}}", strReplaceableValue)
 
 
-                        ##self.logger.info("3")
                         #strListContent = dictMessageDetails["ListContent"]
                         intStart = strMessage.find('[[')
                         intEnd = strMessage.find(']]')
@@ -339,14 +307,9 @@ class clientSlack():
                             strSubActionFunctionSyntax = "self.botLogicObj." + strSubAction + \
                                 "('" + fbid + "','" + recevied_message + \
                                 "','" + strDictParams + "')"
-                            ###self.logger.info("printing subfunction" + strSubActionFunctionSyntax)
                             arrRetMessageDicts = eval(strSubActionFunctionSyntax)
 
-                            #########self.logger.info("here 1")
-                            ########self.logger.info(str(arrRetMessageDicts))
                             for dictMessageParams in arrRetMessageDicts:
-                                ##self.logger.info(dictMessageParams)
-                                ##self.logger.info("4.0.0")
 
                                 if dictMessageParams !={}:
                                     if 'strAttachmentText' in dictMessageParams:
@@ -364,35 +327,25 @@ class clientSlack():
                                     if "MessageType" in dictMessageParams:
                                         strMessageTypeFromContent = dictMessageParams["MessageType"]
 
-                                    ##self.logger.info("4")
                                     if strMessageTypeFromContent != "":
                                         strMessageType = strMessageTypeFromContent
-                                        #########self.logger.info("here 2")
                                     if strMessageType == 'Text':
                                         response_msg_item = self.buildSimpleMessage(
                                             fbid, dictMessageParams["Message"], dictMessageParams["ImageURL"], dictMessageParams["VideoURL"], dictMessageParams["QuickReplies"], strNotificationType, strAttachmentText)
                                     elif strMessageType == 'Buttons':
-                                        # #######self.logger.info(dictMessageParams["Link"])
                                         response_msg_item = self.buildButtonMessage(fbid, dictMessageParams["Message"], dictMessageParams["DictButtons"], dictMessageParams["ImageURL"], dictMessageParams["SubTitleInfo"], dictMessageParams[
                                                                                     "ImageURL"], dictMessageParams["VideoURL"], dictMessageParams["Link"], dictMessageParams["DictButtons"], dictMessageParams["QuickReplies"], strNotificationType)
-                                        # #######self.logger.info("test200")
-                                        #########self.logger.info("here 300000")
                                     elif strMessageType == 'Image':
                                         response_msg_item = self.buildImageMessage(
                                             fbid, dictMessageParams["Message"], dictMessageParams["ImageURL"], dictMessageParams["VideoURL"], dictMessageParams["QuickReplies"], strNotificationType)
                                     elif strMessageType == 'List':
-                                        #########self.logger.info("calling list message")
                                         response_msg_item = self.buildListMessage(
                                             fbid, dictMessageParams["QuickReplies"], strNotificationType, dictMessageParams["ListContent"], dictMessageParams["ListButtons"])
 
-                                    ##self.logger.info("here 5")
 
                                     if response_msg_item != '':
-                                        ##self.logger.info("here 5.1")
-                                        ##self.logger.info(response_msg_item)
                                         responseMessages.append([response_msg_item,arrTargetUsers])
                                         response_msg_item =  None
-                                        ##self.logger.info("here 5.2")
 
                         else:
 
@@ -400,18 +353,15 @@ class clientSlack():
                                 response_msg_item = self.buildSimpleMessage(
                                     fbid, strMessage, strMessageImage, strMessageVideo, strQuickReplies, strNotificationType,strAttachmentText)
                             elif strMessageType == 'Buttons':
-                                # #######self.logger.info("test1")
                                 if "QuickReplies" in dictMessageParams:
                                     strQuickReplies1 = dictMessageParams["QuickReplies"]
                                 response_msg_item = self.buildButtonMessage(
                                     fbid, strMessage, strButtonInfo, strMessageImage, strSubTitleInfo, strMessageImage, strMessageVideo, "", "", strQuickReplies1, strNotificationType)
-                                # #######self.logger.info("test290")
                             elif strMessageType == 'Image':
                                 response_msg_item = self.buildImageMessage(
                                     fbid, strMessage, strMessageImage, strMessageVideo, strQuickReplies, strNotificationType)
                                 strMessageImage = ""
                             elif strMessageType == 'List':
-                                #########self.logger.info("calling list message")
                                 response_msg_item = self.buildListMessage(
                                     fbid, dictMessageParams["QuickReplies"], strNotificationType, dictMessageParams["ListContent"], dictMessageParams["ListButtons"])
 
@@ -422,8 +372,6 @@ class clientSlack():
 
                             if response_msg_item != '':
                                 responseMessages.append([response_msg_item,arrTargetUsers])
-                ##self.logger.info("-------->>6")
-                #######self.logger.info(str(responseMessages))
             return responseMessages
         except Exception, e:
             self.logger.error("buildMessage" + str(e))
@@ -432,26 +380,21 @@ class clientSlack():
         try:
             response_msg_item = ''
             quickReplies = []
-            if responseMessage == "":
-                responseMessage = "blank message"
+            if responseMessage == "" and imageURL=="" and videoURL=="":
+                return None
             dictMessage = {}
             dictMessage["recipient"] = {"id": fbid}
             dictMessage["message"] = {}
             dictMessage["message"]["text"] = responseMessage
             dictMessage["notification_type"] = strNotificationType
-            ###self.logger.info("221")
-            ###self.logger.info(strQuickReplies)
             if strQuickReplies != "":
                 arrQuickReplies = strQuickReplies.split(",")
-                #####self.logger.info("000.11")
                 for quickReply in arrQuickReplies:
                     if quickReply !="":
-                        #####self.logger.info("000.12")
                         quickReplyDetails = quickReply.split(":")
                         contentType = quickReplyDetails[0]
                         title = quickReplyDetails[1][:18]
                         payload = quickReplyDetails[2]
-                        #####self.logger.info("000.13")
                         imageURL = ""
                         if len(quickReplyDetails) > 3:
                             imageURL = quickReplyDetails[3]
@@ -462,7 +405,6 @@ class clientSlack():
                 #responseMessage = '.'
                 dictMessage["message"]["attachments"] = [
                     {"text": "", "fallback": responseMessage, "callback_id": "001", "actions": quickReplies}]
-            #####self.logger.info("000.2")
             if strAttachmentText != "":
                 if "attachments" in dictMessage["message"]:
                     dictMessage["message"]["attachments"][0]["text"] =strAttachmentText
@@ -471,7 +413,6 @@ class clientSlack():
                     arrAttacments =[]
                     arrAttacments.append({"text":strAttachmentText,"color" : "#414af4" })
                     dictMessage["message"]["attachments"] =  arrAttacments
-            #####self.logger.info("000.3")
             if responseMessage != '' or len(quickReplies) != 0:
                 response_msg_item = json.dumps(dictMessage)
 
@@ -481,7 +422,6 @@ class clientSlack():
 
     def buildImageMessage(self, fbid, responseMessage, imageURL="", videoURL="", strQuickReplies="", strNotificationType="REGULAR"):
         try:
-            ########self.logger.info("here 1")
             response_msg_item = ''
             quickReplies = []
             dictMessage = {}
@@ -506,8 +446,6 @@ class clientSlack():
             dictAttachment["image_url"] = imageURL
             #dictAttachment["color"] = "#764FA5"
 
-            ########self.logger.info("here 2")
-            # #######self.logger.info(json.dumps(dictMessage))
 
             if strQuickReplies != "":
                 arrActions = []
@@ -530,14 +468,12 @@ class clientSlack():
 
             #if responseMessage != '' or len(quickReplies) != 0:
             response_msg_item = json.dumps(dictMessage)
-            #######self.logger.info(response_msg_item)
             return response_msg_item
         except Exception, e:
             self.logger.error('buildImageMessage' + str(e))
 
     def getButton(self, stype, stitle, surl='', spayload=''):
         # print 'pppppppppp4'
-        #########self.logger.info("3.5-----" + stype +"---" + stitle +"---" + surl +"---" +spayload )
         dictButton = {}
         if stype == 'web_url':
             dictButton['type'] = 'web_url'
@@ -558,8 +494,6 @@ class clientSlack():
 
     def buildButtonMessage(self, fbid, responseMessage, buttonInfo, imageURL, subTitleInfo, strMessageImage, strMessageVideo, linkURL, strDictButtons, strQuickReplies, strNotificationType):
         try:
-            #########self.logger.info("1---" + str(buttonInfo))
-            #########self.logger.info("2---" + str(strDictButtons))
             response_msg_item = ''
             imageURLSaved = imageURL
             if responseMessage != '':
@@ -585,7 +519,6 @@ class clientSlack():
                             elif flagButtonType == "S":
                                 strButtonType = "element_share"
                         # if strButtonType == "web_url":
-                        # #######self.logger.info("-------------ss---------")
                         # if strButtonType == "web_url"
                         dictbuttons.append(self.getButton(
                             strButtonType, strButtonTitle, surl=linkURL, spayload=strButtonPostback))
@@ -593,24 +526,19 @@ class clientSlack():
                 else:
                     dictbuttons = json.loads(strDictButtons)
 
-                #########self.logger.info("3------" + str(dictbuttons))
                 urlText = ""
                 for button in dictbuttons:
-                    #########self.logger.info("3-1------" + str(button))
 
                     #button = json.loads(button)
                     # if "type" in button:
                     if button["type"] == "web_url":
                         if "url" in button:
                             urlText += button["url"]
-                            #########self.logger.info("URL---" + str(urlText))
                             # dictbuttons.remove(button)
                     elif button["type"] == "url":
                         urlText += button["url"]
                         # dictbuttons.remove(button)
-                        ##########self.logger.info("URL---" + str(urlText))
                     elif button["type"] == "postback":
-                        #########self.logger.info("3-1-1------" + str(button))
 
                         newButton = {}
                         if "title" in button:
@@ -624,7 +552,6 @@ class clientSlack():
                         dictbuttons.remove(button)
                         dictbuttons.append(newButton)
 
-                #########self.logger.info("4-1------" + str(dictbuttons))
 
                 for button in dictbuttons:
                     if button["type"] != "button":
@@ -729,8 +656,6 @@ class clientSlack():
                         dictAttachments.append(attachment)
                     intCount +=1
 
-                #####self.logger.info("okokok")
-                #####self.logger.info(arrListButtons)
                 #for listButton in arrListButtons:
                 attachment = {}
                 # attachment["title"] = "1"
@@ -752,7 +677,6 @@ class clientSlack():
 
 
 
-                #####self.logger.info("done-----")
                 if strQuickReplies != "":
                     arrQuickReplies = strQuickReplies.split(",")
                     for quickReply in arrQuickReplies:

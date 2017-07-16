@@ -43,6 +43,7 @@ class Progress(models.Model):
 	LastActivityUserID = models.CharField(max_length=500)
 	ExpectedEndDate = models.CharField(max_length=500)
 	Credits = models.IntegerField(default=0)
+
 class UserSkillStatus(models.Model):
 	userID = models.CharField(max_length=500)
 	skill = models.CharField(max_length=500)

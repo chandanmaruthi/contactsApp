@@ -1106,8 +1106,7 @@ def editMessageLibrary(request, ID):
 
 @login_required
 def deleteMessageLibrary(request, ID):
-    selMessage = MessageLibrary.objects.get(pk=ID)
-    selMessage.delete()
+    selMessage = MessageLibrary.objects.filter(pk=ID).delete()
 
     MessageLibraryList = MessageLibrary.objects.order_by('-Action')
     template = get_template('curiousWorkbench/configMessageLibrary.html')
@@ -1271,8 +1270,9 @@ def saveMessageLibrary(request, ID=""):
         selectedMessage.save()
         return HttpResponseRedirect(reverse('curiousWorkbench:editMessageLibrary', args=(ID,)))
     elif 'deleteMessage' in request.POST:
-        selectedMessage = MessageLibrary.objects.get(pk=ID)
-        selectedMessage.delete()
+        logger.info("in delete message")
+        logger.info(str(ID))
+        MessageLibrary.objects.filter(EventID=ID).delete()
         return HttpResponseRedirect(reverse('curiousWorkbench:configMessageLibrary', ))
 
 
