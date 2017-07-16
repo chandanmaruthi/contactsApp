@@ -197,7 +197,11 @@ def user_login(request):
         'UserName': request.user.username,
     }
     )
-    return HttpResponse(template.render(context))
+    return HttpResponse(template.render({
+        'rootURL' : rootURL,
+        'state': state,
+        'UserName': request.user.username,
+    }))
 
 @csrf_exempt
 def user_signup(request):
