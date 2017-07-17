@@ -145,13 +145,13 @@ def fbAriseBotContentWebView(request, content_Id, user_Id):
         logger.info("5")
         template = get_template('curiousWorkbench/displayContentWebView.html')
         strTitle = dictContent["Title"]
-        context = RequestContext(request, {
+        contextDict =  {
             'rootURL' : rootURL,
             'strHTML': strHTML,
             'strTitle': strTitle,
             'timeStamp': timezone.now(),
-        })
-        return HttpResponse(template.render(context))
+        }
+        return HttpResponse(template.render(contextDict))
     except Exception, e:
         self.logger.error('fbAriseBotContentWebView' + str(e))
 
@@ -175,33 +175,29 @@ def user_login(request):
                     state = "Your account is not active, please contact the site admin."
 
                 template = get_template('curiousWorkbench/index.html')
-                context = RequestContext(request, {
+                contextDict =  {
                     'rootURL' : rootURL,
                     'state': state,
-                })
-                return HttpResponse(template.render(context))
+                }
+                return HttpResponse(template.render(contextDict))
             else:
                 state = "Your username and/or password were incorrect."
                 template = get_template('curiousWorkbench/login.html')
-                context = RequestContext(request, {
+                contextDict =  {
                     'rootURL' : rootURL,
                     'state': state,
-                })
-                return HttpResponse(template.render(context))
+                }
+                return HttpResponse(template.render(contextDict))
 
     #state = "error occured."
     template = get_template('curiousWorkbench/login.html')
-    context = RequestContext(request, {
+    contextDict =  {
         'rootURL' : rootURL,
         'state': state,
         'UserName': request.user.username,
     }
     )
-    return HttpResponse(template.render({
-        'rootURL' : rootURL,
-        'state': state,
-        'UserName': request.user.username,
-    }))
+    return HttpResponse(template.render(contextDict))
 
 @csrf_exempt
 def user_signup(request):
@@ -231,7 +227,7 @@ def user_signup(request):
 
     #state = "error occured."
     template = get_template('curiousWorkbench/login.html')
-    context = RequestContext(request, {
+    contextDict =  {
         'rootURL' : rootURL,
         'SignUpState': SignUpState,
         'state':""
@@ -242,7 +238,7 @@ def user_signup(request):
 
     # context.update(csrf(request))
 
-    return HttpResponse(template.render(context))
+    return HttpResponse(template.render(contextDict))
 
 
 
@@ -265,23 +261,23 @@ def successfullInstall(request):
                 state = "Your account is not active, please contact the site admin."
 
             template = get_template('curiousWorkbench/index.html')
-            context = RequestContext(request, {
+            contextDict =  {
                 'rootURL' : rootURL,
                 'state': state,
-            })
-            return HttpResponse(template.render(context))
+            }
+            return HttpResponse(template.render(contextDict))
         else:
             state = "Your username and/or password were incorrect."
             template = get_template('curiousWorkbench/login.html')
-            context = RequestContext(request, {
+            contextDict =  {
                 'rootURL' : rootURL,
                 'state': state,
-            })
-            return HttpResponse(template.render(context))
+            }
+            return HttpResponse(template.render(contextDict))
 
     #state = "error occured."
     template = get_template('curiousWorkbench/successfullInstall.html')
-    context = RequestContext(request, {
+    contextDict =  {
         'rootURL' : rootURL,
         'state': state,
         'UserName': request.user.username,
@@ -289,7 +285,7 @@ def successfullInstall(request):
     )
     # context.update(csrf(request))
 
-    return HttpResponse(template.render(context))
+    return HttpResponse(template.render(contextDict))
 
 
 # @csrf_exempt
@@ -311,29 +307,29 @@ def successfullInstall(request):
 #                 state = "Your account is not active, please contact the site admin."
 #
 #             template = get_template('curiousWorkbench/index.html')
-#             context = RequestContext(request, {
+#             contextDict =  {
 #                 'state': state,
-#             })
-#             return HttpResponse(template.render(context))
+#             }
+#             return HttpResponse(template.render(contextDict))
 #         else:
 #             state = "Your username and/or password were incorrect."
 #             template = get_template('curiousWorkbench/login.html')
-#             context = RequestContext(request, {
+#             contextDict =  {
 #                 'state': state,
 #                 'UserName': request.user.username,
-#             })
-#             return HttpResponse(template.render(context))
+#             }
+#             return HttpResponse(template.render(contextDict))
 #
 #     #state = "error occured."
 #     template = get_template('curiousWorkbench/signup.html')
-#     context = RequestContext(request, {
+#     contextDict =  {
 #         'state': state,
 #         'UserName': request.user.username,
 #     }
 #     )
 #     # context.update(csrf(request))
 #
-#     return HttpResponse(template.render(context))
+#     return HttpResponse(template.render(contextDict))
 
 
 @csrf_exempt
@@ -357,7 +353,7 @@ def webHome(request):
 
     #state = "error occured."
     template = get_template('curiousWorkbench/webManageModule.html')
-    context = RequestContext(request, {
+    contextDict =  {
         'rootURL' : rootURL,
         'state': state,
         'UserName': request.user.username,
@@ -365,7 +361,7 @@ def webHome(request):
     )
     # context.update(csrf(request))
 
-    return HttpResponse(template.render(context))
+    return HttpResponse(template.render(contextDict))
 
 @csrf_exempt
 def webManageModule(request):
@@ -387,7 +383,7 @@ def webManageModule(request):
 
     #state = "error occured."
     template = get_template('curiousWorkbench/webManageModule.html')
-    context = RequestContext(request, {
+    contextDict =  {
         'rootURL' : rootURL,
         'state': state,
         'UserName': request.user.username,
@@ -395,7 +391,7 @@ def webManageModule(request):
     )
     # context.update(csrf(request))
 
-    return HttpResponse(template.render(context))
+    return HttpResponse(template.render(contextDict))
 
 
 
@@ -404,22 +400,22 @@ def user_logout(request):
     request.session.flush()
     request.user = AnonymousUser
     template = get_template('curiousWorkbench/login.html')
-    context = RequestContext(request, {
+    contextDict =  {
         'rootURL' : rootURL,
         'state': "You Have been logged out, Please login again if you wish to continue ",
-    })
-    return HttpResponse(template.render(context))
+    }
+    return HttpResponse(template.render(contextDict))
 
 
 @login_required
 def index(request):
     template = get_template('curiousWorkbench/index.html')
-    context = RequestContext(request, {
+    contextDict =  {
         'rootURL' : rootURL,
         'latest_question_list': 1,
         'UserName': request.user.username,
-    })
-    return HttpResponse(template.render(context))
+    }
+    return HttpResponse(template.render(contextDict))
 
 
 def facebookAuth(request):
@@ -467,20 +463,20 @@ def displayPVPolicy(request):
 
     template = get_template('curiousWorkbench/displayPVPolicy.html')
     strTitle = "My Certificates"
-    context = RequestContext(request, {
+    contextDict =  {
         'timeStamp': timezone.now(),
-    })
-    return HttpResponse(template.render(context))
+    }
+    return HttpResponse(template.render(contextDict))
 
 
 def displayTnC(request):
 
     template = get_template('curiousWorkbench/displayTnC.html')
     strTitle = "Terms and Conditions"
-    context = RequestContext(request, {
+    contextDict =  {
         'timeStamp': timezone.now(),
-    })
-    return HttpResponse(template.render(context))
+    }
+    return HttpResponse(template.render(contextDict))
 # displayTnC
 
 
@@ -572,7 +568,7 @@ def fbAriseBotCertWebView(request, userID):
     #---------------------------------------
     template = get_template('curiousWorkbench/displayCertWebView.html')
     strTitle = "My Certificates"
-    context = RequestContext(request, {
+    contextDict =  {
         # 'strHTML': strHTML,
         'strTitle': strTitle,
         'strUserName': "Chandan Maruthi",
@@ -587,8 +583,8 @@ def fbAriseBotCertWebView(request, userID):
         'chartURL_1':chartURL_1,
         'chartURL_2':chartURL_2,
         'chartURL_3':chartURL_3,
-    })
-    return HttpResponse(template.render(context))
+    }
+    return HttpResponse(template.render(contextDict))
 
 
 def fbAriseBotReminder(request, passID):
@@ -646,12 +642,12 @@ def fbAriseBotReminder(request, passID):
                         intCounter += 1
                         # logger.info(status)
     template = get_template('curiousWorkbench/fbABReminder.html')
-    context = RequestContext(request, {
+    contextDict =  {
         'strHTML': "Sent " + str(intCounter) + " reminders",
         'strTitle': "Reminders",
         'timeStamp': timezone.now(),
-    })
-    return HttpResponse(template.render(context))
+    }
+    return HttpResponse(template.render(contextDict))
 
 
 #@method_decorator(csrf_exempt)
@@ -775,7 +771,7 @@ def configUsers(request):
 
     #-------------------------------------------------------
 
-    context = RequestContext(request, {
+    contextDict =  {
         'UserStateList': UserStateList,
         'UsersByRoleList': UsersByRoleList,
         'imgURLRole': imgURLRole,
@@ -783,8 +779,8 @@ def configUsers(request):
         'imgURLSubscription': imgURLSubscription,
         'imgURLNotifyTime': imgURLNotifyTime,
         'UserName': request.user.username,
-    })
-    return HttpResponse(template.render(context))
+    }
+    return HttpResponse(template.render(contextDict))
 
 @login_required
 def configSettings(request):
@@ -793,11 +789,11 @@ def configSettings(request):
 
     #StateMachineList = StateMachine.objects.order_by('SM_ID')
     template = get_template('curiousWorkbench/configSettings.html')
-    context = RequestContext(request, {
+    contextDict =  {
         'strAppSettings': strAppSettings,
                 'UserName': request.user.username,
-    })
-    return HttpResponse(template.render(context))
+    }
+    return HttpResponse(template.render(contextDict))
 
 
 @login_required
@@ -812,22 +808,22 @@ def configStateMachine(request):
         StateMachineList = StateMachine.objects.order_by('Event_Code')
 
     template = get_template('curiousWorkbench/configStateMachine.html')
-    context = RequestContext(request, {
+    contextDict =  {
         'StateMachineList': StateMachineList,
         'strTree': getEventTree(StateMachineList)
-    })
-    return HttpResponse(template.render(context))
+    }
+    return HttpResponse(template.render(contextDict))
 
 @login_required
 def configBot(request):
     StateMachineList = StateMachine.objects.order_by('Event_Code')
     template = get_template('curiousWorkbench/configBot.html')
-    context = RequestContext(request, {
+    contextDict =  {
         'StateMachineList': StateMachineList,
         'strTree': getEventTree(StateMachineList),
                 'UserName': request.user.username,
-    })
-    return HttpResponse(template.render(context))
+    }
+    return HttpResponse(template.render(contextDict))
 
 def getEventTree(StateMachineList):
     StateMachineList = list(StateMachineList)
@@ -902,11 +898,11 @@ def getEventElement(selStateMachine):
 def configMessageLibrary(request):
     MessageLibraryList = MessageLibrary.objects.order_by('ID')
     template = get_template('curiousWorkbench/configMessageLibrary.html')
-    context = RequestContext(request, {
+    contextDict =  {
         'MessageLibraryList': MessageLibraryList,
                 'UserName': request.user.username,
-    })
-    return HttpResponse(template.render(context))
+    }
+    return HttpResponse(template.render(contextDict))
 
 
 @login_required
@@ -914,21 +910,21 @@ def configContentLibrary(request):
     ContentLibraryList = ContentLibrary.objects.filter(Message_Type='UGC')[
         :100]
     template = get_template('curiousWorkbench/configContentLibrary.html')
-    context = RequestContext(request, {
+    contextDict =  {
         'ContentLibraryList': ContentLibraryList,
                 'UserName': request.user.username,
-    })
-    return HttpResponse(template.render(context))
+    }
+    return HttpResponse(template.render(contextDict))
 
 @login_required
 def configModule(request):
     ModuleList = Module.objects.order_by('ID')
     template = get_template('curiousWorkbench/configModule.html')
-    context = RequestContext(request, {
+    contextDict =  {
         'ModuleList': ModuleList,
                 'UserName': request.user.username,
-    })
-    return HttpResponse(template.render(context))
+    }
+    return HttpResponse(template.render(contextDict))
 
 @login_required
 @requires_csrf_token
@@ -945,10 +941,10 @@ def uploadContent(request,ModuleID):
     sid = 0
     strErrorMessage = ""
     intSucces = 1
-    context = RequestContext(request, {
+    contextDict =  {
         'ModuleList': ModuleList,
         'UserName': request.user.username,
-    })
+    }
     if request.method == 'POST' and request.FILES['myfile']:
         myfile = request.FILES['myfile']
         fs = FileSystemStorage()
@@ -1016,11 +1012,11 @@ def uploadContent(request,ModuleID):
 
 
 
-        context = RequestContext(request, {
+        contextDict =  {
             'ModuleList': ModuleList,
             'uploaded_file_url': uploaded_file_url,
                     'UserName': request.user.username,
-            })
+            }
     return render(request, 'uploadContent.html', {
         'ModuleList': ModuleList,
         'uploaded_file_url': uploaded_file_url,
@@ -1029,7 +1025,7 @@ def uploadContent(request,ModuleID):
         'SuccessMessage' : strErrorMessage,
         'UserName': username,
 
-        })
+        }
 
 
 
@@ -1037,9 +1033,9 @@ def uploadContent(request,ModuleID):
 def addStateMachineSubscription(request):
     template = get_template(
         'curiousWorkbench/addStateMachineSubscription.html')
-    context = RequestContext(request, {'timeStamp': timezone.now(),
-            'UserName': request.user.username,})
-    return HttpResponse(template.render(context))
+    contextDict =  {'timeStamp': timezone.now(),
+            'UserName': request.user.username,}
+    return HttpResponse(template.render(contextDict))
 
 
 @login_required
@@ -1049,11 +1045,11 @@ def deleteStateMachineSubscription(request, SM_ID):
 
     StateMachineList = StateMachine.objects.order_by('-Event_Code')
     template = get_template('curiousWorkbench/tateMachine.html')
-    context = RequestContext(request, {
+    contextDict =  {
         'StateMachineList': StateMachineList,
                 'UserName': request.user.username,
-    })
-    return HttpResponse(template.render(context))
+    }
+    return HttpResponse(template.render(contextDict))
 
 
 @login_required
@@ -1062,13 +1058,13 @@ def editStateMachineSubscription(request, SM_ID):
     #selAction = MessageLibrary.objects.filter(EventID=selStateMachine.SM_ID)
     template = get_template(
         'curiousWorkbench/editStateMachineSubscription.html')
-    context = RequestContext(request, {
+    contextDict =  {
         'rootURL' : rootURL,
         'selStateMachine': selStateMachine,
         'selEventID':selStateMachine.SM_ID,
                 'UserName': request.user.username,
-    })
-    return HttpResponse(template.render(context))
+    }
+    return HttpResponse(template.render(contextDict))
 
 @login_required
 def editTestChat(request):
@@ -1076,19 +1072,19 @@ def editTestChat(request):
     selAction = MessageLibrary.objects.filter(Action=selStateMachine.Action)
     template = get_template(
         'curiousWorkbench/editTestChat.html')
-    context = RequestContext(request, {
+    contextDict =  {
         'selStateMachine': selStateMachine,
         'selActionID':selAction[0].ID,
                 'UserName': request.user.username,
-    })
-    return HttpResponse(template.render(context))
+    }
+    return HttpResponse(template.render(contextDict))
 
 
 @login_required
 def addMessageLibrary(request):
     template = get_template('curiousWorkbench/addMessageLibrary.html')
-    context = RequestContext(request, {'timeStamp': timezone.now(),        'UserName': request.user.username,})
-    return HttpResponse(template.render(context))
+    contextDict =  {'timeStamp': timezone.now(),        'UserName': request.user.username,}
+    return HttpResponse(template.render(contextDict))
 
 
 @login_required
@@ -1102,11 +1098,11 @@ def editMessageLibrary(request, ID):
         selMessageLibrary = None
 
     template = get_template('curiousWorkbench/editMessageLibrary.html')
-    context = RequestContext(request, {
+    contextDict =  {
         'selMessageLibrary': selMessageLibrary,
                 'UserName': request.user.username,
-    })
-    return HttpResponse(template.render(context))
+    }
+    return HttpResponse(template.render(contextDict))
 
 @login_required
 def deleteMessageLibrary(request, ID):
@@ -1114,31 +1110,31 @@ def deleteMessageLibrary(request, ID):
 
     MessageLibraryList = MessageLibrary.objects.order_by('-Action')
     template = get_template('curiousWorkbench/configMessageLibrary.html')
-    context = RequestContext(request, {
+    contextDict =  {
         'MessageLibraryList': MessageLibraryList,
                 'UserName': request.user.username,
-    })
-    return HttpResponse(template.render(context))
+    }
+    return HttpResponse(template.render(contextDict))
 
 @login_required
 def editContentLibrary(request, ID):
     selContent = get_object_or_404(ContentLibrary, pk=ID)
     template = get_template('curiousWorkbench/editContentLibrary.html')
-    context = RequestContext(request, {
+    contextDict =  {
         'selContent': selContent,
                 'UserName': request.user.username,
-    })
-    return HttpResponse(template.render(context))
+    }
+    return HttpResponse(template.render(contextDict))
 
 @login_required
 def editModule(request, ID):
     selModule = get_object_or_404(Module, pk=ID)
     template = get_template('curiousWorkbench/editModule.html')
-    context = RequestContext(request, {
+    contextDict =  {
         'selModule': selModule,
                 'UserName': request.user.username,
-    })
-    return HttpResponse(template.render(context))
+    }
+    return HttpResponse(template.render(contextDict))
 
 @login_required
 def deleteContentLibrary(request, ID):
@@ -1147,11 +1143,11 @@ def deleteContentLibrary(request, ID):
 
     ContentLibraryList = ContentLibraryList.objects.order_by('-ID')
     template = get_template('curiousWorkbench/configContentLibrary.html')
-    context = RequestContext(request, {
+    contextDict =  {
         'ContentLibraryList': ContentLibraryList,
                 'UserName': request.user.username,
-    })
-    return HttpResponse(template.render(context))
+    }
+    return HttpResponse(template.render(contextDict))
 
 @login_required
 def deleteModule(request, ID):
@@ -1160,25 +1156,25 @@ def deleteModule(request, ID):
 
     ContentLibraryList = ContentLibraryList.objects.order_by('-ID')
     template = get_template('curiousWorkbench/configModule.html')
-    context = RequestContext(request, {
+    contextDict =  {
         'ContentLibraryList': ContentLibraryList,
                 'UserName': request.user.username,
-    })
-    return HttpResponse(template.render(context))
+    }
+    return HttpResponse(template.render(contextDict))
 
 
 @login_required
 def addContentLibrary(request):
     template = get_template('curiousWorkbench/addContentLibrary.html')
-    context = RequestContext(request, {'timeStamp': timezone.now(),        'UserName': request.user.username,})
-    return HttpResponse(template.render(context))
+    contextDict =  {'timeStamp': timezone.now(),        'UserName': request.user.username,}
+    return HttpResponse(template.render(contextDict))
 
 
 @login_required
 def addModule(request):
     template = get_template('curiousWorkbench/addModule.html')
-    context = RequestContext(request, {'timeStamp': timezone.now(),        'UserName': request.user.username,})
-    return HttpResponse(template.render(context))
+    contextDict =  {'timeStamp': timezone.now(),        'UserName': request.user.username,}
+    return HttpResponse(template.render(contextDict))
 
 
 @login_required
@@ -1496,9 +1492,9 @@ def slackAuth(request):
 
 
         template = get_template('curiousWorkbench/successfullInstall.html')
-        context = RequestContext(request, {'timeStamp': timezone.now(), 'UserName': request.user.username,
-        'InstallMessage': strMessage})
-        return HttpResponse(template.render(context))
+        contextDict =  {'timeStamp': timezone.now(), 'UserName': request.user.username,
+        'InstallMessage': strMessage}
+        return HttpResponse(template.render(contextDict))
 
     except KeyError, e:
         # Redisplay the question voting form.
