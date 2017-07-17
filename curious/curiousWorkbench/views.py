@@ -196,7 +196,7 @@ def user_login(request):
         'state': state,
         'UserName': request.user.username,
     }
-    
+
     return HttpResponse(template.render(contextDict))
 
 @csrf_exempt
@@ -233,8 +233,6 @@ def user_signup(request):
         'state':""
 
     }
-    )
-
 
     # context.update(csrf(request))
 
@@ -282,7 +280,7 @@ def successfullInstall(request):
         'state': state,
         'UserName': request.user.username,
     }
-    )
+
     # context.update(csrf(request))
 
     return HttpResponse(template.render(contextDict))
@@ -358,7 +356,7 @@ def webHome(request):
         'state': state,
         'UserName': request.user.username,
     }
-    )
+
     # context.update(csrf(request))
 
     return HttpResponse(template.render(contextDict))
@@ -388,7 +386,7 @@ def webManageModule(request):
         'state': state,
         'UserName': request.user.username,
     }
-    )
+
     # context.update(csrf(request))
 
     return HttpResponse(template.render(contextDict))
@@ -1016,16 +1014,11 @@ def uploadContent(request,ModuleID):
             'ModuleList': ModuleList,
             'uploaded_file_url': uploaded_file_url,
                     'UserName': request.user.username,
-            }
-    return render(request, 'uploadContent.html', {
-        'ModuleList': ModuleList,
-        'uploaded_file_url': uploaded_file_url,
-        'dataTable': strData,
-        'ModuleID' :ModuleID,
-        'SuccessMessage' : strErrorMessage,
-        'UserName': username,
-
-        }
+                    'dataTable': strData,
+                    'ModuleID' :ModuleID,
+                    'SuccessMessage' : strErrorMessage,
+                    'UserName': username,}
+    return HttpResponse(template.render(contextDict))
 
 
 
