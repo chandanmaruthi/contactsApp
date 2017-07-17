@@ -196,7 +196,7 @@ def user_login(request):
         'state': state,
         'UserName': request.user.username,
     }
-    )
+    
     return HttpResponse(template.render(contextDict))
 
 @csrf_exempt
