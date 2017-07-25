@@ -483,9 +483,11 @@ def installApp(request):
     template = get_template('curiousWorkbench/installApp.html')
     strTitle = "Install App"
     strSlackClientID= configSettingsObj.slackWalnutClientID
+    webURL= configSettingsObj.webUrl
     contextDict =  {
         'timeStamp': timezone.now(),
         'strSlackClientID':strSlackClientID,
+        'webURL':webURL,
     }
     return HttpResponse(template.render(contextDict))
 # displayTnC
