@@ -3056,7 +3056,7 @@ class botLogic(object):
     def UpdateUserInfoSlack(self, userID):
         try:
             strTeamID = UserState.objects.get(UserID= userID).Org_ID
-            strBotAccessToken = PlatformCredentials.objects.get(SlackTeamID=strTeamID).SlackBotAccessToken
+            strBotAccessToken = PlatformCredentials.objects.filter(SlackTeamID=strTeamID)[0].SlackBotAccessToken
             strSlackToken = strBotAccessToken
             strUserID = userID
             slackURL = "https://slack.com/api/users.info?token=" + strSlackToken + "&user=" + strUserID + "&include_labels=True&pretty=1"
