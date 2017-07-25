@@ -123,8 +123,8 @@ class configSettings:
         return self._slackClientSecret
 
     @property
-    def slackVerifyToken(self):
-        return self._slackVerifyToken
+    def slackVerificationToken(self):
+        return self._slackVerificationToken
 
     @property
     def slackOAuthAccessToken(self):

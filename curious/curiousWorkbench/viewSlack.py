@@ -106,7 +106,7 @@ class slackClientWalnutBotView(generic.View):
                         strChallenge = jsonBody["challenge"]
                         strToken = jsonBody["token"]
                         strSlackToken=self.configSettingsObj.slackVerificationToken
-                        strSlackToken="FqIvpnAHFCbDM7ISlr1IRzKr"
+                        #strSlackToken="FqIvpnAHFCbDM7ISlr1IRzKr"
                         self.logger.info(strToken)
                         self.logger.info(strChallenge)
                         if strToken== strSlackToken:
