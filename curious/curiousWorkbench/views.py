@@ -143,7 +143,7 @@ def fbAriseBotContentWebView(request, content_Id, user_Id):
                     dictContent["Embed_ID"] + "'></iframe>"
             if dictContent["Type"] == "UGC":
                 strHTML = "<iframe style='overflow: hidden; height: 100%; width: 100%; position: absolute;' height='315' src='" + \
-                    self.configSettingsObj.absFileLocation + "/videos/" + \
+                    configSettingsObj.absFileLocation + "/videos/" + \
                     dictContent["LinkURL"] + "'></iframe>"
         logger.info("5")
         template = get_template('curiousWorkbench/displayContentWebView.html')
@@ -348,7 +348,7 @@ def webHome(request):
         if 'FileUpload' in request.FILES:
             myfile = request.FILES['FileUpload']
             fs = FileSystemStorage()
-            filePath = self.configSettingsObj.appFolderPath() + "/UserContent/FileUploads/" + myfile.name
+            filePath = configSettingsObj.appFolderPath() + "/UserContent/FileUploads/" + myfile.name
             filename = fs.save(filePath, myfile)
             uploaded_file_url = fs.url(filename)
 
@@ -378,7 +378,7 @@ def webManageModule(request):
         if 'FileUpload' in request.FILES:
             myfile = request.FILES['FileUpload']
             fs = FileSystemStorage()
-            filePath = self.configSettingsObj.appFolderPath() + "/UserContent/FileUploads/" + myfile.name
+            filePath = configSettingsObj.appFolderPath() + "/UserContent/FileUploads/" + myfile.name
             filename = fs.save(filePath, myfile)
             uploaded_file_url = fs.url(filename)
 
@@ -482,7 +482,7 @@ def installApp(request):
 
     template = get_template('curiousWorkbench/installApp.html')
     strTitle = "Install App"
-    strSlackClientID= self.configSettingsObj.slackWalnutClientID
+    strSlackClientID= configSettingsObj.slackWalnutClientID
     contextDict =  {
         'timeStamp': timezone.now(),
         'strSlackClientID':strSlackClientID,
