@@ -101,17 +101,18 @@ class slackClientWalnutBotView(generic.View):
             strJson = urllib.unquote(strJson)
             if strJson[:7] != "payload":
                 jsonBody = json.loads(strJson)
-                if jsonBody["type"]=="url_verification":
-                    strChallenge = jsonBody["challenge"]
-                    strToken = jsonBody["token"]
-                    strSlackToken=self.configSettingsObj.slackVerificationToken
-                    strSlackToken="FqIvpnAHFCbDM7ISlr1IRzKr"
-                    self.logger.info(strToken)
-                    self.logger.info(strChallenge)
-                    if strToken== strSlackToken:
-                        return HttpResponse(strChallenge)
-                    else:
-                        return HttpResponse('Error, invalwewid token111')
+                if "type" in jsonBody:
+                    if jsonBody["type"]=="url_verification":
+                        strChallenge = jsonBody["challenge"]
+                        strToken = jsonBody["token"]
+                        strSlackToken=self.configSettingsObj.slackVerificationToken
+                        strSlackToken="FqIvpnAHFCbDM7ISlr1IRzKr"
+                        self.logger.info(strToken)
+                        self.logger.info(strChallenge)
+                        if strToken== strSlackToken:
+                            return HttpResponse(strChallenge)
+                        else:
+                            return HttpResponse('Error, invalwewid token111')
 
 
             self.handleMessage(strJson)
