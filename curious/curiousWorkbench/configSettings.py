@@ -27,7 +27,7 @@ class configSettings:
     _inMemDataDbName = jsonSettings[serverName]['inMemDataDbName']
     _inMemStateDbName = jsonSettings[serverName]['inMemStateDbName']
     #-----------Server Folder locations---------------------------------------------------------------------------------------------
-    
+
     _appFolderPath = basePath + jsonSettings[serverName]['appFolderPath']
     _helpFilePath = basePath + jsonSettings[serverName]['helpFilePath']
     _absFileLocation = basePath + jsonSettings[serverName]['absFileLocation']
@@ -45,7 +45,7 @@ class configSettings:
     _slackWalnutClientID = jsonSettings[serverName]['slackWalnutClientID']
     _slackClientSecret = jsonSettings[serverName]['slackClientSecret']
     _slackVerifyToken = jsonSettings[serverName]['slackVerifyToken']
-    _slackVerificationToken = jsonSettings[serverName]['slackVerificationToken']
+    _slackOAuthAccessToken = jsonSettings[serverName]['slackOAuthAccessToken']
 
     @property
     def helpFilePath(self):
@@ -127,5 +127,5 @@ class configSettings:
         return self._slackVerifyToken
 
     @property
-    def slackVerificationToken(self):
-        return self._slackVerificationToken
+    def slackOAuthAccessToken(self):
+        return self._slackOAuthAccessToken
