@@ -485,7 +485,7 @@ def installApp(request):
     strSlackClientID= self.configSettingsObj.slackWalnutClientID
     contextDict =  {
         'timeStamp': timezone.now(),
-        'strSlackClientID'=strSlackClientID
+        'strSlackClientID':strSlackClientID,
     }
     return HttpResponse(template.render(contextDict))
 # displayTnC
