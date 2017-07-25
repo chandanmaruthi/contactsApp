@@ -385,7 +385,7 @@ class clientSlack():
             dictMessage = {}
             dictMessage["recipient"] = {"id": fbid}
             dictMessage["message"] = {}
-            dictMessage["message"]["text"] = responseMessage
+            dictMessage["message"]["text"] = responseMessage.decode('utf-8')
             dictMessage["notification_type"] = strNotificationType
             if strQuickReplies != "":
                 arrQuickReplies = strQuickReplies.split(",")
@@ -427,6 +427,8 @@ class clientSlack():
             dictMessage = {}
             dictAttachment = {}
             dictPayload = {}
+            if responseMessage.strip() =="":
+                responseMessage = "_"
             # dictAttachment["type"]="image"
             # dictPayload["url"]=imageURL
             dictMessage["message"] = {}
@@ -439,10 +441,10 @@ class clientSlack():
             dictMessage["notification_type"] = strNotificationType
 
             dictAttachment = {}
-            dictAttachment["fallback"] = ""
+            dictAttachment["fallback"] = "_"
             dictAttachment["title"] = ""
             dictAttachment["title_link"] = ""
-            dictAttachment["text"] = ""
+            dictAttachment["text"] = "s"
             dictAttachment["image_url"] = imageURL
             #dictAttachment["color"] = "#764FA5"
 
@@ -468,6 +470,7 @@ class clientSlack():
 
             #if responseMessage != '' or len(quickReplies) != 0:
             response_msg_item = json.dumps(dictMessage)
+            self.logger.info("here in build message" + str(response_msg_item))
             return response_msg_item
         except Exception, e:
             self.logger.error('buildImageMessage' + str(e))

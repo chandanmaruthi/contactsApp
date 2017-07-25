@@ -3,6 +3,8 @@ import os
 import datetime
 from django.db.models import Count
 import ast
+import base64
+
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
 sys.path.append(dir_path)
@@ -44,6 +46,7 @@ import urllib2
 from django.core.files.storage import FileSystemStorage
 from itertools import *
 from django.db import connection
+from django.utils.safestring import SafeUnicode
 
 import redis
 import StringIO
@@ -471,6 +474,14 @@ def displayTnC(request):
 
     template = get_template('curiousWorkbench/displayTnC.html')
     strTitle = "Terms and Conditions"
+    contextDict =  {
+        'timeStamp': timezone.now(),
+    }
+    return HttpResponse(template.render(contextDict))
+def installApp(request):
+
+    template = get_template('curiousWorkbench/installApp.html')
+    strTitle = "Install App"
     contextDict =  {
         'timeStamp': timezone.now(),
     }
@@ -1239,7 +1250,7 @@ def saveMessageLibrary(request, ID=""):
         #selectedMessage.Action = request.POST['Action']
         #selectedMessage.MsgOrder = request.POST['MsgOrder']
         selectedMessage.MessageType = request.POST['MessageType']
-        selectedMessage.MessageText = request.POST['MessageText']
+        selectedMessage.MessageText =  request.POST['MessageText']
         selectedMessage.MessageImage = request.POST['MessageImage']
         selectedMessage.MessageVideo = request.POST['MessageVideo']
         selectedMessage.MessageButtons = request.POST['MessageButtons']

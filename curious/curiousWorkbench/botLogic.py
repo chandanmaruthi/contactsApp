@@ -209,9 +209,9 @@ class botLogic(object):
             strMessageType = "Buttons"
             strMessage = "Hmm,I did not get that!"
             strMessage += "\r\n Here are a few things you can do "
-            strMessage += "\r\n *Search* : To search for topics"
-            strMessage += "\r\n *Create Topic*: To create concepts "
-            strMessage += "\r\n *Share Topic*: To share topics "
+            strMessage += "\r\n *Search* : To search for a Stash"
+            strMessage += "\r\n *Create Stash*: To create concepts "
+            strMessage += "\r\n *Share Stash*: To share Stash "
             strMessage += "\r\n *Show skills*: To see relevant skills say "
             strMessage += "\r\n *Show Insight*: To check out an insight say "
             strVideoURL = ""
@@ -353,6 +353,7 @@ class botLogic(object):
     def actionGetReco(self, userID, recevied_message,strDictParams=""):
         try:
             #--------------Define Variables -------------------------------
+            self.logger.info(strDictParams)
             retArr=[]
             dictParams={}
             intProgressUnits = 0
@@ -370,13 +371,13 @@ class botLogic(object):
             dictParamsModuleCompleted = None
             contentLibraryObj = None
             #--------------get Params -------------------------------
-            self.logger.info("1")
             if strDictParams.strip()!="":
                 dictParams = json.loads(strDictParams)
                 if "MODULE_ID" in dictParams:
                     moduleID = dictParams["MODULE_ID"]
                 if "CONTENT_FEEDBACK" in dictParams:
                     contentFeedback = dictParams["CONTENT_FEEDBACK"]
+                #if postback refers to a specfic content id , get that specific one else get the first one in the module
                 if "CONTENT_ID" in dictParams:
                     contentID = dictParams["CONTENT_ID"]
                     objContentLibraryListA= ContentLibrary.objects.filter(ID= contentID)
@@ -387,85 +388,97 @@ class botLogic(object):
                         userContentOrder = 1
                 else:
                     objContentLibrary= ContentLibrary.objects.filter(Module_ID= moduleID).order_by("Content_Order").first()
+                    moduleID = objContentLibrary.Module_ID
                     if objContentLibrary is not None:
                         contentID = objContentLibrary.ID
                         isFirst=True
-            self.logger.info("2")
+
+
+
             #--------------Define Variables -------------------------------
             if moduleID is not None:
                 objUserModuleProgressList = UserModuleProgress.objects.filter(ModuleID=moduleID,UserID=userID)
                 objModule = Module.objects.get(ID=moduleID)
                 objContentLibraryList = ContentLibrary.objects.filter(Module_ID=moduleID)
 
-                self.logger.info("2.1")
                 if len(objUserModuleProgressList)>0:
                     intProgressUnits = objUserModuleProgressList[0].CurrentPosition
-                else:
-                    intProgressUnits = 0
                 intUnits = objContentLibraryList.count()
 
                 if contentID!=-1 :
+                    # If it is the first item get it from content ID, if not, get content with module and content order
                     if isFirst == True:
                         contentLibraryObjList = ContentLibrary.objects.filter(ID=contentID)
                     else:
-                        contentLibraryObjList = ContentLibrary.objects.filter(Module_ID=moduleID,Content_Order=userContentOrder+1)
+                        contentLibraryObjList = ContentLibrary.objects.filter(Module_ID=moduleID,Content_Order=userContentOrder)
 
                     if len(contentLibraryObjList)>0:
                         contentLibraryObj=contentLibraryObjList[0]
-                else:
-                    if len(objContentLibraryList)>0 :
-
-                        arrProgress = []
-                        arrContentLibrary = []
-
-                        for objUserModuleProgress in objUserModuleProgressList:
-                            arrProgress.append(objUserModuleProgress.Content_ID)
-
-                        for objContentLibrary in objContentLibraryList:
-                            arrContentLibrary.append(objContentLibrary.ID)
-
-                        arrUnusedContent = set(arrContentLibrary) - set(arrProgress)
-
-                        intUnusedContent = len(arrUnusedContent)
-
-
-                        if intUnusedContent>1:
-                            intRantInt = randint(0,intUnusedContent-1)
-                            contentID = list(arrUnusedContent)[intRantInt]
-                            self.logger.info("here" + str(contentID))
-                            contentLibraryObj = ContentLibrary.objects.get(ID= contentID)
-                        else :
-                            intRantInt = randint(0,len(arrContentLibrary)-1)
-                            contentID = list(arrContentLibrary)[intRantInt]
-                            self.logger.info("here" + str(contentID))
-                            contentLibraryObj = ContentLibrary.objects.get(ID= contentID)
-
-                        currentContentOrder = contentLibraryObj.Content_Order
-                self.logger.info("2.2")
+                # else:
+                #     if len(objContentLibraryList)>0 :
+                #
+                #         arrProgress = []
+                #         arrContentLibrary = []
+                #
+                #         for objUserModuleProgress in objUserModuleProgressList:
+                #             arrProgress.append(objUserModuleProgress.Content_ID)
+                #
+                #         for objContentLibrary in objContentLibraryList:
+                #             arrContentLibrary.append(objContentLibrary.ID)
+                #
+                #         arrUnusedContent = set(arrContentLibrary) - set(arrProgress)
+                #
+                #         intUnusedContent = len(arrUnusedContent)
+                #
+                #
+                #         if intUnusedContent>1:
+                #             intRantInt = randint(0,intUnusedContent-1)
+                #             contentID = list(arrUnusedContent)[intRantInt]
+                #             self.logger.info("here" + str(contentID))
+                #             contentLibraryObj = ContentLibrary.objects.get(ID= contentID)
+                #         else :
+                #             intRantInt = randint(0,len(arrContentLibrary)-1)
+                #             contentID = list(arrContentLibrary)[intRantInt]
+                #             self.logger.info("here" + str(contentID))
+                #             contentLibraryObj = ContentLibrary.objects.get(ID= contentID)
+                #
+                #         currentContentOrder = contentLibraryObj.Content_Order
+                # self.logger.info("2.2")
 
                 if intProgressUnits +1 >= intUnits:
                     blnLastMessage = True
                     objUserModuleProgressList = UserModuleProgress.objects.filter(ModuleID=moduleID).delete()
-                    dictParamsModuleCompleted =  self.actionGetModuleCompletionMessage(userID, recevied_message,moduleID)
+                    #dictParamsModuleCompleted =  self.actionGetModuleCompletionMessage(userID, recevied_message,moduleID)
 
                 else:
                     blnLastMessage = False
                     blnIsLastMessage1 = self.updateUserModuleProgress(userID,moduleID,contentLibraryObj.ID)
 
 
-                self.logger.info("3")
-
-
                 if contentLibraryObj is not None:
                     intContentID= contentLibraryObj.ID
                 else:
                     intContentID = None
-                self.logger.info("3.1.1")
+
+                #if it is the first question give some header information about the stash
+                if isFirst ==True:
+                    strMessageType = "Text"
+                    strMessage = "This 🗃️ Stash has *" +str(intUnits) + "* questions"
+                    strImage = ""
+                    strSubTitleInfo = ""
+                    strImage = ""
+                    strVideoURL = ""
+                    strLink = ""
+                    strDictButtons = ""
+                    strQuickReplies = ""
+                    strNotificationType = "SILENT"
+
+                    dictParamsMessageFirstQ = self.getMessageDict(strMessageType, strMessage, strImage, strSubTitleInfo, strImage, strVideoURL, strLink, strDictButtons, strQuickReplies,strNotificationType)
+                    retArr.append(dictParamsMessageFirstQ)
+
                 arrParamsConcept = self.getConceptMessage( userID,intContentID, blnLastMessage)
-                self.logger.info("3.1.2")
                 for dictParamsConcept in arrParamsConcept:
                     retArr.append(dictParamsConcept)
-                self.logger.info("3.1.3")
                 dictParamsChallenge = self.getChallengeMessage( userID,intContentID, intProgressUnits, intUnits, blnLastMessage)
                 self.logger.info("3.1.4")
                 if dictParamsChallenge is not None:
@@ -488,8 +501,7 @@ class botLogic(object):
 
                 dictParams = self.getMessageDict(strMessageType, strMessage, strImage, strSubTitleInfo, strImage, strVideoURL, strLink, strDictButtons, strQuickReplies,strNotificationType)
                 retArr.append(dictParams)
-            if dictParamsModuleCompleted is not None:
-                retArr.append(dictParamsModuleCompleted)
+            self.logger.info("=====>>>>>"+str(retArr))
             return retArr
         except Exception,e:
             self.logger.error('actionGetReco ' + str(e))
@@ -516,29 +528,20 @@ class botLogic(object):
 
                         dictParamsConcept = self.getContentUGCImage( userID,contentLibrary)
 
-
-
-
-
-                strQuickReplies=""
-                recoPayload =""
-                skillCode=""
-                challengeID=""
-
-                if skillCode == "":
-                    recoPayload="SHOW_RECO"
-                else:
-                    recoPayload = "SHOW_RECO" + "-" + "SKILL_CODE" + "|" + skillCode
-                strMessage = "_"
-                strSubTitleInfo ="_"
-                dictParams1 = self.getRecoButtons(recoPayload,strMessage,strSubTitleInfo,str(contentID), str(challengeID),blnLastMessage)
-                strQuickReplies = dictParams1["QuickReplies"]
-
-
-
-
-
-                dictParamsConcept["QuickReplies"] = strQuickReplies
+                # strQuickReplies=""
+                # recoPayload =""
+                # skillCode=""
+                # challengeID=""
+                #
+                # if skillCode == "":
+                #     recoPayload="SHOW_RECO"
+                # else:
+                #     recoPayload = "SHOW_RECO" + "-" + "SKILL_CODE" + "|" + skillCode
+                # strMessage = "_"
+                # strSubTitleInfo ="_"
+                # dictParams1 = self.getRecoButtons(recoPayload,strMessage,strSubTitleInfo,str(contentID), str(challengeID),blnLastMessage)
+                # strQuickReplies = dictParams1["QuickReplies"]
+                # dictParamsConcept["QuickReplies"] = strQuickReplies
                 retArr.append(dictParamsConcept)
             return retArr
         except Exception,e:
@@ -613,11 +616,14 @@ class botLogic(object):
     def getContentUGCText(self, userID, contentLibrary):
         strMessageType = "Text"
         strMessage = ""
-        strMessage += "💡 *Concept*:"
-        if contentLibrary is not None:
-            strAttachmentText =  str(contentLibrary.Text).encode('utf-8').strip()
+        if str(contentLibrary.Text).encode('utf-8').strip() !="":
+            strMessage += str(contentLibrary.Text).encode('utf-8').strip()
         else:
-            strAttachmentText =  "not found"
+            strMessage = "*"
+        # if contentLibrary is not None:
+        #     strAttachmentText =  str(contentLibrary.Text).encode('utf-8').strip()
+        # else:
+        #     strAttachmentText =  "not found"
         if contentLibrary.Tags is not None:
             strMessage += str(contentLibrary.Tags).replace("#","")
 
@@ -631,7 +637,7 @@ class botLogic(object):
         strNotificationType = "SILENT"
 
 
-        dictParams = self.getMessageDict(strMessageType, strMessage, strImage, strSubTitleInfo, strImage, strVideoURL, strLink, strDictButtons, strQuickReplies,strNotificationType,strAttachmentText=strAttachmentText)
+        dictParams = self.getMessageDict(strMessageType, strMessage, strImage, strSubTitleInfo, strImage, strVideoURL, strLink, strDictButtons, strQuickReplies,strNotificationType)
         return dictParams
 
 
@@ -657,7 +663,7 @@ class botLogic(object):
 
     def getContentUGCImage(self, userID, contentLibrary):
         strMessageType = "Image"
-        strImage = "https://test.walnutai.com/static/curiousWorkbench/images/" + contentLibrary.ImageURL
+        strImage = self.configSettingsObj.webUrl + "/static/curiousWorkbench/uimgs/" + contentLibrary.ImageURL
         strSubTitleInfo = ""
 
         strVideoURL = contentLibrary.LinkURL
@@ -675,7 +681,7 @@ class botLogic(object):
             strMessage = "_"
 
         dictParams = self.getMessageDict(strMessageType, strMessage, strImage, strSubTitleInfo, strImage, strVideoURL, strLink, strDictButtons, strQuickReplies,strNotificationType)
-
+        self.logger.info("----->" + str(dictParams))
         return dictParams
 
 
@@ -702,33 +708,33 @@ class botLogic(object):
                     if challengeObj is not None:
                         challengeID = challengeObj.id
                         strQuestionOptions = ''.encode('utf-8')
-                        if challengeObj.Option_A !="" or challengeObj.Option_A is not None :
+                        if challengeObj.Option_A is not None :
                             strQuickReplies = "text" + ":" + "A" + ":" + "CHECK_CHALLENGE_ANS-ANS|A-CHALLENGE_ID|" + str(challengeID)
                             strQuestionOptions += "`A`: " + str(challengeObj.Option_A) + "\r\n"
-                        if challengeObj.Option_B !="" or challengeObj.Option_B is not None :
+                        if challengeObj.Option_B is not None :
                             strQuickReplies += "," + "text" + ":" + "B" + ":" + "CHECK_CHALLENGE_ANS-ANS|B-CHALLENGE_ID|" + str(challengeID)
                             strQuestionOptions += "`B`: " + str(challengeObj.Option_B) + "\r\n"
-                        if challengeObj.Option_C !="" or challengeObj.Option_C is not None :
+                        if challengeObj.Option_C is not None :
                             strQuickReplies += "," + "text" + ":" + "C"+ ":" + "CHECK_CHALLENGE_ANS-ANS|C-CHALLENGE_ID|" + str(challengeID)
                             strQuestionOptions += "`C`: " + str(challengeObj.Option_C) + "\r\n"
 
-                        if challengeObj.Option_D !="" or challengeObj.Option_D is not None :
+                        if challengeObj.Option_D is not None :
                             strQuickReplies += "," + "text" + ":" + "D" + ":" + "CHECK_CHALLENGE_ANS-ANS|D-CHALLENGE_ID|" + str(challengeID)
                             strQuestionOptions += "`D`: " + str(challengeObj.Option_D) + "\r\n"
 
-                        if challengeObj.Option_E !="" or challengeObj.Option_E is not None :
+                        if challengeObj.Option_E is not None :
                             strQuickReplies += "," + "text" + ":" + "E" + ":" + "CHECK_CHALLENGE_ANS-ANS|E-CHALLENGE_ID|" + str(challengeID)
                             strQuestionOptions += "`E`: " + str(challengeObj.Option_E) + "\r\n"
 
-
-                        strQuestion = "🤔  *Challenge :" +challengeObj.Question_Text.encode('utf-8') + "*"
+                        strQuestion = ""
+                        #strQuestion = "🤔  *" +challengeObj.Question_Text.encode('utf-8') + "*"
                         moduleObjList =  Module.objects.filter(ID= challengeObj.Module_ID)
                         if len(moduleObjList)>0:
                             strModuleTitle = moduleObjList[0].Title
 
                         strQuestion += "\r\n"
                         strQuestion += strQuestionOptions.encode('utf-8')
-                        strQuestion += "\r\n Topic: " + strModuleTitle.encode('utf-8') + ", Concept " + str(intProgressUnits)  + " of " + str(intUnits)
+                        strQuestion += "\r\n Stash: " + strModuleTitle.encode('utf-8') + ", Question " + str(intProgressUnits)  + " of " + str(intUnits)
 
                         strMessage = strQuestion
                         if challengeObj.Tags is not None:
@@ -1261,6 +1267,7 @@ class botLogic(object):
         strLink = ""
         strDictButtons = ""
         strQuickReplies = ""
+        strContentID = str(strContentID)
         if isLastMessage == False:
             strQuickReplyPostbackLike = recoPayload + "-" + "CONTENT_FEEDBACK" + "|" + "Like >>" + "-" + "CONTENT_ID" + "|" + strContentID
             strQuickReplyPostbackDisLike = recoPayload + "-" + "CONTENT_FEEDBACK" + "|" + "DisLike" + "-" + "CONTENT_ID" + "|" + strContentID
@@ -1269,10 +1276,10 @@ class botLogic(object):
             strQuickReplies = "" #"text" + ":" + "dislike" + ":" + strQuickReplyPostbackDisLike  + ":" +strDownImage + ","
 
         if strChallengeID !="":
-            strQuickReplies += "text" + ":" + "Share" + ":" + "SHARE_CHALLENGE-CHALLENGE_ID|" + str(strChallengeID) + ","
+            strQuickReplies += "text" + ":" + "Share 🗃️" + ":" + "SHARE_CHALLENGE-CHALLENGE_ID|" + str(strChallengeID) + ","
 
         if isLastMessage == True:
-            strQuickReplies += "text" + ":" + "Explore More Topics" + ":" + "SHOW_SKILLS" + ","
+            strQuickReplies += "text" + ":" + "More Stashes🗃️" + ":" + "SHOW_SKILLS" + ","
 
         if isLastMessage == False:
             strQuickReplies += "text" + ":" + "Next >>" + ":" + strQuickReplyPostbackLike + ":" + strUpImage
@@ -1630,14 +1637,14 @@ class botLogic(object):
 
             strImage = self.configSettingsObj.webUrl +"/static/curiousWorkbench/images/CertificateImageLarge.png"
             strMessageType = "Image"
-            strSubTitleInfo = "This topic has been added to your skill board. See your Skill board Here \n ➡️➡️"
+            strSubTitleInfo = "This Stash has been added to your skill board. See your Skill board Here \n ➡️➡️"
             strSubTitleInfo += (self.configSettingsObj.webUrl + "/myProfile/" + userID).encode('utf-8')
 
 
             strQuickReplies = ""
             strQuickReplies += "text" + ":" + "Share" + ":" + "SHARE_CHALLENGE-MODULE_ID|" + str(moduleID) + ","
 
-            strQuickReplies += "text" + ":" + "Explore More Topics" + ":" + "SHOW_SKILLS"
+            strQuickReplies += "text" + ":" + "Explore" + ":" + "SHOW_SKILLS"
 
 
 
@@ -1861,7 +1868,7 @@ class botLogic(object):
                 strMessageType = "Text"
                 strDictButtons = ""
                 strQuickReplies =""
-                strMessage = "Could not find anything for *" + recevied_message + "*, try another topic like *Presentation Skills*"
+                strMessage = "Could not find anything for *" + recevied_message + "*, try another Stash like *Presentation Skills*"
 
                 dictParams = self.getMessageDict(strMessageType, strMessage, strImage, strSubTitleInfo, strImage, strVideoURL, strLink, strDictButtons, strQuickReplies,"SILENT",strListContent,strListButtons)
             retArr.append(dictParams)
@@ -2005,7 +2012,7 @@ class botLogic(object):
                     filename, file_ext = splitext(basename(disassembled.path))
 
                     imagePath = self.configSettingsObj.absFileLocation + "/uimgs/" + str(filename + file_ext)
-
+                    self.logger.info("printing image url" + str(ImageURL))
                     if strHeader !="":
 
                         arrVal= strHeader.split("|")
@@ -2016,11 +2023,11 @@ class botLogic(object):
                         strHeaderVal = json.dumps(dictHeaders)
 
 
-
+                        self.logger.info("image url and headers" + str(ImageURL) + str(dictHeaders))
                         fileResp = requests.get(ImageURL, headers=dictHeaders)
                     else:
                         fileResp = requests.get(ImageURL)
-
+                    self.logger.info(str(ImageURL))
                     if fileResp is not None:
                         fileObj = open(imagePath,'wb')
                         fileObj.write(fileResp.content)
@@ -2030,21 +2037,35 @@ class botLogic(object):
 
                     contentID =-1
                     #contentID = self.getFromUserStateFromDict(userID,"EDITING_CONTENT")
+                    self.logger.info("--->" + str(contentID))
                     if contentID !=-1:
                         contentLibraryObj = get_object_or_404(ContentLibrary, ID= contentID)
                         contentLibraryObj.ImageURL = str(filename + file_ext)
-                        contentLibraryObj.Text ="_"
+                        contentLibraryObj.Text =recevied_message
+                        contentLibraryObj.Type = "Image"
+                        contentLibraryObj.Message_Type = "UGC"
                         contentLibraryObj.save()
                     else:
                         contentLibraryObj = ContentLibrary()
                         contentLibraryObj.userID = userID
                         contentLibraryObj.Module_ID = moduleID
                         contentLibraryObj.Content_Order = intContentOrder
-                        contentLibraryObj.Text ="_"
+                        contentLibraryObj.Text =recevied_message
                         contentLibraryObj.Type = "Image"
                         contentLibraryObj.Message_Type = "UGC"
                         contentLibraryObj.ImageURL = str(filename + file_ext)
                         contentLibraryObj.save()
+                    self.logger.info(str(contentLibraryObj.ID))
+
+                    selectedChallenge = Challenge()
+                    selectedChallenge.Content_ID = contentLibraryObj.ID
+                    selectedChallenge.Module_ID=int(moduleID)
+                    selectedChallenge.Correct_Answer = "A"
+                    selectedChallenge.UserID = userID
+                    selectedChallenge.save()
+
+                self.updateUserStateDict(userID,"EDITING_CHALLENGE",int(selectedChallenge.id))
+                self.updateUserStateDict(userID,"CONTENT_ID",int(contentLibraryObj.ID))
 
             return
         except Exception,e:
@@ -2309,7 +2330,7 @@ class botLogic(object):
             else:
                 objChallengeResultUser.IsCorrect == "N"
                 strMessage = random.choice(arrConsole)
-                strMessage += "The right answer would be : " + str(strCorrectAnswerText) +  " [you picked " + strAns + " ]" + "\r\n" + "\r\n"
+                strMessage += "The right answer would be : *" + str(strCorrectAnswerText) +  "* [you picked " + strAns + " ]" + "\r\n" + "\r\n"
             arrSummary=[]
 
             objChallengeResultUser.save()
@@ -2335,23 +2356,48 @@ class botLogic(object):
             chartURL = self.getCheckChallengeAnsChartURL(userID,challengeID,intRightAnsCount,intTotalAnsCount)
             dictParams = self.getMessageDict("Image",strMessage, chartURL, "", chartURL, "",self.configSettingsObj.webUrl, "","","SILENT")
             dictParams["QUICK_REPLIES"] = strQuickReplies
-            retArr.append(dictParams)
+            #retArr.append(dictParams)
+            #self.logger.info(str(retArr))
             self.logger.info("7")
             #-----------------------------Get Reco Buttons ----------------
             strMessage = "_"
             strSubTitleInfo ="_"
-            recoPayload=""
-            dictParams1 = self.getRecoButtons(recoPayload,strMessage,strSubTitleInfo,str(1))
-            strQuickReplies = dictParams1["QuickReplies"]
-            dictParams["QuickReplies"] = strQuickReplies
-            retArr.append(dictParams1)
+
+            contentID= objChallenge.Content_ID
+            selectedContentLibraryObj =  ContentLibrary.objects.get(ID=contentID)
+            intUnits =  ContentLibrary.objects.filter(Module_ID=objChallenge.Module_ID).count()
+            intNextContentOder = 0
+            blnLastMessage = False
+            self.logger.info("7.0")
+            self.logger.info(str(intUnits))
+            self.logger.info(str(selectedContentLibraryObj.Content_Order))
+            if selectedContentLibraryObj.Content_Order >= intUnits:
+                blnLastMessage =True
+                self.logger.info("7.0.1")
+            else:
+                self.logger.info("7.0.2")
+                blnLastMessage = False
+                intNextContentOder = int(selectedContentLibraryObj.Content_Order)+1
+                self.logger.info(str(intNextContentOder))
+                objNextContent = ContentLibrary.objects.get(Module_ID=objChallenge.Module_ID,Content_Order=intNextContentOder)
+                nextContentID=objNextContent.ID
+
+                recoPayload="SHOW_RECO"+"-CONTENT_ID" + "|" + str(nextContentID)
+                self.logger.info("7.1")
+                dictParams1 = self.getRecoButtons(recoPayload,strMessage,strSubTitleInfo,nextContentID)
+                self.logger.info("7.2")
+                #self.logger.info(str(dictParams1))
+                strQuickReplies = dictParams1["QuickReplies"]
+                dictParams["QuickReplies"] = strQuickReplies
+            retArr.append(dictParams)
             self.logger.info("8")
             #--------------------------------------------------------------------
-            blnLastMessage = False
+
             if blnLastMessage == True:
                 retArr.append(dictParamsModuleCompleted)
-            self.logger.info("9")
             return retArr
+            self.logger.info("9")
+
         except Exception,e:
             self.logger.error('actionCheckChallengeAns' + str(e))
 
@@ -2376,7 +2422,7 @@ class botLogic(object):
         chartPath = self.configSettingsObj.absFileLocation + "/images/plots/" + str(challengeID) + "-" + str(userID) + strRandomKey + ".png"
         chartFileName = str(challengeID) + "-" + str(userID) + strRandomKey  + ".png"
 
-        custom_style= Style(legend_font_size=20, value_font_size=20,title_font_size=40, colors=('#29b992','#f77b71'))
+        custom_style= Style(legend_font_size=20, value_font_size=20,title_font_size=40)
 
         bar_chart = pygal.Bar(title=u'See how others did', print_values=True,print_values_position='top',  print_labels=False,show_y_labels=False, legend_at_bottom=True,include_x_axis=False,include_y_axis=False,show_y_guides=False,margin=50,style=custom_style,)
 
@@ -2384,7 +2430,7 @@ class botLogic(object):
         bar_chart.add('Got it Wrong',[intPercentageWrong], rounded_bars=2 * 10)
         bar_chart.render_to_png(filename=chartPath)
         chartURL = self.configSettingsObj.webUrl + "/static/curiousWorkbench/images/plots/" + chartFileName
-
+        self.logger.info(str(intRightAnsCount)+ " _ " + str(intTotalAnsCount))
         return chartURL
 
     def updateUserModuleProgress(self, userID, ModuleID, ContentID):
@@ -2829,15 +2875,15 @@ class botLogic(object):
             userStateObj = UserState.objects.get(UserID=userID)
             strModuleID = self.getFromUserStateFromDict(userID,"EDITING_MODULE")
 
-            selectedContentLibrary = ContentLibrary()
             selectedChallenge = Challenge()
 
             intContentCount = ContentLibrary.objects.filter(Module_ID=int(strModuleID)).count()
 
-
+            # Save to ContentLibrary
+            selectedContentLibrary = ContentLibrary()
             selectedContentLibrary.Type = "Text"
             selectedContentLibrary.Module_ID =  strModuleID
-            #selectedContentLibrary.Text = recevied_message
+            selectedContentLibrary.Text = recevied_message
             selectedContentLibrary.Content_Order= intContentCount+1
             selectedContentLibrary.Message_Type = "UGC"
 
@@ -2905,6 +2951,11 @@ class botLogic(object):
                 selectedChallenge = Challenge.objects.get(id = strChallengeKey)
             selectedChallenge.Question_Text = recevied_message
             selectedChallenge.save()
+
+            contentLibraryObj = ContentLibrary.objects.get(ID=selectedChallenge.Content_ID)
+            contentLibraryObj.Text = recevied_message
+            contentLibraryObj.save()
+
             self.updateUserStateDict(userID,"EDITING_CHALLENGE",selectedChallenge.id)
             #selectedModule.refresh_from_db()
             #self.updateUserStateDict(userID, "EDITING_CHALLENGE",selectedChallenge.ID)

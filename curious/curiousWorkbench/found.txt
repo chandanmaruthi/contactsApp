@@ -1,0 +1,29 @@
+from django.db.models import Count
+from django.views.decorators.csrf import ensure_csrf_cookie
+from django.utils.html import escape
+from django.shortcuts import render
+from django.http import HttpResponse,HttpResponseRedirect
+from django.template import RequestContext
+#from django.core.context_processors import csrf
+#from django.template import RequestContext, loader
+from django.template import Context
+from django.template.loader import get_template
+from django.shortcuts import get_object_or_404, render, render_to_response
+from django.core.urlresolvers import reverse
+from django.utils import timezone
+from django.core.exceptions import ValidationError
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth import authenticate, login, logout
+import random
+from django.http import Http404, HttpResponse
+import json, requests, random, re
+from django.views import generic
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
+import mixpanel
+from mixpanel import Mixpanel
+    mp = Mixpanel("7a2ae593d77b3bd1b818d79ce75b69ff")
+    hdlr = logging.FileHandler(configSettingsObj.logFolderPath + 'viewFacebook.log')
+    logger.addHandler(hdlr)
+    # Post function to handle Facebook messages
+                        if 'is_echo' not in message['message'] and ('text' in message['message'] or 'attachments' in message['message']):

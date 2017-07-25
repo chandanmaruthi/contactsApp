@@ -36,6 +36,7 @@ urlpatterns = [
     url(r'^analytics/(?P<userID>\w+)/$', views.fbAriseBotCertWebView, name='fbAriseBotCertWebView'),
     url(r'^displayPVPolicy/', views.displayPVPolicy, name="displayPVPolicy"),
     url(r'^displayTnC/', views.displayTnC, name="displayTnC"),
+    url(r'^installApp/', views.installApp, name="installApp"),
     url(r'^fbABReminder/(?P<passID>\d+)/$', views.fbAriseBotReminder,name='fbAriseBotReminder'),
     url(r'^configUsers/', views.configUsers, name='configUsers'),
     url(r'^configSettings/', views.configSettings, name='configSettings'),

@@ -97,13 +97,18 @@ class slackClientWalnutBotView(generic.View):
         try:
 
             strJson = self.request.body.decode('utf-8')
+            self.logger.info(strJson)
             strJson = urllib.unquote(strJson)
             if strJson[:7] != "payload":
                 jsonBody = json.loads(strJson)
                 if jsonBody["type"]=="url_verification":
                     strChallenge = jsonBody["challenge"]
                     strToken = jsonBody["token"]
-                    if strToken== self.configSettingsObj.slackVerificationToken:
+                    strSlackToken=self.configSettingsObj.slackVerificationToken
+                    strSlackToken="FqIvpnAHFCbDM7ISlr1IRzKr"
+                    self.logger.info(strToken)
+                    self.logger.info(strChallenge)
+                    if strToken== strSlackToken:
                         return HttpResponse(strChallenge)
                     else:
                         return HttpResponse('Error, invalwewid token111')
@@ -137,7 +142,7 @@ class slackClientWalnutBotView(generic.View):
             strTeamID =""
             strUser = ""
             eventID=0
-
+            self.logger.info("1")
             lastEventID = self.r_stateServer.get("KEY_LAST_EVENT_ID")
             if strJson[:7] == "payload":
                 strJson = strJson[8:]
@@ -165,7 +170,7 @@ class slackClientWalnutBotView(generic.View):
                 strMessageType = "payload"
                 strMessageText = ""
                 inpTxtMessage = ""
-
+                self.logger.info("2.1")
             else:
                 incoming_message = json.loads(strJson)
                 #----------Log to Dashbot------------------
@@ -190,24 +195,31 @@ class slackClientWalnutBotView(generic.View):
                         inpTxtMessage = strMessageText
                     if "channel" in dictEvent:
                         strChannel = dictEvent["channel"]
-
+                    self.logger.info("2.2")
                     if "file" in dictEvent:
-
+                        self.logger.info("2.2.1")
                         attachmentURL = dictEvent["file"]["url_private"]
+                        self.logger.info("2.2.2")
                         fileType = dictEvent["file"]["filetype"]
+                        self.logger.info("2.2.3")
+                        self.logger.info("========++++++++====" + str(dictEvent["file"]) )
+                        self.logger.info("2.3")
+                        if 'initial_comment' in dictEvent['file']:
+                            if 'comment' in dictEvent['file']['initial_comment']:
+                                strMessageText = dictEvent["file"]['initial_comment']["comment"]
                         if fileType == "jpg" or fileType == "png" or fileType == "gif":
                             strImageURL = attachmentURL
                             strHeaders = "Authorization" + "|" + "Bearer "
                         elif fileType == "mp4":
                             strVideoURL = attachmentURL
-
+                    self.logger.info("2.3")
 
 
 
             objPlatformCredentialsList = PlatformCredentials.objects.filter(SlackTeamID=strTeamID)
             if len(objPlatformCredentialsList)>0:
                 strBotAccessToken = objPlatformCredentialsList[0].SlackBotAccessToken
-
+            #strBotAccessToken='xoxp-10930857875-10930857891-133361232244-acf335383ba184a4f3e6087623aa5ad6'
 
 
             if strUser !="":
@@ -240,8 +252,10 @@ class slackClientWalnutBotView(generic.View):
 
             elif (strMessageType == "message" and strSubType != "bot_message") or strMessageType == "payload":
                 if strSubType == "file_share":
-                    inpTxtMessage = ""
-
+                    if strMessageText!="":
+                        inpTxtMessage = strMessageText
+                    else:
+                        inpTxtMessage=""
                 response_msg = fbCustBotObj.processEvent(
                     inpPostback, inpRecipient, recevied_message=inpTxtMessage, VideoURL=strVideoURL, ImageURL=strImageURL, Headers=strHeaders)
 
