@@ -118,7 +118,7 @@ class slackClientWalnutBotView(generic.View):
 
             return HttpResponse(status=200)
         except KeyError, e:
-            self.logger.info("ooooooooops")
+            self.logger.error("post" + str(e))
             return HttpResponse(status=200)
 
     def handleMessage(self, messageString):
