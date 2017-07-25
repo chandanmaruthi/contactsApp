@@ -44,7 +44,7 @@ class configSettings:
     #---------------Slack Credtials-----------------------------------------------------------------------------------------
     _slackWalnutClientID = jsonSettings[serverName]['slackWalnutClientID']
     _slackClientSecret = jsonSettings[serverName]['slackClientSecret']
-    _slackVerifyToken = jsonSettings[serverName]['slackVerifyToken']
+    _slackVerificationToken = jsonSettings[serverName]['slackVerificationToken']
     _slackOAuthAccessToken = jsonSettings[serverName]['slackOAuthAccessToken']
 
     @property
