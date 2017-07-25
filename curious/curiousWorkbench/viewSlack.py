@@ -244,7 +244,7 @@ class slackClientWalnutBotView(generic.View):
                         objUser.save()
             if strHeaders != "":
                 strHeaders += strBotAccessToken
-            if (strMessageType == "message" and strSubType == "bot_remove"):
+            if (strEventType == "app_uninstalled"):
                 objPlatformCredentialsList = PlatformCredentials.objects.filter(
                     SlackTeamID=strTeamID)
                 for objPlatformCredentials in objPlatformCredentialsList:
