@@ -251,6 +251,9 @@ class slackClientWalnutBotView(generic.View):
                 for objPlatformCredentials in objPlatformCredentialsList:
                     PlatformCredentials.objects.get(
                         pk=objPlatformCredentials.ID).delete()
+                objUserStateList = UserState.objects.filter(Org_ID=strTeamID)
+                for objUserStateItem in objUserStateList:
+                    objUserStateItem.delete()
 
             elif (strMessageType == "message" and strSubType != "bot_message") or strMessageType == "payload":
                 if strSubType == "file_share":

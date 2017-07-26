@@ -2488,7 +2488,7 @@ class botLogic(object):
             if listType =="SEARCH":
                 moduleObj = Module.objects.filter( Title__icontains=recevied_message)
             else:
-                moduleObj = Module.objects.all()[:10]
+                moduleObj = Module.objects.all()[:9]
 
 
             intNumberofModules = moduleObj.count()
