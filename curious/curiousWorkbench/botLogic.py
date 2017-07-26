@@ -2485,7 +2485,7 @@ class botLogic(object):
                     intStartPos = int(dictParams["START_POSITION"])
 
             userStateObj = UserState.objects.get(pk=userID)
-            if listType =="SEARCH":
+            if listType =="SEARCH" and recevied_message.strip()!="":
                 moduleObj = Module.objects.filter( Title__icontains=recevied_message)
             else:
                 moduleObj = Module.objects.all()[:9]
