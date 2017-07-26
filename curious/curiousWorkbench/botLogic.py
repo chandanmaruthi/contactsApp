@@ -2428,6 +2428,7 @@ class botLogic(object):
 
         bar_chart.add('Got it Right',[intPercentageRight], rounded_bars=2 * 10)
         bar_chart.add('Got it Wrong',[intPercentageWrong], rounded_bars=2 * 10)
+
         bar_chart.render_to_png(filename=chartPath)
         chartURL = self.configSettingsObj.webUrl + "/static/curiousWorkbench/images/plots/" + chartFileName
         self.logger.info(str(intRightAnsCount)+ " _ " + str(intTotalAnsCount))
@@ -2487,7 +2488,7 @@ class botLogic(object):
             if listType =="SEARCH":
                 moduleObj = Module.objects.filter( Title__icontains=recevied_message)
             else:
-                moduleObj = Module.objects.all()
+                moduleObj = Module.objects.all()[:10]
 
 
             intNumberofModules = moduleObj.count()
