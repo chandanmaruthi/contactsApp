@@ -511,7 +511,7 @@ def fbAriseBotCertWebView(request, userID):
     for objUserCertification in objUserCertificationList:
         strLinkedInShareURL = "https://www.linkedin.com/shareArticle?mini=true&"
         dictLinkedInURLParams = {}
-        dictLinkedInURLParams["url"] = webURLRoot
+        dictLinkedInURLParams["url"] = configSettingsObj.webUrl 
         dictLinkedInURLParams["title"] = objUserCertification.Title
         dictLinkedInURLParams["summary"] = "I just acquired this short skill."
         dictLinkedInURLParams["source="] = "Walnut Ai - Learn skills bot"
