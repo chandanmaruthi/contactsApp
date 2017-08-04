@@ -5,7 +5,7 @@
         e.style.display = (e.style.display == 'block') ? 'none' : 'block';
     }
 </script>
-
+<!--
 <script src="{% static 'curiousWorkbench/js/typed.js' %}"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
@@ -24,7 +24,7 @@ breakDelay: 10000,
 loop: true
         });
     });
-</script>
+</script> -->
 {% load staticfiles %}
 <!DOCTYPE html>
 <html lang="en">
@@ -37,17 +37,14 @@ loop: true
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="shortcut icon" href="{% static 'curiousWorkbench/images/favicon.png' %}">
-    <link rel="apple-touch-icon" sizes="57x57" href="{% static 'curiousWorkbench/images/apple-touch-icon.png' %}">
-    <link rel="apple-touch-icon" sizes="72x72" href="{% static 'curiousWorkbench/images/apple-touch-icon-72x72.png' %}">
-    <link rel="apple-touch-icon" sizes="114x114" href="{% static 'curiousWorkbench/images/apple-touch-icon-114x114.png' %}">
+    <link rel="shortcut icon" href="{% static 'curiousWorkbench/images/Contacts-icon.png' %}">
     <script src="/static/curiousWorkbench/js/particles.js"></script>
 
     <link rel="stylesheet" href="{% static 'curiousWorkbench/css/webstyle.css' %}">
 
 </head>
 
-<body>
+<body style="background-color:#eeeeee">
     <script>
         particlesJS.load('particles-js', '/static/curiousWorkbench/js/particlesjs-config.json', function() {
             console.log('callback - particles.js config loaded');
@@ -76,94 +73,8 @@ loop: true
 
         {% csrf_token %}
 
-        <nav id="mainNav" class="navbar navbar-default navbar-fixed-top navbar-custom affix-top">
-                <div class="container">
-                    <!-- Brand and toggle get grouped for better mobile display -->
-                    <div class="navbar-header page-scroll" style="min-width:200px;float:left;">
-                        <!-- <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                            <span class="sr-only">Toggle navigation</span> Menu <i class="fa fa-bars"></i>
-                        </button> -->
-                        <a class="navbar-brand" href="#page-top">
-                          <img src="{% static 'curiousWorkbench/images/propl_logo.png' %}" style="height:50px;" >
-                        </a>
-                    </div>
-
-                    <!-- Collect the nav links, forms, and other content for toggling -->
-                    <!-- <div class="navbar-collapse" id="bs-example-navbar-collapse-1"  style="width:80%;float:right;">
-                        <ul class="nav navbar-nav navbar-right">
-                            <li class="hidden active">
-                                <a href="#page-top"></a>
-                            </li>
-                            <li class="page-scroll">
-                                <a href="#portfolio">Slack</a>
-                            </li>
-                            <li class="page-scroll">
-                                <a href="#about">About Us</a>
-                            </li>
-                            <li class="page-scroll">
-                                <a href="#contact">Contact Us</a>
-                            </li>
-                        </ul>
-                    </div> -->
-                    <!-- /.navbar-collapse -->
-                </div>
-                <!-- /.container-fluid -->
-            </nav>
-
-        <div class="banner">
-            <div id="particles-js" class="backgroundTexture"></div>
 
 
-
-            <div class="container text-center" style="padding-top:100px;width:80%">
-                <div class="elementContainer">
-                    <div class="elementBox"></div>
-                </div>
-                <div class="subHeadingBox">
-                    <p class="p-big col-8-tablet col-6-desktop no-float center-element">
-                        <p style="font-size:20px;">
-                            Propl helps you learn and share share key concepts that you need to know
-                        </p>
-                    </p>
-                    <div class="banner-buttons" style="max-width:200px">
-                        <!-- <a href="http://m.me/1664936797130936" target='_blank'>
-            <img src="{% static 'curiousWorkbench/images/AddToMessenger.png' %}"  ></a> -->
-                        <a class="homeButton" href="#InstallBot">Get Propl Now</a>
-                    </div>
-                </div>
-
-            </div>
-
-        </div>
-        <section id="what">
-            <div class="promotional-block container" id="HowDoesItWork" style="display:block;">
-                <div class="row">
-                    <div class="col-lg-12 text-center">
-                        <h2>How does it work</h2>
-                    </div>
-                    <!-- <div class="clear" style="width:80%;margin: auto;">
-                        <div  style="max-width:33%;min-width:200px;float:left;">
-                            <img src="{% static 'curiousWorkbench/images/qna_icon.png' %}" style="height:150px;width:150px;padding-bottom:20px;" />
-                            <span class="a" style="width:100%;float:left;font-weight:600;font-size:20px;;">Learn</span>
-                            <span class="a" style="width:100%;float:left;">Learn short concepts one question at a time, content is organized in the form of 101s</span>
-                        </div>
-                        <div  style="max-width:33%;min-width:200px;float:left;">
-                            <img src="{% static 'curiousWorkbench/images/puzzle_icon.png' %}" style="height:150px;width:150px;padding-bottom:20px;"/>
-                            <span class="a" style="width:100%;float:left;font-weight:600;font-size:20px;">Share</span>
-                            <span class="a" style="width:100%;float:left;">Create and share 101s that will help others</span>
-                        </div>
-                        <div  style="max-width:33%;min-width:200px;float:left;">
-                            <img src="{% static 'curiousWorkbench/images/medal_icon.png' %}" style="height:150px;width:150px;padding-bottom:20px;" />
-                            <span class="a" style="width:100%;float:left;font-weight:600;font-size:20px;">Win</span>
-                            <span class="a" style="width:100%;float:left;">Get recognized for your contibution to the team. When your team learns your get recognized and so do they</span>
-                        </div>
-
-                    </div> -->
-                </div>
-
-
-            </div>
-        </section>
 
         <section id="what">
             <div class="promotional-block container" id="HowDoesItWork" style="display:block;">
@@ -172,188 +83,59 @@ loop: true
 
                     <div class="clear">
                         <div class="col-sm-4 portfolio-item" style="width:50%;min-width:400px;float:left;background-color:#eeeeee;padding:20px;border-radius: 25px;overflow:hidden;">
-                          <img src="{% static 'curiousWorkbench/images/HomeScreenShot_Learn.png' %}" style="width:400px;">
+                          <img src="{% static 'curiousWorkbench/images/HomeImage.jpg' %}" style="height:800px;">
                         </div>
-                        <div class="col-sm-4 portfolio-item" style="width:50%;min-width:400px;float:left;padding-left:15px;">
-                          <h2>Learn </h2>
-                          <h3>Learn short concepts </h3>
+                        <div class="col-sm-4 portfolio-item" style="width:50%;min-width:400px;float:left;padding-left:50px;">
+                          <br/>
+                          <br/>
+                          <br/>
+                          <div class="row">
+                              <div class="col-lg-12 text-center">
+                                  <img src="{% static 'curiousWorkbench/images/inTouchIcon.png' %}" >
+                              </div>
+
+                          </div>
+                          <br/>
+                          <br/>
+                          <br/>
+                          <h2>Never miss a contact</h2>
                         <span class="HomeContentDescription">
-                        <span class="homeCodeSection">Tell me about pricing model </span><br><br><br>
-
-                          Propl will look for a 101's on "pricing models" and help you learn about pricing models on bit at a time
-
+                          Manage your contacts in the cloud <br/>
+                          access it anywhere
                       </span>
-
-                        <div class="banner-buttons" style="max-width:200px">
-                      <a href="#InstallBot" class="homeButton" >Get Propl Now</a>
-                        </div>
-                      </div>
-
-                        </div>
-
-                    </div>
-                </div>
-
-
-            </div>
-        </section>
-
-
-        <section id="what">
-            <div class="promotional-block container" id="HowDoesItWork" style="display:block;">
-                <div class="row">
-                    <div class="col-lg-12 text-left">
-
-                    </div>
-                    <div class="clear">
-                      <div class="col-sm-4 portfolio-item" style="width:50%;min-width:400px;float:left;padding-left:15px;">
-                        <h2>Share</h2>
-                        <h3>Learn with your team, create a share concepts and challenges, learn points </h3>
-                        <span class="HomeContentDescription">
-                        <span class="homeCodeSection">create a module </span><br><br><br>
-                        Capture short concepts by chatting with the bot, make it more interactive by adding a challenge
-
-                        Share <br>
-                        <span class="homeCodeSection">Share with #sales </span><br><br><br>
-                        Share with one user or an entire channel on slack.
-                      </span>
-                        <div class="banner-buttons" style="max-width:200px">
-                            <!-- <a href="http://m.me/1664936797130936" target='_blank'>
-                <img src="{% static 'curiousWorkbench/images/AddToMessenger.png' %}"  ></a> -->
-                        <a href="#InstallBot" class="homeButton" >Get Propl Now</a>
-                        </div>
-                      </div>
-                      <div class="col-sm-4 portfolio-item" style="width:50%;min-width:400px;float:left;text-align:right;background-color:#eeeeee;padding:20px;border-radius: 25px;overflow:hidden;">
-                        <img src="{% static 'curiousWorkbench/images/HomeScreenShot_Metrics.png' %}" style="width:400px;">
-
-                      </div>
-
-                    </div>
-                </div>
-
-
-            </div>
-        </section>
-        <section id="what">
-            <div class="promotional-block container" id="HowDoesItWork" style="display:block;">
-                <div class="row">
-                    <div class="col-lg-12 text-left">
-
-                    </div>
-                    <div class="clear">
-                      <div class="col-sm-4 portfolio-item" style="width:50%;min-width:400px;float:left;background-color:#eeeeee;padding:20px;border-radius: 25px;overflow:hidden;">
-                        <img src="{% static 'curiousWorkbench/images/HomeScreenShot_Metrics.png' %}" style="width:400px;">
-
-                      </div>
-
-                      <div class="col-sm-4 portfolio-item" style="width:50%;min-width:400px;float:left;padding-left:15px;">
-                        <h2>Measure </h2>
-                        <h3>See what you have learn vs your team, discover you everyone is doing </h3>
-                      <span class="HomeContentDescription">
-                      <span class="homeCodeSection">how am I doing </span><br><br><br>
-                      Your profile provides you a comprehesive view of what you have acquired over time.
-                      <br><br>
-                      <span class="homeCodeSection">how is my team I doing </span><br><br><br>
-                      You can see how your team is doing and people that are doing better thatn others
-
-                    </span>
-
-                        <div class="banner-buttons" style="max-width:200px">
-                            <!-- <a href="http://m.me/1664936797130936" target='_blank'>
-                <img src="{% static 'curiousWorkbench/images/AddToMessenger.png' %}"  ></a> -->
-                        <a href="#InstallBot" class="homeButton" >Get Propl Now</a>
-                        </div>
-                      </div>
-
-                    </div>
-                </div>
-
-
-            </div>
-        </section>
-        <section id="what">
-          <form action="{% url 'curiousWorkbench:user_signup' %}" method="post">
-
-            <div class="promotional-block container" id="InstallBot" style="display:block;">
-                <div class="row" >
-                    <div class="col-lg-12 text-center">
-                        <h2>Get Propl Now</h2>
-                    </div>
-                    <div class="clear" style="background-color:#18BC9C">
-                      <div class="col-sm-4 portfolio-item" style="width:50%;min-width:400px;float:left;background-color:#18BC9C;padding:15px;">
-
+                      <form action="{% url 'curiousWorkbench:user_login' %}" method="post">
+                        <div style="margin-left:10px;">
                         <div class="LoginBox">
                             <!-- <div>
-                                <h4 class="uppercase">Signup for Beta</h4>
+                                <h4 class="uppercase">For Admins</h4>
                             </div> -->
                             <div>
-                                <!-- <div class="FormTitle">
+                                <div class="FormTitle">
                                     Login
-                                </div> -->
-                                <div class="UserID">
-
-                                    <div class="Input"><input class="LoginFormInput" style="width:300px" type="text" name="userEmail" id="userEmail" value="me@mycompany.com"><input class="SignUpFormSubmit" type="submit" value="Sign Me Up" style="margin-left:20px;"> </div>
                                 </div>
-
+                                <div class="UserID">
+                                    <div class="Label">User ID</div>
+                                    <div class="Input"><input class="LoginFormInput" type="text" name="username" id="username"> </div>
+                                </div>
+                                <div class="Password">
+                                    <div class="Label">Password</div>
+                                    <div class="Input"><input class="LoginFormInput" type="password" name="password" id="password"> </div>
+                                    <div class="Label">&nbsp;&nbsp;</div>
+                                    <div class="Input"><input class="LoginFormSubmit" type="submit" value="Login"></div>
+                                </div>
                                 <div>
                                     <div class="Message">
                                         <div class="ValidationMessage">
-                                            {{SignUpState}}</div>
+                                            {{state}}</div>
                                     </div>
                                 </div>
                             </div>
-                      </div>
+                        </div>
+                              </form>
 
+                      </div></div>
 
-
-                    </div>
-                    <div class="col-sm-4 portfolio-item" style="width:40%;min-width:400px;float:left;padding-left:15px;color:#ffffff;padding:15px;">
-                                            <span class="HomeContentDescription">
-
-                      Sign up for early access to the beta product, we are working hard to launch Propl and will send you an
-                      invite as soon as we are ready.
-                      <!-- <strong>Step 1:</strong> Click on the slack button and install the bot in your slack
-                      <br><br>
-                      <strong>Step 2:</strong> Upload content using some of the product templates
-                      <br><br>
-                      <strong>Step 3:</strong> Let you team know
-                      <br><br> -->
-                    </span>
-                    </div>
-                </div>
-
-
-            </div>
-          </form>
-        </section>
-        <section id="what">
-            <div class="promotional-block container" id="HowDoesItWork" style="display:block;">
-                <div class="row">
-                    <div class="col-lg-12 text-center">
-                        <h2>Frequently Asked Questions </h2>
-                    </div>
-                    <div class="clear">
-
-                      <div class="col-sm-4 portfolio-item" style="width:100%;float:left;padding-left:15px;">
-                                              <span class="HomeContentDescription">
-                        <strong>How much does it cost ?</strong><br>
-                        Propl is free to use for the first year.<br>
-                        We will offer premium versions in the future that you will have an option to upgrade to.<br>
-
-<br><br>
-                        <strong>Do I need Slack to use Propl ?</strong><br>
-                        Propl is a new experince, we are currently offering Propl only through Slack, <br>supoort for more platforms will be announced shortly. Let us know what you are looking for.<br>
-<br><br>
-                        <strong>Why dont you have your own app?</strong><br>
-                        Our vision is to be where users are. Today users exist on messageing platforms like <br>slack , facebook etc. We want to be there and help them get smarter without having to <br>install another app<br>
-<br><br>
-                        <strong>Is Propl a real person</strong><br>
-                        Propl is bot, a bunch of code in the background. We dont intend do gain consiousness <br>any time soon.<br>
-
-<br><br>
-                        Contact us at support@wanutai.com
-                      </span>
-                      </div>
+                        </div>
 
                     </div>
                 </div>
@@ -362,47 +144,9 @@ loop: true
             </div>
         </section>
 
-    <form action="{% url 'curiousWorkbench:user_login' %}" method="post">
-        <div class="promotional-block container" id="AdminOnly" style="display:none;">
-            <div class="clear">
-                <div class="col-6-desktop">
-                    <div class="video-responsive">
-                        <div width="560" height="315">&nbsp; For Admins:<br/> This section is for Administrators only
-                        </div>
-                    </div>
-                </div>
-                <div class="col-5-desktop right-desktop row-2 row-0-desktop">
 
-                    <div class="LoginBox">
-                        <div>
-                            <h4 class="uppercase">For Admins</h4>
-                        </div>
-                        <div>
-                            <div class="FormTitle">
-                                Login
-                            </div>
-                            <div class="UserID">
-                                <div class="Label">User ID</div>
-                                <div class="Input"><input class="LoginFormInput" type="text" name="username" id="username"> </div>
-                            </div>
-                            <div class="Password">
-                                <div class="Label">Password</div>
-                                <div class="Input"><input class="LoginFormInput" type="password" name="password" id="password"> </div>
-                                <div class="Label">&nbsp;&nbsp;</div>
-                                <div class="Input"><input class="LoginFormSubmit" type="submit" value="Login"></div>
-                            </div>
-                            <div>
-                                <div class="Message">
-                                    <div class="ValidationMessage">
-                                        {{state}}</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-            </form>
+
+
 
 
 
@@ -457,7 +201,7 @@ loop: true
                 </div>
             </div>
         </div> -->
-        <div class="footer-block" style="display:block;">
+        <!-- <div class="footer-block" style="display:block;">
             <div class="footer">
                 <div class="container-full">
                     <div class="clear footer-content-blocks">
@@ -477,16 +221,16 @@ loop: true
                 </div>
             </div>
 
-        </div>
+        </div> -->
 
 
-        <div class="footer-copyright">
+        <!-- <div class="footer-copyright">
             <div class="container">
                 <p>
-                    Copyright 2017 Walut AI
+                    Copyright 2017 inTouch
                 </p>
             </div>
-        </div>
+        </div> -->
         </div>
         <script src="/static/curiousWorkbench/js/jquery-1.11.3.min.js"></script>
         <script src="/static/curiousWorkbench/js/webfontloader.js"></script>
