@@ -16,12 +16,12 @@ import views
 import ajax
 
 urlpatterns = [
-    url(r'^$', views.index, name='index'),
+    url(r'^$', index, name='index'),
     url(r'^ajax/add/$', 'add_todo'),
     url(r'^ajax/more/$', 'more_todo'),
     url(r'^ajax/search/$', 'searchContacts'),
     url(r'^ajax/details/$', 'details'),
-    url(r'^login/', views.user_login, name="user_login"),
+    url(r'^login/', user_login, name="user_login"),
     url(r'^handleActions/', views.handleActions, name='handleActions'),
 
 ]
