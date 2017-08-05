@@ -2,7 +2,9 @@ import json
 from django.http import Http404, HttpResponse
 from urlparse import urlparse, parse_qs
 import requests
-urlBase ="http://localhost:8080/contacts-app-0.0.1-SNAPSHOT/"
+from configSettings import configSettings
+configSettingsObj = configSettings()
+urlBase =configSettingsObj.apiURL
 def more_todo(request):
     if request.is_ajax():
         url= urlBase + "/contactses"

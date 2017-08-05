@@ -22,7 +22,7 @@ class configSettings:
     _dbPassword = jsonSettings[serverName]['dbPassword']
     _dbName = jsonSettings[serverName]['dbName']
     _inMemDbPort = jsonSettings[serverName]['inMemDbPort']
-
+    _apiURL = jsonSettings[serverName]['apiURL']
     _inMemDbHost = jsonSettings[serverName]['inMemDbHost']
     _inMemDataDbName = jsonSettings[serverName]['inMemDataDbName']
     _inMemStateDbName = jsonSettings[serverName]['inMemStateDbName']
@@ -97,6 +97,10 @@ class configSettings:
     @property
     def webUrl(self):
         return self._webUrl
+
+    @property
+    def apiURL(self):
+        return self._apiURL
 
     @property
     def fbPageAccessTokenArise(self):
