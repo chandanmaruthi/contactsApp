@@ -63,41 +63,59 @@ sudo pip install Django django-sslserver   django-registration djangorestframewo
 ```
 git clone https://github.com/chandanmaruthi/contactsApp.git
 ```
+
 Create a data base
 ```
 mysql -u root -p
 <enter password>
-```
 create database contactsApp01;
+exit;
 ```
+
 load data into database
 ```
 mysql -h localhost -u root -p contactList < loadSQLScripts.sql 
 ```
 
 Update the app setting file to read from our new database
+
 ```
 sudo nano curious/curiousWorkbench/appSettings.json
 ```
+
 Change the following values
 ```
-"dbHost" : "localhost" ,
+    "dbHost" : "localhost" ,
     "dbUser" : "root"    ,
     "dbPassword" : "<update with your db password>",
     "dbName" : "<update with name of the db you just created>"
 ```    
- install the war file in apache tomcat
- copy war file to tomcat web apps folder [under the apache tomcap source folder]
+
+
+Install the war file in apache tomcat
+```
+cp contacts-app-0.0.1-SNAPSHOT.war <inter web apps folder location  of your tomcap installation>
+
+```
 Test the api
 ```
 localhost:8080/contacts-app-0.0.1-SNAPSHOT/contactses
 ```
-visit the website
-```
-http://127.0.0.1:8000/
-```
- 
-lets start django server  
+you must see a json output from the api
+
+Lets Test the app, Visit this url [when ]
+
 ```
 python manage.py runserver  
 ```
+
+```
+System check identified 4 issues (0 silenced).
+August 05, 2017 - 16:20:54
+Django version 1.9, using settings 'curious.settings'
+Starting development server at http://127.0.0.1:8000/
+Quit the server with CONTROL-C.
+```
+
+Lets test the app
+http://127.0.0.1:8000/login/#
