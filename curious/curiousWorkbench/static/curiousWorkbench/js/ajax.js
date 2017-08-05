@@ -8,8 +8,13 @@ $(document).ready(function() {
             url: "/ajax/more/",
             success: function(data) {
             $('.contactList').empty();
+            if (data.length > 0){
             for(i = 0; i < data.length; i++){
               $('.contactList').append('<li class="list-group-item"><a type="button" class="getDetails"  value="'+data[i]["name"]+'"><strong>'+data[i]["name"]+'</strong></a></li>');
+            }
+          }
+            else {
+                $('.contactList').append('<li class="list-group-item"><a type="button" class="getDetails"  value=""><strong>No Contacts Found</strong></a></li>');
             }
         }
         });
@@ -24,8 +29,13 @@ $(document).ready(function() {
           url: urlStr,
           success: function(data) {
           $('.contactList').empty();
+          if (data.length > 0){
           for(i = 0; i < data.length; i++){
               $('.contactList').append('<li class="list-group-item"><a type="button" class="getDetails"  value="'+data[i]["name"]+'"><strong>'+data[i]["name"]+'</strong></a></li>');
+          }
+        }
+          else {
+              $('.contactList').append('<li class="list-group-item"><a type="button" class="getDetails"  value=""><strong>No contacts found for - ' + searchText +'</strong></a></li>');
           }
       }
       });
