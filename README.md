@@ -59,13 +59,13 @@ Create a data base
 ```
     mysql -u root -p
     <enter password>
-    create database contactsApp01;
+    create database <enter database name>;
     exit;
 ```
 
 load data into database
 ```
-    mysql -h localhost -u root -p contactApp01 < loadSQLScripts.sql 
+    mysql -h localhost -u root -p <enter database name> < loadSQLScripts.sql 
 ```
 
 Update the app setting file to read from our new database
@@ -80,12 +80,12 @@ pwd
 ```
 Copy the parent directory that contains the curious folder
 
-Change the following values
+Change the following values of appsettings at curious/curiousWorkbench/appSettings.json
 ```
     "dbHost" : "localhost" ,
     "dbUser" : "root"    ,
     "dbPassword" : "<update with your db password>",
-    "dbName" : "<update with name of the db you just created>"
+    "dbName" : "<enter database name>"
     "basePath":"<update the output form pwd statement>/curious",
 ```    
 
@@ -101,7 +101,14 @@ Test the api
 ```
 you must see a json output from the api
 
+Create a logs directory under contactsApp folder
+
+```
+mkdir curious/curiousWorkbench/logs
+```
 Lets Test the app, Visit this url [when ]
+
+
 
 ```
     python manage.py runserver  
