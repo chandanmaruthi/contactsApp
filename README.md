@@ -66,21 +66,21 @@ git clone https://github.com/chandanmaruthi/contactsApp.git
 
 Create a data base
 ```
-mysql -u root -p
-<enter password>
-create database contactsApp01;
-exit;
+    mysql -u root -p
+    <enter password>
+    create database contactsApp01;
+    exit;
 ```
 
 load data into database
 ```
-mysql -h localhost -u root -p contactList < loadSQLScripts.sql 
+    mysql -h localhost -u root -p contactList < loadSQLScripts.sql 
 ```
 
 Update the app setting file to read from our new database
 
 ```
-sudo nano curious/curiousWorkbench/appSettings.json
+    sudo nano curious/curiousWorkbench/appSettings.json
 ```
 
 Change the following values
