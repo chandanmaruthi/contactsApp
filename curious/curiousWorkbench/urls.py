@@ -14,13 +14,15 @@ from django.views.generic import TemplateView
 
 import views
 import ajax
+from views import *
+from ajax import *
 
 urlpatterns = [
     url(r'^$', index, name='index'),
-    url(r'^ajax/add/$', 'add_todo'),
-    url(r'^ajax/more/$', 'more_todo'),
-    url(r'^ajax/search/$', 'searchContacts'),
-    url(r'^ajax/details/$', 'details'),
+    url(r'^ajax/add/$',add_todo, name='add_todo'),
+    url(r'^ajax/more/$',more_todo, name='more_todo'),
+    url(r'^ajax/search/$',searchContacts, name='searchContacts'),
+    url(r'^ajax/details/$',details, name='details'),
     url(r'^login/', user_login, name="user_login"),
     url(r'^handleActions/', views.handleActions, name='handleActions'),
 
