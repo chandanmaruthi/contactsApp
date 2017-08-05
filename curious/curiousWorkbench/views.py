@@ -34,9 +34,6 @@ from django.core.exceptions import ValidationError
 from django.contrib.auth.decorators import login_required
 #from networkBuilder import Network
 from django.contrib.auth import authenticate, login, logout
-import pygal
-from pygal.style import DefaultStyle
-from pygal.style import Style
 from models import UserState, UserSkillStatus
 #from models import StateMachine, MessageLibrary, ContentLibrary, Module, UserCertification, Progress, PlatformCredentials, Challenge, SignUp,UserActions
 import urllib
