@@ -43,7 +43,7 @@ from itertools import *
 from django.db import connection
 from django.utils.safestring import SafeUnicode
 
-import redis
+#import redis
 import StringIO
 import random
 import os
