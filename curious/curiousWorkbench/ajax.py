@@ -2,9 +2,10 @@ import json
 from django.http import Http404, HttpResponse
 from urlparse import urlparse, parse_qs
 import requests
+urlBase ="http://localhost:8080/contacts-app-0.0.1-SNAPSHOT/"
 def more_todo(request):
     if request.is_ajax():
-        url= "http://127.0.0.1:8080/contactses"
+        url= urlBase + "/contactses"
 
         response =  requests.get(url)
         if (response.ok):
@@ -20,7 +21,7 @@ def searchContacts(request):
     if request.is_ajax():
 
         searchParam= str(request.GET.get('q'))
-        url= "http://127.0.0.1:8080/rest/search/name/"+searchParam + "*"
+        url= urlBase + "/rest/search/name/"+searchParam + "*"
         print(url)
         response =  requests.get(url)
         if (response.ok):
@@ -33,7 +34,7 @@ def details(request):
     if request.is_ajax():
 
         searchParam= str(request.GET.get('i'))
-        url= "http://127.0.0.1:8080/rest/search/name/"+searchParam
+        url= urlBase + "/rest/search/name/"+searchParam
         print(url)
         response =  requests.get(url)
         if (response.ok):
