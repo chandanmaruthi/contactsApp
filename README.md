@@ -74,7 +74,7 @@ Create a data base
 
 load data into database
 ```
-    mysql -h localhost -u root -p contactList < loadSQLScripts.sql 
+    mysql -h localhost -u root -p contactApp01 < loadSQLScripts.sql 
 ```
 
 Update the app setting file to read from our new database
