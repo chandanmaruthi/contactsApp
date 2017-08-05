@@ -44,19 +44,19 @@ Welcome to Contacts App
 
 ###Lets Create a Virtual Env to intall our code###
 ```
-pip install virtualenv virtualenvwrapper
-vitural env contactsApp
-cd contactsApp
-source bin/activate
+    pip install virtualenv virtualenvwrapper
+    vitural env contactsApp
+    cd contactsApp
+    source bin/activate
 ```
 
 ###Lets Install LAMP, Django and other Dependencies###
 ```
-sudo apachectl start
-brew install mysql
-pip install MySQL-python
-pip install mod_wsgi
-sudo pip install Django django-sslserver   django-registration djangorestframework MySQL-python requests python-magic
+    sudo apachectl start
+    brew install mysql
+    pip install MySQL-python
+    pip install mod_wsgi
+    sudo pip install Django django-sslserver   django-registration djangorestframework MySQL-python requests python-magic
 ```
 
 ###Get the code from Git###
@@ -94,19 +94,19 @@ Change the following values
 
 Install the war file in apache tomcat
 ```
-cp contacts-app-0.0.1-SNAPSHOT.war <inter web apps folder location  of your tomcap installation>
+    cp contacts-app-0.0.1-SNAPSHOT.war <inter web apps folder location  of your tomcap installation>
 
 ```
 Test the api
 ```
-localhost:8080/contacts-app-0.0.1-SNAPSHOT/contactses
+    localhost:8080/contacts-app-0.0.1-SNAPSHOT/contactses
 ```
 you must see a json output from the api
 
 Lets Test the app, Visit this url [when ]
 
 ```
-python manage.py runserver  
+    python manage.py runserver  
 ```
 
 ```
@@ -118,4 +118,4 @@ Quit the server with CONTROL-C.
 ```
 
 Lets test the app
-http://127.0.0.1:8000/login/#
+    http://127.0.0.1:8000/login/#
