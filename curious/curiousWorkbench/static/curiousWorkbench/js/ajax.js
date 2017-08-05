@@ -16,6 +16,10 @@ $(document).ready(function() {
             else {
                 $('.contactList').append('<li class="list-group-item"><a type="button" class="getDetails"  value=""><strong>No Contacts Found</strong></a></li>');
             }
+        },
+        error: function() {
+                $('.contactList').empty();
+                $('.contactList').append('<li class="list-group-item"><a type="button" class="getDetails"  value=""><strong>Could not connect to API</strong></a></li>');
         }
         });
 
@@ -37,6 +41,10 @@ $(document).ready(function() {
           else {
               $('.contactList').append('<li class="list-group-item"><a type="button" class="getDetails"  value=""><strong>No contacts found for - ' + searchText +'</strong></a></li>');
           }
+      },
+      error: function() {
+              $('.contactList').empty();
+              $('.contactList').append('<li class="list-group-item"><a type="button" class="getDetails"  value=""><strong>Could not connect to API</strong></a></li>');
       }
       });
     });
@@ -52,6 +60,9 @@ $(document).ready(function() {
           $('.DetailsEmailID').text(data[0]["email"])
           $('.DetailsAddress').text(data[0]["adress"])
           $('.ContactNameHeader').text(data[0]["name"])
+      },
+      error: function() {
+              $('.ContactNameHeader').text("Could not connect with API");
       }
       });
 
