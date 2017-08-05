@@ -82,6 +82,12 @@ Update the app setting file to read from our new database
 ```
     sudo nano curious/curiousWorkbench/appSettings.json
 ```
+find current working directory
+```
+pwd
+<prints the present working directory >
+```
+Copy the parent directory that contains the curious folder
 
 Change the following values
 ```
@@ -89,6 +95,7 @@ Change the following values
     "dbUser" : "root"    ,
     "dbPassword" : "<update with your db password>",
     "dbName" : "<update with name of the db you just created>"
+    "basePath":"<update the output form pwd statement>/curious",
 ```    
 
 
