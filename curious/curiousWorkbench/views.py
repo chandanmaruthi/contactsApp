@@ -65,14 +65,14 @@ import logging
 
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
-import mixpanel
-from mixpanel import Mixpanel
-import plotly.plotly as py
-import plotly.graph_objs as go
+#import mixpanel
+#from mixpanel import Mixpanel
+#import plotly.plotly as py
+#import plotly.graph_objs as go
 #import curiousWorkbench.clientFacebook
 
 
-mp = Mixpanel("7a2ae593d77b3bd1b818d79ce75b69ff")
+#mp = Mixpanel("7a2ae593d77b3bd1b818d79ce75b69ff")
 
 
 configSettingsObj = configSettings()
