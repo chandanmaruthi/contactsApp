@@ -23,24 +23,15 @@ Welcome to Contacts App
 
 ### Can I install and use it myself ###
 
-* Possible , however very little time had been spent on packaging, total time spent 2 days
-* Constraints, Learning curve involved for 1 technology [Java Spring]
+* Please follow the instructions below
 
-### What has not been done  ###
+### What has not been implemented  ###
 * Security
-* Clean install from git
 * Export data, edit data
-
-###Things that could go wrong###
-* Will update shortly
-
-###Project-Related Intellectual Property###
-* Enjoy
+* Edit contacts
 
 
-
-
-
+## Installation instructions ##
 
 ###Lets Create a Virtual Env to intall our code###
 ```
