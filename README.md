@@ -7,9 +7,9 @@ Welcome to Contacts App
 * Build a app that resembles Mac contacts
 
 ### What does it do  ###
-*  Able to import Google address book from csv
-*  Load data into db/Elastic search and make it available for a user to access
-*  Fast response with Ajax/Elastic that prevent screen refresh , trying to keep close to the Mac contacts experience
+*  Allow user to login to a web app
+*  Allow user to search contacts with fast response with Ajax and Elastic Search
+*  Import Google Contacts, This has been done but load interface not open to user, note 2 days of dev/test/documentation time spent
 
 ### Design Considerations  ###
 
