@@ -125,4 +125,11 @@ Quit the server with CONTROL-C.
 Lets test the app
     http://127.0.0.1:8000/login/#
 
-You mu
+Login
+![alt text](https://github.com/chandanmaruthi/contactsApp/blob/master/Home.png "Logo Title Text 1")
+
+Landing Page
+![alt text](https://github.com/chandanmaruthi/contactsApp/blob/master/Login.png "Logo Title Text 1")
+
+Contacts - Click on "All Icloud"
+![alt text](https://github.com/chandanmaruthi/contactsApp/blob/master/Contacts.png "Logo Title Text 1")
