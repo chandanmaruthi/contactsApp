@@ -13,13 +13,13 @@ Welcome to Contacts App
 
 ### Design Considerations  ###
 
-*  Data Model design [Mysql] - Completed
-*  Data import mechanism from google contacts [Python scripts]- Completed
-*  Data Search backend [Elastic Search]- Completed
-*  API  [Java Spring] - Completed
-*  Web App [Django Ajax]- Completed
-*  Clean Up -[Pending]
-*  Upload to Git [Pending]
+*  Data Model design [Mysql]
+*  Data import mechanism from google contacts [Python scripts]
+*  Data Search backend [Elastic Search]
+*  API  [Java Spring] 
+*  Web App [Django Ajax]
+*  Clean Up 
+*  Upload to Git
 
 ### Can I install and use it myself ###
 
@@ -124,3 +124,5 @@ Quit the server with CONTROL-C.
 
 Lets test the app
     http://127.0.0.1:8000/login/#
+
+You mu
